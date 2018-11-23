@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload!!!!!</title>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        function upload() {
+            var file = document.getElementById("file").files[0];
+
+
+
+            var formFile = new FormData();
+            formFile.append("file",file);
+            var data = formFile;
+
+            alert("进入方法！")
+            //var data1 = '{"name": "1111", "path": "//Users//dongbudong//Desktop//Tables//test1.xls"}';
+
+            $.ajax({
+                url: "upload/getPath",
+                type: "POST",
+                data: data,
+                processData: false,//用于对data参数进行序列化处理 这里必须false
+                contentType: false, //必须
+               //headers:{'Content-Type' : 'application/json;charset=utf-8'},
+                success: function (res) {
+                    if (res.status == "true") {
+                        alert("上传成功！");
+                    }
+                    console.log(res);
+                    // $("#pic").val("");
+                    // $(".showUrl").html(res);
+                    // $(".showPic").attr("src", res);
+                },
+                error: function (err) {
+                    alert("网络连接失败,稍后重试", err);
+                }
+
+            });
+
+            // var files = document.getElementById('file');
+            // var file = files.files[0];
+            // var path = file.value
+            // alert(path);
+            // var reader = new FileReader();
+            // reader.readAsText(file, "gbk2312");
+            // reader.onload = function (f) {
+            //     // var result = document.getElementById("show");
+            //     // result.innerHTML = this.result;
+            //     console.log(this.result);
+            // }
+
+
+            // var name = file.name;
+            // alert(name)
+            //  var fileReader = new FileReader();
+            //  var result = fileReader.readAsText(file,"utf-8")
+            // //
+            // var value = file.value;
+            // alert(value)
+            // var formdata = new FormData();
+            //
+            // formdata.append("upload_file",file.toString());
+            // var data = formdata.get("upload_file")
+            // alert(data);
+
+
+        }
+
+    </script>
+
+
+</head>
+<body>
+
+
+<form method="post" enctype="multipart/form-data">
+
+    <input type="file" name="file1" id="file"/>
+
+    <button type="button" id="upload_file" onclick="upload()">点我！</button>
+    <!--<input type="button" value="提交" onclick="uploadPic()"/>-->
+    <!--<span class="showUrl"></span>-->
+    <!--<img src="" class="showPic" alt="">-->
+    <!--<iframe  src="excel.html" style="width:500px;height:565px;overflow:auto">-->
+
+    <!--</iframe>-->
+
+</form>
+</body>
+</html>

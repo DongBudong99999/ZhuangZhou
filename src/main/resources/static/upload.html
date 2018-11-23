@@ -1,0 +1,265 @@
+<html>
+<head>
+    <title>Dongbudong's graduation project----file upload</title>
+    <!-- html 5 的编码设置方式 -->
+    <meta charset="UTF-8">
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- end: Mobile Specific -->
+
+    <!-- start: CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="css/style.min.css" rel="stylesheet"/>
+    <link href="css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="css/retina.css" rel="stylesheet"/>
+    <!-- end: CSS -->
+
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if IE 9]>
+    <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
+    <link rel="shortcut icon" href="ico/favicon.png"/>
+    <!-- end: Favicon and Touch Icons -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
+    <!--
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    -->
+
+
+    <!--<%&#45;&#45;上传组建美化css代码&#45;&#45;%>-->
+    <style type="text/css">
+        .file {
+            position: relative; /*绝对定位!*/
+            display: inline-block; /*设置为行内元素*/
+            background: #D0EEFF;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+
+        .file input {
+            position: absolute; /*相对定位*/
+            right: 0;
+            top: 0;
+            opacity: 0; /*将上传组件设置为透明的*/
+            font-size: 100px;
+        }
+
+        .file:hover {
+            background: #AADDFF;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+    </style>
+    <style type="text/css">
+        .upload_form {
+            width: 1200px;
+            height: 100px;
+            /*margin-left: -150px;*/
+            /*margin-top: -100px;*/
+            top: 10%;
+            left:15%;
+            position: absolute;
+        }
+    </style>
+    <script type="text/javascript">
+        function upload() {
+            var file_path = '"' + document.getElementById("file_path").value + '"';
+            var file_name = '"' + document.getElementById("file_name").value + '"';
+
+            // var formFile = new FormData();
+            // formFile.append("file", file);
+            // var data = formFile;
+
+            alert("进入方法！")
+            var data1 = '{"file_name":' + file_name + ',"file_path":' + file_path + '}';
+
+            $.ajax({
+                url: "upload/getPath",
+                type: "POST",
+                data: data1,
+                // processData: false,//用于对data参数进行序列化处理 这里必须false
+                // contentType: false, //必须
+                headers: {'Content-Type': 'application/json;charset=utf-8'},
+                success: function (res) {
+                    if (res) {
+                        alert("上传成功！");
+
+                        var excel_html = res;
+                        //alert(excel_html);
+                        // window.onload = function () {
+                        //
+                        //     $("#new_excel").innerHTML = "<iframe  src=\"excel.html\" style=\"width:500px;height:565px;overflow:auto\"></iframe>";
+                        // }
+                        //
+                        <!--<iframe  src="excel.html" style="width:500px;height:565px;overflow:auto">-->
+                        //
+                        // // <!--</iframe>-->
+                    }
+                    console.log(res);
+
+                },
+                error: function (err) {
+                    alert("网络连接失败,稍后重试", err);
+                }
+
+            });
+        }
+    </script>
+    <script>
+        function show_excel() {
+            document.getElementById("show").innerHTML = '<object type="text/html" data="excel.html" width="120%" height="800px"></object>';
+        }
+    </script>
+    <!--<script type="text/javascript">-->
+    <!--function upload1(){-->
+    <!--alert("!!!")-->
+    <!--}-->
+    <!--</script>-->
+
+
+</head>
+
+<body>
+<!--<h> 以下是顶端导航栏</h>-->
+<iframe src="header.html" width="100%"  height="41px" frameborder=0></iframe>
+<!--<h> 以上是顶端导航栏</h>-->
+
+<!--<h>以下是侧面导航栏</h>-->
+
+<div>
+    <div class="container-fluid-full">
+        <div class="row-fluid">
+
+            <!-- start: Main Menu -->
+            <div id="sidebar-left" class="span2">
+
+                <div class="row-fluid actions">
+
+                    <input type="text" class="search span12" placeholder="..."/>
+
+                </div>
+
+                <div class="nav-collapse sidebar-nav">
+                    <ul class="nav nav-tabs nav-stacked main-menu">
+                        <li><a href="index.html"><i class="icon-bar-chart"></i><span
+                                class="hidden-tablet"> 看板</span></a>
+                        </li>
+                        <li><a href="upload.html"><i class="icon-eye-open"></i><span
+                                class="hidden-tablet"> 文件上传</span></a></li>
+                        <li><a href="widgets.html"><i class="icon-dashboard"></i><span
+                                class="hidden-tablet"> 窗口小部件</span></a>
+                        </li>
+                        <li>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                    class="hidden-tablet">样图</span>
+                                <span class="label">3</span></a>
+                            <ul>
+                                <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> 基础设置</span></a></li>
+                                <li><a class="submenu" href="messages.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> 系统消息</span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> 任务</span></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> 表格</span></a>
+                        </li>
+                        <li><a href="chart.html"><i class="icon-list-alt"></i><span
+                                class="hidden-tablet"> 图表</span></a>
+                        </li>
+                        <li><a href="typography.html"><i class="icon-font"></i><span
+                                class="hidden-tablet"> 排版样式</span></a></li>
+                        <li><a href="gallery.html"><i class="icon-picture"></i><span
+                                class="hidden-tablet"> 图库</span></a></li>
+                        <li><a href="table.html"><i class="icon-align-justify"></i><span
+                                class="hidden-tablet"> 数据库</span></a></li>
+                        <li><a href="echarts.html"><i class="icon-calendar"></i><span
+                                class="hidden-tablet"> 数据可视化</span></a></li>
+                        <li><a href="file-manager.html"><i class="icon-folder-open"></i><span
+                                class="hidden-tablet"> 文件管理</span></a>
+                        </li>
+                        <li><a href="input_data.html"><i class="icon-folder-open"></i><span
+                                class="hidden-tablet"> 数据录入接口</span></a>
+                        </li>
+                        <li><a href="icon.html"><i class="icon-star"></i><span
+                                class="hidden-tablet"> 用户注册</span></a>
+                        </li>
+                        <li><a href="login.html"><i class="icon-lock"></i><span
+                                class="hidden-tablet"> 登录页面</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <h>一上是侧面导航栏</h>
+
+    <form  class="upload_form" method="post" enctype="multipart/form-data">
+        <a href="javascript:;" class="file">请输入文件路径
+            <!--<input type="file" name="file" style="size: 50px"/>-->
+
+        </a>
+        &nbsp;&nbsp;&nbsp;
+        <input type="text" name="file1" id="file_path" style="size: 50px"/>
+
+
+        &nbsp;&nbsp;
+        <a href="javascript:;" class="file">请输入文件名
+            <!--<input type="file" name="file" style="size: 50px"/>-->
+
+        </a>
+        &nbsp;&nbsp;
+
+        <input type="text" name="file1" id="file_name" style="size: 50px"/>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" id="upload_file" onclick="upload()"> 点我提交</button>
+
+
+        <!--<span style="color:red;font-size:16px">[不能超过4M]</span>-->
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" onclick="show_excel()"> 点我展示</button>
+
+        <div id="show">
+
+        </div>
+
+        <!--<input type="button" value="使用ajax上传文件" onclick="post_file()"/>-->
+
+
+        <!--<input type="button" value="显示该数据表" id="show">-->
+
+
+        <!--<p>选择文件3: <input type="file" name="fileName"/></p>-->
+        <!---->
+        <!--<input type="button" value="提交" onclick="post_file()" />-->
+
+    </form>
+</div>
+</body>
+</html>
