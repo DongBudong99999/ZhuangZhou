@@ -63,7 +63,7 @@
 <body>
 <!-- start: Header -->
 <!--<h> 以下是顶端导航栏</h>-->
-<div class="navbar" style="overflow: visible">
+<div class="navbar" style="overflow: visible" style="z-index: 9999;position:relative">
     <div class="navbar-inner">
         <div class="container-fluid">
             <a class="btn btn-navbar" data-toggle="collapse"
@@ -78,7 +78,7 @@
                 <!--<li >回到主页</li>-->
             </div>
             <!-- start: Header Menu -->
-            <div class="nav-no-collapse header-nav">
+            <div class="nav-no-collapse header-nav" style="z-index: 9999;position: relative">
                 <ul class="nav pull-right">
                     <li class="dropdown hidden-phone"  >
                         <span style="color:white;font-size:13px">警告</span>
@@ -87,7 +87,7 @@
                         </a>
                         <span>|1|</span>
 
-                        <ul class="dropdown-menu notifications">
+                        <ul class="dropdown-menu notifications" style="z-index: 9999;position: relative">
                             <li class="dropdown-menu-title">
                                 <span>You have 11 notifications</span>
                             </li>
