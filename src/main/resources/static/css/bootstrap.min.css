@@ -2578,7 +2578,7 @@ table td[class*="span"], table th[class*="span"], .row-fluid table td[class*="sp
 }
 
 .open {
-    *z-index: 1000
+    z-index: 99999
 }
 
 .open > .dropdown-menu {
@@ -3804,8 +3804,8 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
 }
 
 .navbar {
-    *position: relative;
-    *z-index: 2;
+    position: relative;
+    z-index: 2;
     margin-bottom: 20px;
     overflow: visible
 }

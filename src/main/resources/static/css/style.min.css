@@ -332,9 +332,9 @@ blockquote {
     margin-bottom: 0;
     min-height: 40px;
     padding: 0 20px;
-    background: #36a9e1;
+    background: #383e4b;
     border: 0;
-    color: #fff;
+    color: #32363e;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0
@@ -355,7 +355,7 @@ blockquote {
 }
 
 a.brand {
-    background: #1e8fc6;
+    background: #383e4b;
     text-align: center;
     border-bottom: 1px solid #1e8fc6;
     padding: 10px 0 !important
