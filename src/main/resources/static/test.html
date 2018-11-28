@@ -1,57 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">-->
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>test</title>
-
-    <!--<script type="text/javascript">-->
-    <!--function read_excel() {-->
-    <!--var filePath = "D:\abcd9.com.xls"; //要读取的xls-->
-    <!--var sheet_id = 2; //读取第2个表-->
-    <!--var row_start = 3; //从第3行开始读取-->
-    <!--var tempStr = '';-->
-    <!--try {-->
-    <!--var oXL = new ActiveXObject("Excel.application"); //创建Excel.Application对象-->
-    <!--} catch (err) {-->
-    <!--alert(err);-->
-    <!--}-->
-    <!--var oWB = oXL.Workbooks.open(filePath);-->
-    <!--oWB.worksheets(sheet_id).select();-->
-    <!--var oSheet = oWB.ActiveSheet;-->
-    <!--var colcount = oXL.Worksheets(sheet_id).UsedRange.Cells.Rows.Count;-->
-
-    <!--for (var i = row_start; i <= colcount; i++) {-->
-    <!--if (typeof(oSheet.Cells(i, 8).value) == 'date') { //处理第8列部分单元格内容是日期格式时的读取问题-->
-    <!--d = new Date(oSheet.Cells(i, 8).value);-->
-    <!--temp_time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();-->
-    <!--}-->
-    <!--else-->
-    <!--temp_time = $.trim(oSheet.Cells(i, 7).value.toString());-->
-    <!--tempStr += ($.trim(oSheet.Cells(i, 2).value) + " " + $.trim(oSheet.Cells(i, 4).value) + " " + $.trim(oSheet.Cells(i, 6).value.toString()) + " " + temp_time + "\n");-->
-    <!--//读取第2、4、6、8列内容-->
-    <!--}-->
-
-    <!--return tempStr; //返回-->
-    <!--oXL.Quit();-->
-    <!--CollectGarbage();-->
-    <!--}-->
-    <!--</script>-->
-    <!--<script type="text/javascript">-->
-    <!--var tempStr = read_excel();-->
-    <!--document.getElementById("demo1").innerHTML = tempStr;-->
-
-    <!--</script>-->
-    <script type="text/javascript">
-            // $("#content").load("header.html");
-        document.getElementById("content").onload("header.html");
-    </script>
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <title> New Document </title>
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
 </head>
 
-<body>
 
-<div id="content" name="content" class="content"></div>
+<body>
+<table align="center" width="500px" height="200px" border="1">
+    <tr>
+        <td><a onclick="test(this);" href="#">1</a></td>
+        <td><a onclick="test(this);" href="#">2</a></td>
+        <td><a onclick="test(this);" href="#">3</a></td>
+    </tr>
+    <tr>
+        <td><a onclick="test(this);" href="#">4</a></td>
+        <td><a onclick="test(this);" href="#">5</a></td>
+        <td><a onclick="test(this);" href="#">6</a></td>
+    </tr>
+
+
+</table>
+
+
+<div id="outer" style="display:none;width: 200px; position: absolute; left: 100px;border-style:double;border-width:5pt; border-color:#00cc33;">
+
+    <div id="inner" style="left: 100px; top: 120px;">
+        里面的div2  里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2里面的div2
+    </div>
+    <div id="inner" style="text-align:center;">
+        <input type="button" value="close" onclick="$('#outer').hide(300);">
+    </div>
+</div>
 
 
 </body>
 </html>
+<script type="text/javascript">
+    <!--
+    function test(obj)
+    {
+        $("#outer").hide(300);
+        $("#outer").show(300);
+        var offset = $(obj).offset();
+        var x = offset.left;
+        var y = offset.top;
+//$("#outer").offset().left=x;
+//$("#outer").offset().top=y;
+        document.getElementById("outer").style.left=x-220;
+        document.getElementById("outer").style.top=y+20;
+//alert(x+"---"+y);
+    }
+    //-->
+</script>

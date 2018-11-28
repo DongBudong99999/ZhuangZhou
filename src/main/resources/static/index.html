@@ -11,6 +11,7 @@
     <link href="css/style.min.css" rel="stylesheet"/>
     <link href="css/style-responsive.min.css" rel="stylesheet"/>
     <link href="css/retina.css" rel="stylesheet"/>
+
     <!-- end: CSS -->
 
 
@@ -33,11 +34,11 @@
     <!-- end: Favicon and Touch Icons -->
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <script type="javascript">
-        $(document).ready(function (e) {
-            $(".navbar").load("header.html")
-        });
-    </script>
+    <!--<script type="javascript">-->
+    <!--$(document).ready(function (e) {-->
+    <!--$(".navbar").load("header.html")-->
+    <!--});-->
+    <!--</script>-->
 
 
 </head>
@@ -47,7 +48,7 @@
 <!-- start: Header -->
 <!--<h> 以下是顶端导航栏</h>-->
 
-<iframe id="iframe1" src="header.html" width="100%" height="120px" frameborder=0 scrolling="yes" style="z-index:9;position: relative"></iframe>
+<iframe id="iframe1" src="header.html" width="100%" height="41px" frameborder=0 scrolling="yes"></iframe>
 
 <!--<div id="header" class="navbar" style="height: auto;z-index: 9999;position: relative  "></div>-->
 
@@ -55,7 +56,8 @@
 <!--<h> 以上是顶端导航栏</h>-->
 
 <!--<h>以下是侧面导航栏</h>-->
-<div class="container-fluid-full" style="z-index: -10;position: relative">
+
+<div class="container-fluid-full" style="z-index: 99999;position: relative">
     <div class="row-fluid">
 
         <!-- start: Main Menu -->
@@ -70,7 +72,8 @@
 
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 首页</span></a>
+                    <li><a href="index.html"><i class="icon-bar-chart"></i><span
+                            class="hidden-tablet"> 首页</span></a>
                     </li>
                     <li><a href="upload.html"><i class="icon-eye-open"></i><span
                             class="hidden-tablet"> 文件上传</span></a></li>
@@ -104,10 +107,14 @@
                     <li><a href="file-manager.html"><i class="icon-folder-open"></i><span
                             class="hidden-tablet"> 文件管理</span></a>
                     </li>
-                    <li><a href="input_data.html"><i class="icon-folder-open"></i><span
-                            class="hidden-tablet"> 数据录入接口</span></a>
+                    <li><a href="to_db.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 录入数据库</span></a>
                     </li>
-                    <li><a href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a></li>
+                    <li><a href="selector.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 计算公式</span></a>
+                    </li>
+                    <li><a href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
+                    </li>
                     <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
                     </li>
                 </ul>
@@ -115,6 +122,7 @@
         </div>
     </div>
     <h>一上是侧面导航栏</h>
+
     <!-- end: Main Menu -->
 
     <!-- start: Content -->

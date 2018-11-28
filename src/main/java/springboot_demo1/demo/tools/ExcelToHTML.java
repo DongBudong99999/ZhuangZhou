@@ -1,7 +1,6 @@
 package springboot_demo1.demo.tools;
 
 
-
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
@@ -26,11 +25,11 @@ import java.util.Map;
 public class ExcelToHTML {
 
     /**
-     * @param filePath excel源文件文件的路径
+     * @param filePath    excel源文件文件的路径
      * @param htmlPositon 生成的html文件的路径
      * @param isWithStyle 是否需要表格样式 包含 字体 颜色 边框 对齐方式
      */
-    public static String readExcelToHtml(String filePath ,String htmlPositon, boolean isWithStyle){
+    public static String readExcelToHtml(String filePath, String htmlPositon, boolean isWithStyle) {
 
         InputStream is = null;
         String htmlExcel = null;
@@ -40,15 +39,15 @@ public class ExcelToHTML {
             Workbook wb = WorkbookFactory.create(is);
             if (wb instanceof XSSFWorkbook) {   //03版excel处理方法
                 XSSFWorkbook xWb = (XSSFWorkbook) wb;
-                htmlExcel = ExcelToHTML.getExcelInfo(xWb,isWithStyle);
-            }else if(wb instanceof HSSFWorkbook){  //07及10版以后的excel处理方法
+                htmlExcel = ExcelToHTML.getExcelInfo(xWb, isWithStyle);
+            } else if (wb instanceof HSSFWorkbook) {  //07及10版以后的excel处理方法
                 HSSFWorkbook hWb = (HSSFWorkbook) wb;
-                htmlExcel = ExcelToHTML.getExcelInfo(hWb,isWithStyle);
+                htmlExcel = ExcelToHTML.getExcelInfo(hWb, isWithStyle);
             }
-            writeFile(htmlExcel,htmlPositon);
+            writeFile(htmlExcel, htmlPositon);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 is.close();
             } catch (IOException e) {
@@ -59,8 +58,7 @@ public class ExcelToHTML {
     }
 
 
-
-    private static String getExcelInfo(Workbook wb,boolean isWithStyle){
+    private static String getExcelInfo(Workbook wb, boolean isWithStyle) {
 
         StringBuffer sb = new StringBuffer();
         Sheet sheet = wb.getSheetAt(0);//获取第一个Sheet的内容
@@ -72,6 +70,40 @@ public class ExcelToHTML {
 
         for (int rowNum = sheet.getFirstRowNum(); rowNum <= lastRowNum; rowNum++) {
             row = sheet.getRow(rowNum);
+//-----------------
+//            if (rowNum == 1) {
+//                if (row == null) {
+//                    sb.append("<tr><td ><nobr> </nobr></td></tr>");
+//                    continue;
+//                }
+//                sb.append("<tr>");
+//                int lastColNum1 = row.getLastCellNum();
+//                for (int colNum = 0; colNum < lastColNum1; colNum++) {
+//                    cell = row.getCell(colNum);
+//                    if (cell == null) {    //特殊情况 空白的单元格会返回null
+//                        sb.append("<td> </td>");
+//                        continue;
+//                    }
+//
+//                    String stringValue = getCellValue(cell);
+//                    if (map[0].containsKey(rowNum + "," + colNum)) {
+//                        String pointString = map[0].get(rowNum + "," + colNum);
+//                        map[0].remove(rowNum + "," + colNum);
+//                        int bottomeRow = Integer.valueOf(pointString.split(",")[0]);
+//                        int bottomeCol = Integer.valueOf(pointString.split(",")[1]);
+//                        int rowSpan = bottomeRow - rowNum + 1;
+//                        int colSpan = bottomeCol - colNum + 1;
+//                        sb.append("<td rowspan= '" + rowSpan + "' colspan= '" + colSpan + "' ");
+//                    } else if (map[1].containsKey(rowNum + "," + colNum)) {
+//                        map[1].remove(rowNum + "," + colNum);
+//                        continue;
+//                    } else {
+//                        sb.append("<td ");
+//                    }
+//
+//                }
+//            }
+//----------------
             if (row == null) {
                 sb.append("<tr><td ><nobr> </nobr></td></tr>");
                 continue;
@@ -93,27 +125,44 @@ public class ExcelToHTML {
                     int bottomeCol = Integer.valueOf(pointString.split(",")[1]);
                     int rowSpan = bottomeRow - rowNum + 1;
                     int colSpan = bottomeCol - colNum + 1;
-                    sb.append("<td rowspan= '" + rowSpan + "' colspan= '"+ colSpan + "' ");
+                    sb.append("<td rowspan= '" + rowSpan + "' colspan= '" + colSpan + "' ");
                 } else if (map[1].containsKey(rowNum + "," + colNum)) {
                     map[1].remove(rowNum + "," + colNum);
                     continue;
                 } else {
                     sb.append("<td ");
                 }
+                //
+
 
                 //判断是否需要样式
-                if(isWithStyle){
+                if (isWithStyle) {
                     dealExcelStyle(wb, sheet, cell, sb);//处理单元格样式
                 }
+                if (rowNum != 2) {
+                    sb.append("><nobr>");
+                } else {
 
-                sb.append("><nobr>");
+                    sb.append(">\n" +
+                            "                <div class=\"css1\">\n" +
+                            "                    <input type=\"checkbox\" style=\"color:black\" id='input" + colNum + "'/>\n" +
+                            "                    <label for='input" + colNum + "'>");
+                }
+                //sb.append("><nobr>")
                 if (stringValue == null || "".equals(stringValue.trim())) {
                     sb.append("   ");
                 } else {
                     // 将ascii码为160的空格转换为html下的空格（ ）
-                    sb.append(stringValue.replace(String.valueOf((char) 160)," "));
+                    sb.append(stringValue.replace(String.valueOf((char) 160), " "));
                 }
-                sb.append("</nobr></td>");
+//                sb.append("</nobr></td>");
+                if (rowNum != 2) {
+                    sb.append("</nobr></td>");
+                } else {
+                    sb.append("</label>\n" +
+                            "                </div>\n" +
+                            "            </td>");
+                }
             }
             sb.append("</tr>");
         }
@@ -124,16 +173,16 @@ public class ExcelToHTML {
 
     private static Map<String, String>[] getRowSpanColSpanMap(Sheet sheet) {
 
-        Map<String, String> map0 = new HashMap<String, String>();
-        Map<String, String> map1 = new HashMap<String, String>();
-        int mergedNum = sheet.getNumMergedRegions();
+        Map<String, String> map0 = new HashMap<String, String>();//单独存放未合并单元格的行列信息
+        Map<String, String> map1 = new HashMap<String, String>();//单独存放合并单元格的行列信息
+        int mergedNum = sheet.getNumMergedRegions();//获得（包括合并的）单元格个数
         CellRangeAddress range = null;
         for (int i = 0; i < mergedNum; i++) {
             range = sheet.getMergedRegion(i);
             int topRow = range.getFirstRow();
             int topCol = range.getFirstColumn();
             int bottomRow = range.getLastRow();
-            int bottomCol = range.getLastColumn();
+            int bottomCol = range.getLastColumn();//以上获得每一个合并的单元格的区域范围
             map0.put(topRow + "," + topCol, bottomRow + "," + bottomCol);
             // System.out.println(topRow + "," + topCol + "," + bottomRow + "," + bottomCol);
             int tempRow = topRow;
@@ -147,13 +196,14 @@ public class ExcelToHTML {
             }
             map1.remove(topRow + "," + topCol);
         }
-        Map[] map = { map0, map1 };
+        Map[] map = {map0, map1};
         return map;
     }
 
 
     /**
      * 获取表格单元格Cell内容
+     *
      * @param cell
      * @return
      */
@@ -205,28 +255,29 @@ public class ExcelToHTML {
 
     /**
      * 处理表格样式
+     *
      * @param wb
      * @param sheet
      * @param sb
      */
-    private static void dealExcelStyle(Workbook wb,Sheet sheet,Cell cell,StringBuffer sb){
+    private static void dealExcelStyle(Workbook wb, Sheet sheet, Cell cell, StringBuffer sb) {
 
         CellStyle cellStyle = cell.getCellStyle();
         if (cellStyle != null) {
             short alignment = cellStyle.getAlignment();
             //    sb.append("align='" + convertAlignToHtml(alignment) + "' ");//单元格内容的水平对齐方式
             short verticalAlignment = cellStyle.getVerticalAlignment();
-            sb.append("valign='"+ convertVerticalAlignToHtml(verticalAlignment)+ "' ");//单元格中内容的垂直排列方式
+            sb.append("valign='" + convertVerticalAlignToHtml(verticalAlignment) + "' ");//单元格中内容的垂直排列方式
 
             if (wb instanceof XSSFWorkbook) {
 
                 XSSFFont xf = ((XSSFCellStyle) cellStyle).getFont();
                 short boldWeight = xf.getBoldweight();
-                String  align = convertAlignToHtml(alignment);
+                String align = convertAlignToHtml(alignment);
                 sb.append("style='");
                 sb.append("font-weight:" + boldWeight + ";"); // 字体加粗
                 sb.append("font-size: " + xf.getFontHeight() / 2 + "%;"); // 字体大小
-                int columnWidth = sheet.getColumnWidth(cell.getColumnIndex()) ;
+                int columnWidth = sheet.getColumnWidth(cell.getColumnIndex());
                 sb.append("width:" + columnWidth + "px;");
                 sb.append("text-align:" + align + ";");//表头排版样式
                 XSSFColor xc = xf.getXSSFColor();
@@ -238,12 +289,12 @@ public class ExcelToHTML {
                 if (bgColor != null && !"".equals(bgColor)) {
                     sb.append("background-color:#" + bgColor.getARGBHex().substring(2) + ";"); // 背景颜色
                 }
-                sb.append(getBorderStyle(0,cellStyle.getBorderTop(), ((XSSFCellStyle) cellStyle).getTopBorderXSSFColor()));
-                sb.append(getBorderStyle(1,cellStyle.getBorderRight(), ((XSSFCellStyle) cellStyle).getRightBorderXSSFColor()));
-                sb.append(getBorderStyle(2,cellStyle.getBorderBottom(), ((XSSFCellStyle) cellStyle).getBottomBorderXSSFColor()));
-                sb.append(getBorderStyle(3,cellStyle.getBorderLeft(), ((XSSFCellStyle) cellStyle).getLeftBorderXSSFColor()));
+                sb.append(getBorderStyle(0, cellStyle.getBorderTop(), ((XSSFCellStyle) cellStyle).getTopBorderXSSFColor()));
+                sb.append(getBorderStyle(1, cellStyle.getBorderRight(), ((XSSFCellStyle) cellStyle).getRightBorderXSSFColor()));
+                sb.append(getBorderStyle(2, cellStyle.getBorderBottom(), ((XSSFCellStyle) cellStyle).getBottomBorderXSSFColor()));
+                sb.append(getBorderStyle(3, cellStyle.getBorderLeft(), ((XSSFCellStyle) cellStyle).getLeftBorderXSSFColor()));
 
-            }else if(wb instanceof HSSFWorkbook){
+            } else if (wb instanceof HSSFWorkbook) {
 
                 HSSFFont hf = ((HSSFCellStyle) cellStyle).getFont(wb);
                 short boldWeight = hf.getBoldweight();
@@ -253,13 +304,13 @@ public class ExcelToHTML {
                 HSSFColor hc = palette.getColor(fontColor);
                 sb.append("font-weight:" + boldWeight + ";"); // 字体加粗
                 sb.append("font-size: " + hf.getFontHeight() / 2 + "%;"); // 字体大小
-                String  align = convertAlignToHtml(alignment);
+                String align = convertAlignToHtml(alignment);
                 sb.append("text-align:" + align + ";");//表头排版样式
                 String fontColorStr = convertToStardColor(hc);
                 if (fontColorStr != null && !"".equals(fontColorStr.trim())) {
                     sb.append("color:" + fontColorStr + ";"); // 字体颜色
                 }
-                int columnWidth = sheet.getColumnWidth(cell.getColumnIndex()) ;
+                int columnWidth = sheet.getColumnWidth(cell.getColumnIndex());
                 sb.append("width:" + columnWidth + "px;");
                 short bgColor = cellStyle.getFillForegroundColor();
                 hc = palette.getColor(bgColor);
@@ -267,10 +318,10 @@ public class ExcelToHTML {
                 if (bgColorStr != null && !"".equals(bgColorStr.trim())) {
                     sb.append("background-color:" + bgColorStr + ";"); // 背景颜色
                 }
-                sb.append( getBorderStyle(palette,0,cellStyle.getBorderTop(),cellStyle.getTopBorderColor()));
-                sb.append( getBorderStyle(palette,1,cellStyle.getBorderRight(),cellStyle.getRightBorderColor()));
-                sb.append( getBorderStyle(palette,3,cellStyle.getBorderLeft(),cellStyle.getLeftBorderColor()));
-                sb.append( getBorderStyle(palette,2,cellStyle.getBorderBottom(),cellStyle.getBottomBorderColor()));
+                sb.append(getBorderStyle(palette, 0, cellStyle.getBorderTop(), cellStyle.getTopBorderColor()));
+                sb.append(getBorderStyle(palette, 1, cellStyle.getBorderRight(), cellStyle.getRightBorderColor()));
+                sb.append(getBorderStyle(palette, 3, cellStyle.getBorderLeft(), cellStyle.getLeftBorderColor()));
+                sb.append(getBorderStyle(palette, 2, cellStyle.getBorderBottom(), cellStyle.getBottomBorderColor()));
             }
 
             sb.append("' ");
@@ -279,6 +330,7 @@ public class ExcelToHTML {
 
     /**
      * 单元格内容的水平对齐方式
+     *
      * @param alignment
      * @return
      */
@@ -303,6 +355,7 @@ public class ExcelToHTML {
 
     /**
      * 单元格中内容的垂直排列方式
+     *
      * @param verticalAlignment
      * @return
      */
@@ -348,40 +401,104 @@ public class ExcelToHTML {
         return str;
     }
 
-    static String[] bordesr={"border-top:","border-right:","border-bottom:","border-left:"};
-    static String[] borderStyles={"solid ","solid ","solid ","solid ","solid ","solid ","solid ","solid ","solid ","solid","solid","solid","solid","solid"};
+    static String[] bordesr = {"border-top:", "border-right:", "border-bottom:", "border-left:"};
+    static String[] borderStyles = {"solid ", "solid ", "solid ", "solid ", "solid ", "solid ", "solid ", "solid ", "solid ", "solid", "solid", "solid", "solid", "solid"};
 
-    private static  String getBorderStyle(  HSSFPalette palette ,int b,short s, short t){
+    private static String getBorderStyle(HSSFPalette palette, int b, short s, short t) {
 
-        if(s==0)return  bordesr[b]+borderStyles[s]+"#d0d7e5 1px;";;
-        String borderColorStr = convertToStardColor( palette.getColor(t));
-        borderColorStr=borderColorStr==null|| borderColorStr.length()<1?"#000000":borderColorStr;
-        return bordesr[b]+borderStyles[s]+borderColorStr+" 1px;";
+        if (s == 0) return bordesr[b] + borderStyles[s] + "#d0d7e5 1px;";
+        ;
+        String borderColorStr = convertToStardColor(palette.getColor(t));
+        borderColorStr = borderColorStr == null || borderColorStr.length() < 1 ? "#000000" : borderColorStr;
+        return bordesr[b] + borderStyles[s] + borderColorStr + " 1px;";
 
     }
 
-    private static  String getBorderStyle(int b,short s, XSSFColor xc){
+    private static String getBorderStyle(int b, short s, XSSFColor xc) {
 
-        if(s==0)return  bordesr[b]+borderStyles[s]+"#d0d7e5 1px;";;
+        if (s == 0) return bordesr[b] + borderStyles[s] + "#d0d7e5 1px;";
+        ;
         if (xc != null && !"".equals(xc)) {
             String borderColorStr = xc.getARGBHex();//t.getARGBHex();
-            borderColorStr=borderColorStr==null|| borderColorStr.length()<1?"#000000":borderColorStr.substring(2);
-            return bordesr[b]+borderStyles[s]+borderColorStr+" 1px;";
+            borderColorStr = borderColorStr == null || borderColorStr.length() < 1 ? "#000000" : borderColorStr.substring(2);
+            return bordesr[b] + borderStyles[s] + borderColorStr + " 1px;";
         }
 
         return "";
     }
+
     /*
      * @param content 生成的excel表格标签
      * @param htmlPath 生成的html文件地址
      */
-    private static void writeFile(String content,String htmlPath){
+    private static void writeFile(String content, String htmlPath) {
         File file2 = new File(htmlPath);
         StringBuilder sb = new StringBuilder();
         try {
             file2.createNewFile();//创建文件
 
-            sb.append("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><title>Html Test</title></head><body>");
+//            sb.append("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><title>Html Test</title></head><body>");
+            sb.append("<html>\n" +
+                    "<head>\n" +
+                    "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
+                    "    <title>Html Test</title>\n" +
+                    "\n" +
+                    "    <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\"/>\n" +
+                    "    <link href=\"css/bootstrap-responsive.min.css\" rel=\"stylesheet\"/>\n" +
+                    "    <link href=\"css/style.min.css\" rel=\"stylesheet\"/>\n" +
+                    "    <link href=\"css/style-responsive.min.css\" rel=\"stylesheet\"/>\n" +
+                    "    <link href=\"css/retina.css\" rel=\"stylesheet\"/>\n" +
+                    "\n" +
+                    "    <script src=\"http://html5shim.googlecode.com/svn/trunk/html5.js\"></script>\n" +
+                    "    <link id=\"ie-style\" href=\"css/ie.css\" rel=\"stylesheet\">\n" +
+                    "    <!---->\n" +
+                    "\n" +
+                    "\n" +
+                    "    <link id=\"ie9style\" href=\"css/ie9.css\" rel=\"stylesheet\">\n" +
+                    "\n" +
+                    "    <script type=\"text/javascript\" src=\"static/js/jquery-3.2.1.js\"></script>\n" +
+                    "    <script type=\"text/javascript\" src=\"js/jquery.form.js\"></script>\n" +
+                    "    <!--<script type=\"text/javascript\" src=\"http://malsup.github.io/jquery.form.js\"></script>-->\n" +
+                    "\n" +
+                    "    <style type=\"text/css\">\n" +
+                    "\n" +
+                    "        .css1 input {\n" +
+                    "            display: none;\n" +
+                    "        }\n" +
+                    "        .css1 label {\n" +
+                    "            /*width: 270px; !* 宽度 *!*/\n" +
+                    "            height: 40px; /* 高度 */\n" +
+                    "            border-width: 0px; /* 边框宽度 */\n" +
+                    "            border-radius: 3px; /* 边框半径 */\n" +
+                    "            background: #e4f5dc; /* 背景颜色 */\n" +
+                    "            cursor: pointer; /* 鼠标移入按钮范围时出现手势 */\n" +
+                    "            outline: none; /* 不显示轮廓线 */\n" +
+                    "            font-family: Microsoft YaHei; /* 设置字体 */\n" +
+                    "            color: white; /* 字体颜色 */\n" +
+                    "            font-size: 17px;\n" +
+                    "\n" +
+                    "        }\n" +
+                    "        .css1 input:checked + label {\n" +
+                    "            background: url(images/ico_checkon.svg) no-repeat right bottom;\n" +
+                    "            border: 1px solid #00a4ff;\n" +
+                    "            background-size: 21px 21px;\n" +
+                    "            color: #00a4ff;\n" +
+                    "\n" +
+                    "        }\n" +
+                    "    </style>\n" +" <script type=\"text/javascript\">\n" +
+                    "\n" +
+                    "        document.onreadystatechange = loadingChange;//当页面加载状态改变的时候执行这个方法.\n" +
+                    "        function loadingChange()\n" +
+                    "        {\n" +
+                    "            if(document.readyState == \"complete\"){\n" +
+                    "                alert(\"页面加载完毕\")//当页面加载状态为完全结束时进入\n" +
+                    "                // $(\".loading\").hide();//当页面加载完成后将loading页隐藏\n" +
+                    "            }\n" +
+                    "        }\n" +
+                    "\n" +
+                    "    </script>"+
+                    "\n" +
+                    "</head><body>");
             sb.append("<div>");
             sb.append(content);
             sb.append("</div>");

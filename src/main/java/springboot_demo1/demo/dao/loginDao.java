@@ -34,6 +34,9 @@ public class loginDao {
 
                 return userlist;
             }
+            else{
+                System.out.println("验证失败");
+            }
 
         }
         return null;

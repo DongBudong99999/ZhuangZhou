@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" name="viewport"/>
+    <title>format-list</title>
+    <!-- html 5 的编码设置方式 -->
+    <meta charset="UTF-8">
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- end: Mobile Specific -->
+
+    <!-- start: CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="css/style.min.css" rel="stylesheet"/>
+    <link href="css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="css/retina.css" rel="stylesheet"/>
+    <!-- end: CSS -->
+
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if IE 9]>
+    <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
+    <link rel="shortcut icon" href="ico/favicon.png"/>
+    <!-- end: Favicon and Touch Icons -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <!--https://malsup.github.io/jquery.form.js-->
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+
+    <style type="text/css">
+        body {
+            font: 14px/150% microsoft yahei, tahoma;
+        }
+
+        .clear {
+            clear: both
+        }
+
+        .RadioStyle input {
+            display: none
+        }
+
+        .RadioStyle label {
+            border: 1px solid #CCC;
+            color: #666;
+            padding: 2px 10px 2px 5px;
+            line-height: 28px;
+            min-width: 80px;
+            text-align: center;
+            float: left;
+            margin: 2px;
+            border-radius: 4px
+        }
+
+        .RadioStyle input:checked + label {
+            background: url(images/ico_checkon.svg) no-repeat right bottom;
+            border: 1px solid #00a4ff;
+            background-size: 21px 21px;
+            color: #00a4ff
+        }
+
+        .RadioStyle input:disabled + label {
+            opacity: 0.7;
+        }
+    </style>
+
+    <title>纯CSS 单/复选框 美化</title>
+</head>
+<body>
+<iframe src="header.html" width="100%" height="41px" frameborder=0></iframe>
+<div class="container-fluid-full" style="z-index: 99999;position: relative">
+    <div class="row-fluid">
+
+        <!-- start: Main Menu -->
+        <div id="sidebar-left" class="span2">
+
+            <div class="row-fluid actions">
+
+                <input type="text" class="search span12" placeholder="..."/>
+                <a></a>
+
+            </div>
+
+            <div class="nav-collapse sidebar-nav">
+                <ul class="nav nav-tabs nav-stacked main-menu">
+                    <li><a href="index.html"><i class="icon-bar-chart"></i><span
+                            class="hidden-tablet"> 首页</span></a>
+                    </li>
+                    <li><a href="upload.html"><i class="icon-eye-open"></i><span
+                            class="hidden-tablet"> 文件上传</span></a></li>
+                    <li><a href="widgets.html"><i class="icon-dashboard"></i><span
+                            class="hidden-tablet"> 窗口小部件</span></a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">样图</span>
+                            <span class="label">3</span></a>
+                        <ul>
+                            <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                    class="hidden-tablet"> 基础设置</span></a></li>
+                            <li><a class="submenu" href="messages.html"><i class="icon-envelope"></i><span
+                                    class="hidden-tablet"> 系统消息</span></a></li>
+                            <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                    class="hidden-tablet"> 任务</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> 表格</span></a></li>
+                    <li><a href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> 图表</span></a>
+                    </li>
+                    <li><a href="typography.html"><i class="icon-font"></i><span
+                            class="hidden-tablet"> 排版样式</span></a></li>
+                    <li><a href="gallery.html"><i class="icon-picture"></i><span
+                            class="hidden-tablet"> 图库</span></a></li>
+                    <li><a href="table.html"><i class="icon-align-justify"></i><span
+                            class="hidden-tablet"> 数据库</span></a></li>
+                    <li><a href="echarts.html"><i class="icon-calendar"></i><span
+                            class="hidden-tablet"> 数据可视化</span></a></li>
+                    <li><a href="file-manager.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 文件管理</span></a>
+                    </li>
+                    <li><a href="to_db.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 数据录入接口</span></a>
+                    </li>
+                    <li><a href="selector.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 计算公式</span></a>
+                    </li>
+                    <li><a href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
+                    </li>
+                    <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h>一上是侧面导航栏</h>
+</div>
+<div>
+
+    请选择iPhone 型号
+
+    <div class="RadioStyle">
+        <div class="Block PaddingL">
+            <input type="radio" name="Storage" id="model1"/>
+            <label for="model1">iPhone 6s</label>
+            <input type="radio" name="Storage" id="model2"/>
+            <label for="model2">iPhone 6s Plus</label>
+            <input type="radio" name="Storage" id="model3"/>
+            <label for="model3">iPhone 7</label>
+            <input type="radio" name="Storage" id="model4" checked/>
+            <label for="model4">iPhone 7 Plus</label>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    选择兴趣爱好
+
+    <div class="RadioStyle">
+        <div class="Block PaddingL">
+            <input type="checkbox" id="love1"/>
+            <label for="love1">女</label>
+            <input type="checkbox" id="love2"/>
+            <label for="love2">绘画</label>
+            <input type="checkbox" id="love3"/>
+            <label for="love3">摄影</label>
+            <input type="checkbox" id="love4" checked/>
+            <label for="love4">骑行</label>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    不可用
+    <div class="RadioStyle">
+        <div class="Block PaddingL">
+            <input type="checkbox" id="dis1" checked disabled/>
+            <label for="dis1">2年不离网</label>
+            <input type="checkbox" id="dis2" disabled/>
+            <label for="dis2">2年不变更套餐</label>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</div>
+
+原理在这里 input:checked + label
+<!-- start: JavaScript-->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="js/jquery.ui.touch-punch.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src='js/fullcalendar.min.js'></script>
+<script src='js/jquery.dataTables.min.js'></script>
+<script src="js/excanvas.js"></script>
+<script src="js/jquery.flot.js"></script>
+<script src="js/jquery.flot.pie.js"></script>
+<script src="js/jquery.flot.stack.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
+<script src="js/jquery.flot.time.js"></script>
+
+<script src="js/jquery.chosen.min.js"></script>
+<script src="js/jquery.uniform.min.js"></script>
+<script src="js/jquery.cleditor.min.js"></script>
+<script src="js/jquery.noty.js"></script>
+<script src="js/jquery.elfinder.min.js"></script>
+<script src="js/jquery.raty.min.js"></script>
+<script src="js/jquery.iphone.toggle.js"></script>
+<script src="js/jquery.uploadify-3.1.min.js"></script>
+<script src="js/jquery.gritter.min.js"></script>
+<script src="js/jquery.imagesloaded.js"></script>
+<script src="js/jquery.masonry.min.js"></script>
+<script src="js/jquery.knob.modified.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/counter.min.js"></script>
+<script src="js/raphael.2.1.0.min.js"></script>
+<script src="js/justgage.1.0.1.min.js"></script>
+<script src="js/jquery.autosize.min.js"></script>
+<script src="js/retina.js"></script>
+<script src="js/jquery.placeholder.min.js"></script>
+<script src="js/wizard.min.js"></script>
+<script src="js/core.min.js"></script>
+<script src="js/charts.min.js"></script>
+<script src="js/custom.min.js"></script>
+<!-- end: JavaScript-->
+
+</body>
+</html>

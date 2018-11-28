@@ -1,15 +1,13 @@
 package springboot_demo1.demo.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springboot_demo1.demo.domain.User;
 import springboot_demo1.demo.domain.excel_data;
 import springboot_demo1.demo.tools.ExcelToHTML;
 
 import java.io.File;
+import java.util.List;
 
 
 @RestController
@@ -32,6 +30,21 @@ public class uploadController {
 
 
         return html_path;
+    }
+
+    @RequestMapping(value = "/upload/getParams", method = RequestMethod.POST)
+    public String getParam(@RequestParam("list") List list) {
+        if (list != null) {
+            System.out.println("后端接收到的参数有：");
+            for(int i=0;i<list.size();i++){
+                System.out.print(list.get(i)+"  ");
+            }
+        }else{
+            System.out.println("啥也没接到");
+        }
+
+
+        return "";
     }
 
 
