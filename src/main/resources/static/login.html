@@ -46,7 +46,6 @@
     -->
 
 
-
     <style type="text/css">
         .login_from {
             width: 1200px;
@@ -86,15 +85,16 @@
                         document.cookie = "user_info=" + res;
                         username = res[0].name + "";
                         document.cookie = "username=" + username;
+                        document.cookie = "username=" + username;
                         alert(username + "  恭喜您，登录成功!")
-                        // window.location.href="index.html";
+                         window.location.href="index.html";
                         // alert(document.getElementById("kanban").innerHTML);
 
-                        var iframe = document.getElementById("iframe1");
-                        // alert(iframe.contentWindow.document.getElementById("show_username").innerHTML);
-                        iframe.contentWindow.document.getElementById("show_username").innerHTML=username;
-
-
+                        //修改内嵌的html标签内容
+                        // var iframe = document.getElementById("iframe1");
+                        // // alert(iframe.contentWindow.document.getElementById("show_username").innerHTML);
+                        // iframe.contentWindow.document.getElementById("show_username").innerHTML = username;
+                        //
 
                     } else {
                         alert("登录失败！！");
