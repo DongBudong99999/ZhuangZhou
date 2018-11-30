@@ -31,9 +31,9 @@ public class excel_to_mysql {
     public boolean isExist(int id) throws Exception {
 
         stat = link2.connectMysql();
-        String sql = "select * from demo2 where id=" + id;
+        String sql = "select * from table1 where id=" + id;
         System.out.println(sql);
-        ResultSet rs = stat.executeQuery("select * from demo2 where id=" + id);
+        ResultSet rs = stat.executeQuery(sql);
 
         if (rs.next()) {
             return true;
@@ -47,7 +47,7 @@ public class excel_to_mysql {
 
         try {
             Workbook rwb = Workbook.getWorkbook(new File(file));
-            Sheet rs = rwb.getSheet("xiaoban");//或者rwb.getSheet(0)
+            Sheet rs = rwb.getSheet(0);//或者rwb.getSheet(0)
             int clos = rs.getColumns();//得到所有的列
             int rows = rs.getRows();//得到所有的行
             System.out.println("clos: " + clos + " rows: " + rows);

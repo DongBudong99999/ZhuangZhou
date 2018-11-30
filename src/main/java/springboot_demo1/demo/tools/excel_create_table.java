@@ -14,18 +14,18 @@ public class excel_create_table {
 
     public static void main(String[] args) throws Exception {
 
-        String source = "//Users//dongbudong//Desktop//Tables//test1.xls";
+        String source = "//Users//dongbudong//Desktop//Tables//table1.xls";
 
         //创建表test
         linkMysql link = new linkMysql();
         Statement stat = link.connectMysql();
-        ResultSet resultSet = stat.executeQuery("select * from information_schema.TABLES where table_schema ='xiaoban datas' and table_name = 'test1';");
+        ResultSet resultSet = stat.executeQuery("select * from information_schema.TABLES where table_schema ='xiaoban_data' and table_name = 'table1';");
 
         if (resultSet.next()){
             System.out.println("该表已经存在，准备删除 - -");
-            stat.execute("drop table test1");
+            stat.execute("drop table table1");
         }
-        stat.executeUpdate("create table test1(id int ,CONSTRAINT pk_id PRIMARY KEY(id))");
+        stat.executeUpdate("create table table1(id int ,CONSTRAINT pk_id PRIMARY KEY(id))");
         System.out.println("表创建完毕 - -");
         addcolumn(source, stat);
         System.out.println("列追加完毕");
@@ -56,7 +56,7 @@ public class excel_create_table {
                         for (int j=1;j<cells.length;j++) {
 
                             String str = cells[j].getContents().trim();
-                            stat.execute("alter table test1 add " + str + " varchar(30)");
+                            stat.execute("alter table table1 add " + str + " varchar(30)");
 //                            System.out.printf("%10s", str);
                             System.out.printf( str+",");
 

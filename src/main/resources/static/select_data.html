@@ -43,7 +43,52 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
+    <script type="text/javascript">
 
+        function getIndex1() {
+            var objS = document.getElementById("index1");
+            var index1_value = objS.options[objS.selectedIndex].value;
+            alert(index1_value);
+        }
+
+        function getIndex2() {
+            var objS = document.getElementById("index2");
+            var index2_value = objS.options[objS.selectedIndex].value;
+            alert(index2_value);
+        }
+
+        function getIndex3() {
+            var objS = document.getElementById("index3");
+            var index3_value = objS.options[objS.selectedIndex].value;
+            alert(index3_value);
+        }
+
+        function getIndex4() {
+            var objS = document.getElementById("index4");
+            var index4_value = objS.options[objS.selectedIndex].value;
+            alert(index4_value);
+        }
+
+        function getIndex5() {
+            var objS = document.getElementById("index5");
+            var index5_value = objS.options[objS.selectedIndex].value;
+            alert(index5_value);
+        }
+
+        function getIndex6() {
+            var objS = document.getElementById("index6");
+            var index6_value = objS.options[objS.selectedIndex].value;
+            alert(index6_value);
+        }
+
+        function getIndex7() {
+            var objS = document.getElementById("index7");
+            var index7_value = objS.options[objS.selectedIndex].value;
+            alert(index7_value);
+        }
+
+
+    </script>
 </head>
 
 
@@ -123,129 +168,133 @@
 <!-- start: Content -->
 <div id="content" class="span10" style="z-index: 1100;  float: left; position: absolute; left: 20%; top: 8%;">
 
-
     <div class="row-fluid">
         <li class="dropdown hidden-phone open">
             <span style="color:black;font-size:16px ;border:white">参数：</span>
-            <select style="width: 80px">
-                <option value="volvo">树高</option>
-                <option value="saab">密度</option>
-                <option value="opel">树种</option>
+            <select id="index1" style="width: 80px" onchange="getIndex1()">
+                <option value="树高">树高</option>
+                <option value="密度">密度</option>
+                <option value="树种">树种</option>
+                <option value="每公顷株数">每公顷株数</option>
 
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 30px">起始时间:</span>
             <span style="color:black;font-size:16px ;border:white">年</span>
-            <select style="width: 80px">
-                <option value="volvo">2017</option>
-                <option value="saab">2018</option>
+            <select id="index2" style="width: 80px" onchange="getIndex2()">
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
-            <select style="width: 40px">
-                <option value="volvo">1</option>
-                <option value="saab">2</option>
-                <option value="volvo">3</option>
-                <option value="saab">4</option>
-                <option value="volvo">5</option>
-                <option value="saab">6</option>
-                <option value="volvo">7</option>
-                <option value="saab">8</option>
-                <option value="volvo">9</option>
-                <option value="saab">10</option>
-                <option value="volvo">11</option>
-                <option value="saab">12</option>
+            <select id="index3" style="width: 40px" onchange="getIndex3()">
+                <option value="month1">1</option>
+                <option value="month2">2</option>
+                <option value="month3">3</option>
+                <option value="month4">4</option>
+                <option value="month5">5</option>
+                <option value="month6">6</option>
+                <option value="month7">7</option>
+                <option value="month8">8</option>
+                <option value="month9">9</option>
+                <option value="month10">10</option>
+                <option value="month11">11</option>
+                <option value="month12">12</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
-            <select style="width: 40px">
-                <option value="volvo">1</option>
-                <option value="saab">2</option>
-                <option value="volvo">3</option>
-                <option value="saab">4</option>
-                <option value="volvo">5</option>
-                <option value="saab">6</option>
-                <option value="volvo">7</option>
-                <option value="saab">8</option>
-                <option value="volvo">9</option>
-                <option value="saab">10</option>
-                <option value="volvo">11</option>
-                <option value="saab">12</option>
-                <option value="saab">13</option>
-                <option value="volvo">14</option>
-                <option value="saab">15</option>
-                <option value="volvo">16</option>
-                <option value="saab">17</option>
-                <option value="volvo">18</option>
-                <option value="saab">19</option>
-                <option value="saab">20</option>
-                <option value="volvo">21</option>
-                <option value="saab">22</option>
-                <option value="volvo">23</option>
-                <option value="saab">24</option>
-                <option value="volvo">25</option>
-                <option value="saab">26</option>
-                <option value="saab">27</option>
-                <option value="volvo">287</option>
-                <option value="saab">29</option>
-                <option value="volvo">30</option>
-                <option value="saab">31</option>
+            <select id="index4" style="width: 40px" onchange="getIndex4()">
+                <option value="day1">1</option>
+                <option value="day2">2</option>
+                <option value="day3">3</option>
+                <option value="day4">4</option>
+                <option value="day5">5</option>
+                <option value="day6">6</option>
+                <option value="day7">7</option>
+                <option value="day8">8</option>
+                <option value="day9">9</option>
+                <option value="day10">10</option>
+                <option value="day11">11</option>
+                <option value="day12">12</option>
+                <option value="day13">13</option>
+                <option value="day14">14</option>
+                <option value="day15">15</option>
+                <option value="day16">16</option>
+                <option value="day17">17</option>
+                <option value="day18">18</option>
+                <option value="day19">19</option>
+                <option value="day20">20</option>
+                <option value="day21">21</option>
+                <option value="day22">22</option>
+                <option value="day23">23</option>
+                <option value="day24">24</option>
+                <option value="day25">25</option>
+                <option value="day26">26</option>
+                <option value="day27">27</option>
+                <option value="day28">28</option>
+                <option value="day29">29</option>
+                <option value="day30">30</option>
+                <option value="day31">31</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 30px">至</span>
             <span style="color:black;font-size:16px ;border:white;margin-left: 30px">结束时间:</span>
             <span style="color:black;font-size:16px ;border:white">年</span>
-            <select style="width: 80px">
-                <option value="volvo">2017</option>
-                <option value="saab">2018</option>
+            <select id="index5" style="width: 80px" onchange="getIndex5()">
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
-            <select style="width: 40px">
-                <option value="volvo">1</option>
-                <option value="saab">2</option>
-                <option value="volvo">3</option>
-                <option value="saab">4</option>
-                <option value="volvo">5</option>
-                <option value="saab">6</option>
-                <option value="volvo">7</option>
-                <option value="saab">8</option>
-                <option value="volvo">9</option>
-                <option value="saab">10</option>
-                <option value="volvo">11</option>
-                <option value="saab">12</option>
+            <select id="index6" style="width: 40px" onchange="getIndex6()">
+                <option value="month1">1</option>
+                <option value="month2">2</option>
+                <option value="month3">3</option>
+                <option value="month4">4</option>
+                <option value="month5">5</option>
+                <option value="month6">6</option>
+                <option value="month7">7</option>
+                <option value="month8">8</option>
+                <option value="month9">9</option>
+                <option value="month10">10</option>
+                <option value="month11">11</option>
+                <option value="month12">12</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
-            <select style="width: 40px">
-                <option value="volvo">1</option>
-                <option value="saab">2</option>
-                <option value="volvo">3</option>
-                <option value="saab">4</option>
-                <option value="volvo">5</option>
-                <option value="saab">6</option>
-                <option value="volvo">7</option>
-                <option value="saab">8</option>
-                <option value="volvo">9</option>
-                <option value="saab">10</option>
-                <option value="volvo">11</option>
-                <option value="saab">12</option>
-                <option value="saab">13</option>
-                <option value="volvo">14</option>
-                <option value="saab">15</option>
-                <option value="volvo">16</option>
-                <option value="saab">17</option>
-                <option value="volvo">18</option>
-                <option value="saab">19</option>
-                <option value="saab">20</option>
-                <option value="volvo">21</option>
-                <option value="saab">22</option>
-                <option value="volvo">23</option>
-                <option value="saab">24</option>
-                <option value="volvo">25</option>
-                <option value="saab">26</option>
-                <option value="saab">27</option>
-                <option value="volvo">287</option>
-                <option value="saab">29</option>
-                <option value="volvo">30</option>
-                <option value="saab">31</option>
+            <select id="index7" style="width: 40px" onchange="getIndex7()">
+                <option value="day1">1</option>
+                <option value="day2">2</option>
+                <option value="day3">3</option>
+                <option value="day4">4</option>
+                <option value="day5">5</option>
+                <option value="day6">6</option>
+                <option value="day7">7</option>
+                <option value="day8">8</option>
+                <option value="day9">9</option>
+                <option value="day10">10</option>
+                <option value="day11">11</option>
+                <option value="day12">12</option>
+                <option value="day13">13</option>
+                <option value="day14">14</option>
+                <option value="day15">15</option>
+                <option value="day16">16</option>
+                <option value="day17">17</option>
+                <option value="day18">18</option>
+                <option value="day19">19</option>
+                <option value="day20">20</option>
+                <option value="day21">21</option>
+                <option value="day22">22</option>
+                <option value="day23">23</option>
+                <option value="day24">24</option>
+                <option value="day25">25</option>
+                <option value="day26">26</option>
+                <option value="day27">27</option>
+                <option value="day28">28</option>
+                <option value="day29">29</option>
+                <option value="day30">30</option>
+                <option value="day31">31</option>
             </select>
 
         </li>
+        <p>&nbsp;</p>
+
+
+        <iframe src="line_chart.html" style="width: 1000px;height: 800px;border: 1px"/>
         <br>
         <br>
     </div>
