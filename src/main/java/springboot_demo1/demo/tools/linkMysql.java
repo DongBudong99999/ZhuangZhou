@@ -10,7 +10,7 @@ public class linkMysql {
         Class.forName("com.mysql.jdbc.Driver");
 
         //一开始必须填一个已经存在的数据库
-        String url = "jdbc:mysql://localhost:3306/xiaoban_data?useUnicode=true&characterEncoding=utf-8";
+        String url = "jdbc:mysql://localhost:3306/xiaoban_data?useSSL=false&useUnicode=true&characterEncoding=utf-8";
         Connection conn = DriverManager.getConnection(url, "root", "root");
         Statement stat = conn.createStatement();
         if(stat!=null){

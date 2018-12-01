@@ -1,8 +1,42 @@
 <html>
-<html lang="en">
+<!--<html lang="en">-->
 <head>
     <meta charset="UTF-8">
-    <title> 地区热力图 </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- end: Mobile Specific -->
+
+    <!-- start: CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="css/style.min.css" rel="stylesheet"/>
+    <link href="css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="css/retina.css" rel="stylesheet"/>
+    <!-- end: CSS -->
+
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if IE 9]>
+    <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
+    <link rel="shortcut icon" href="ico/favicon.png"/>
+    <!-- end: Favicon and Touch Icons -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <!--https://malsup.github.io/jquery.form.js-->
+    <script type="text/javascript" src="js/jquery.form.js"></script>
     <script src="echarts.js"></script>
 </head>
 <body>
@@ -11,88 +45,43 @@
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById("main"));
+    var result = document.cookie.split(";")[2].split("=")[1];
+    // alert(result.split(",").length)
+    var result1 = result.split(",");
+    var x_index_list = new Array();
+    var y_index_list = new Array();
+
+    for (var i = 1; i <= result1.length; i++) {
+        var x_index = "'" + i + "'";
+        x_index_list.push(x_index)
+
+
+
+        var y_index = result1[i];
+        y_index= parseInt(y_index);
+        y_index_list.push(y_index)
+         // alert(x_index+"  "+y_index)
+    }
 
     // 指定图表的配置项和数据
+    document.cookie
     option = {
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data:x_index_list
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            // data: [820, 932, 901, 934, 1290, 1330, 1320,1111,1111,1111],
+            data:y_index_list,
+            type: 'line',
 
-        tooltip : {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                label: {
-                    backgroundColor: '#6a7985'
-                }
-            }
-        },
-        legend: {
-            data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis : [
-            {
-                type : 'category',
-                boundaryGap : false,
-                data : ['周一','周二','周三','周四','周五','周六','周日']
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'邮件营销',
-                type:'line',
-                stack: '总量',
-                areaStyle: {},
-                data:[120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-                name:'联盟广告',
-                type:'line',
-                stack: '总量',
-                areaStyle: {},
-                data:[220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-                name:'视频广告',
-                type:'line',
-                stack: '总量',
-                areaStyle: {},
-                data:[150, 232, 201, 154, 190, 330, 410]
-            },
-            {
-                name:'直接访问',
-                type:'line',
-                stack: '总量',
-                areaStyle: {normal: {}},
-                data:[320, 332, 301, 334, 390, 330, 320]
-            },
-            {
-                name:'搜索引擎',
-                type:'line',
-                stack: '总量',
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'top'
-                    }
-                },
-                areaStyle: {normal: {}},
-                data:[820, 932, 901, 934, 1290, 1330, 1320]
-            }
-        ]
+            areaStyle: {}
+        }]
     };
 
 
@@ -100,6 +89,45 @@
     myChart.setOption(option);
 
 </script>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="js/jquery.ui.touch-punch.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src='js/fullcalendar.min.js'></script>
+<script src='js/jquery.dataTables.min.js'></script>
+<script src="js/excanvas.js"></script>
+<script src="js/jquery.flot.js"></script>
+<script src="js/jquery.flot.pie.js"></script>
+<script src="js/jquery.flot.stack.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
+<script src="js/jquery.flot.time.js"></script>
+
+<script src="js/jquery.chosen.min.js"></script>
+<script src="js/jquery.uniform.min.js"></script>
+<script src="js/jquery.cleditor.min.js"></script>
+<script src="js/jquery.noty.js"></script>
+<script src="js/jquery.elfinder.min.js"></script>
+<script src="js/jquery.raty.min.js"></script>
+<script src="js/jquery.iphone.toggle.js"></script>
+<script src="js/jquery.uploadify-3.1.min.js"></script>
+<script src="js/jquery.gritter.min.js"></script>
+<script src="js/jquery.imagesloaded.js"></script>
+<script src="js/jquery.masonry.min.js"></script>
+<script src="js/jquery.knob.modified.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/counter.min.js"></script>
+<script src="js/raphael.2.1.0.min.js"></script>
+<script src="js/justgage.1.0.1.min.js"></script>
+<script src="js/jquery.autosize.min.js"></script>
+<script src="js/retina.js"></script>
+<script src="js/jquery.placeholder.min.js"></script>
+<script src="js/wizard.min.js"></script>
+<script src="js/core.min.js"></script>
+<script src="js/charts.min.js"></script>
+<script src="js/custom.min.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <!--<!DOCTYPE html> 不知道为啥 有这个就显示不出来侧面工具栏-->
 <html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>input—data part</title>
@@ -51,53 +51,97 @@
         var endYear;
         var endMonth;
         var endDay;
+        var startDate_string;
+        var startDate;
+        var endDate_string;
+        var endDate;
+        var select_num;
 
-        var data1 = new Array();
-        var data = [];
+        // var data1 = new Array();声明一个数组 - - 备用
+        // data1.push(data)
+        var selectData = {};
 
         function getIndex1() {
             var objS = document.getElementById("index1");
             parameter = objS.options[objS.selectedIndex].value;
-            alert(parameter)
-            data.parameter = parameter;
+
 
         }
 
         function getIndex2() {
             var objS = document.getElementById("index2");
             startYear = objS.options[objS.selectedIndex].value;
-            data.startYear = startYear;
+            // data.startYear = startYear;
         }
 
         function getIndex3() {
             var objS = document.getElementById("index3");
             startMonth = objS.options[objS.selectedIndex].value;
-            data.startMonth = startMonth;
+            // data.startMonth = startMonth;
         }
 
         function getIndex4() {
             var objS = document.getElementById("index4");
             startDay = objS.options[objS.selectedIndex].value;
-            data.startDay = startDay;
+            // data.startDay = startDay;
         }
 
         function getIndex5() {
             var objS = document.getElementById("index5");
             endYear = objS.options[objS.selectedIndex].value;
-            data.endyear = endYear;
+            // data.endyear = endYear;
         }
 
         function getIndex6() {
             var objS = document.getElementById("index6");
             endMonth = objS.options[objS.selectedIndex].value;
-            data.endMonth = endMonth;
+            // data.endMonth = endMonth;
         }
 
         function getIndex7() {
             var objS = document.getElementById("index7");
             endDay = objS.options[objS.selectedIndex].value;
-            data.endDay = endDay
-            data1.push(data)
+            // data.endDay = endDay
+
+        }
+
+        function select() {
+            parameter = '"' + parameter + '"';
+            startDate = startYear + "-" + startMonth + "-" + startDay;
+            startDate = '"' + startDate + '"';
+            endDate = endYear + "-" + endMonth + "-" + endDay;
+            endDate = '"' + endDate + '"';
+            select_num =  '"'+document.getElementById("select_num").value+'"';
+            alert(select_num)
+            selectData = '{"parameter":' + parameter + ',"startDate":' + startDate + ',"endDate":' + endDate + ',"select_num":' + select_num + '}';
+            // alert(selectData)
+            // '{"username":' + username + ',"password":' + password + '}';
+            // selectData = ' {"parameter": "树种", "startDate_string": "2018-6-7", "endDate_string": "2018-4-4"}';
+
+            $.ajax({
+
+                url: 'selectDataToChart',
+                type: 'POST',
+                data: selectData,
+                //dataType: 'html',
+                // cache: false,
+                // async: false,
+                headers: {'Content-Type': 'application/json;charset=utf-8'},
+
+                success: function (result) {
+                    if (result) {
+                        document.cookie = "result=" + result;
+                        window.location.reload();
+
+
+                    } else {
+                        alert("登录失败！！");
+                    }
+                },
+                error: function (err) {
+                    alert("网络连接失败,稍后重试", err);
+                }
+            });
         }
 
 
@@ -199,52 +243,52 @@
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
             <select id="index3" style="width: 40px" onchange="getIndex3()">
-                <option value="month1">1</option>
-                <option value="month2">2</option>
-                <option value="month3">3</option>
-                <option value="month4">4</option>
-                <option value="month5">5</option>
-                <option value="month6">6</option>
-                <option value="month7">7</option>
-                <option value="month8">8</option>
-                <option value="month9">9</option>
-                <option value="month10">10</option>
-                <option value="month11">11</option>
-                <option value="month12">12</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
             <select id="index4" style="width: 40px" onchange="getIndex4()">
-                <option value="day1">1</option>
-                <option value="day2">2</option>
-                <option value="day3">3</option>
-                <option value="day4">4</option>
-                <option value="day5">5</option>
-                <option value="day6">6</option>
-                <option value="day7">7</option>
-                <option value="day8">8</option>
-                <option value="day9">9</option>
-                <option value="day10">10</option>
-                <option value="day11">11</option>
-                <option value="day12">12</option>
-                <option value="day13">13</option>
-                <option value="day14">14</option>
-                <option value="day15">15</option>
-                <option value="day16">16</option>
-                <option value="day17">17</option>
-                <option value="day18">18</option>
-                <option value="day19">19</option>
-                <option value="day20">20</option>
-                <option value="day21">21</option>
-                <option value="day22">22</option>
-                <option value="day23">23</option>
-                <option value="day24">24</option>
-                <option value="day25">25</option>
-                <option value="day26">26</option>
-                <option value="day27">27</option>
-                <option value="day28">28</option>
-                <option value="day29">29</option>
-                <option value="day30">30</option>
-                <option value="day31">31</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 30px">至</span>
             <span style="color:black;font-size:16px ;border:white;margin-left: 30px">结束时间:</span>
@@ -255,55 +299,57 @@
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
             <select id="index6" style="width: 40px" onchange="getIndex6()">
-                <option value="month1">1</option>
-                <option value="month2">2</option>
-                <option value="month3">3</option>
-                <option value="month4">4</option>
-                <option value="month5">5</option>
-                <option value="month6">6</option>
-                <option value="month7">7</option>
-                <option value="month8">8</option>
-                <option value="month9">9</option>
-                <option value="month10">10</option>
-                <option value="month11">11</option>
-                <option value="month12">12</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
             </select>
             <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
             <select id="index7" style="width: 40px" onchange="getIndex7()">
-                <option value="day1">1</option>
-                <option value="day2">2</option>
-                <option value="day3">3</option>
-                <option value="day4">4</option>
-                <option value="day5">5</option>
-                <option value="day6">6</option>
-                <option value="day7">7</option>
-                <option value="day8">8</option>
-                <option value="day9">9</option>
-                <option value="day10">10</option>
-                <option value="day11">11</option>
-                <option value="day12">12</option>
-                <option value="day13">13</option>
-                <option value="day14">14</option>
-                <option value="day15">15</option>
-                <option value="day16">16</option>
-                <option value="day17">17</option>
-                <option value="day18">18</option>
-                <option value="day19">19</option>
-                <option value="day20">20</option>
-                <option value="day21">21</option>
-                <option value="day22">22</option>
-                <option value="day23">23</option>
-                <option value="day24">24</option>
-                <option value="day25">25</option>
-                <option value="day26">26</option>
-                <option value="day27">27</option>
-                <option value="day28">28</option>
-                <option value="day29">29</option>
-                <option value="day30">30</option>
-                <option value="day31">31</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
             </select>
 
         </li>
+        输入查询条数：<input type="text" id="select_num">
+        <button onclick="select()">查询</button>
         <p>&nbsp;</p>
 
 
