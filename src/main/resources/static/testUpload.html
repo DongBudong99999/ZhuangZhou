@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+    <script src="js/fileinput.min.js"></script>
+
+    <link rel="stylesheet" href="css/fileinput.min.css"/>
+    <script src="static/js/jquery-3.2.1.js"></script>
+    <script src="js/charts.min.js"></script>
+    <script src="echarts_old.js"></script>
+    <script src="js/china.js"></script>
+    <style>#china-map {
+        width: 1000px;
+        height: 1000px;
+        margin: auto;
+    }</style>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.6/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+    <meta charset="utf-8"/>
+    <!-- page script -->
+    <script>function btn_add() {
+        $("#myModalLabel").text("添加版本");
+        $('#myModal').modal();
+
+    }
+
+    $("#uploadfile").fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: "/apk_upload", //上传的地址
+        allowedFileExtensions: ['apk'],//接收的文件后缀
+        uploadAsync: true, //默认异步上传
+        showUpload: true, //是否显示上传按钮
+
+        showRemove: true, //显示移除按钮
+        showPreview: true, //是否显示预览
+        showCaption: false,//是否显示标题
+        browseClass: "btn btn-primary", //按钮样式
+        dropZoneEnabled: false,//是否显示拖拽区域
+        maxFileCount: 1, //表示允许同时上传的最大文件个数
+        enctype: 'multipart/form-data',
+        validateInitialCount: true
+    });
+    //异步上传返回结果处理
+    $("#uploadfile").on("fileuploaded", function (event, data, previewId, index) {
+        var response = data.response;
+        alert(response.filePath);
+        $("#fileMd5").val(response.fileMd5);
+        $("#version").val(response.newVersionName);
+        $("#url").val(response.filePath);
+
+    });
+    //上传前
+
+    $('#uploadfile').on('filepreupload', function (event, data, previewId, index) {
+        var form = data.form, files = data.files, extra = data.extra,
+            response = data.response, reader = data.reader;
+    });
+    </script>
+</head>
+<body>
+ 
+<tr>
+                       
+    <td align="right" class="OrderTd">附件上传 :</td>
+                         
+    <td colspan="2">
+                             <a href="javascript:void(0);" class="a-upload">
+          <input type="file" name="file" id="pic" style="width: 50%; font-size: 13px; "
+                 accept="image/gif,image/BMP,image/png,image/jpg,image/jpeg,text/plain,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/pdf,application/msword">
+                                        点击获取文件
+                                    </a>
+                                
+    </td>
+                        
+           
+</tr>
+<script type="text/javascript">
+    //写一个定时器，监听id="pic"的变化，一有文件，马上上传
+
+    setTimeout(function () {
+
+        $("#fileList").append("<span id='fileListSpan' style='font-size:14px;display:none'>附件列表:</span>");
+        $("#showFileList").append("<tr id='fileListTr' style='display:none'><td align='center'>序号</td><td align='center'>附件名称</td><td align='center'>操作</td></tr>");
+
+        var inputs = document.getElementById("pic");
+        if (inputs) {
+            inputs.addEventListener("change", function (evt) {
+
+                for (var i = 0, numFiles = this.files.length; i < numFiles; i++) {
+
+                    var file = this.files[i];
+                    fileUpload();
+
+                    function fileUpload() {
+                        var index = $("#showFileList tr").size() - 1;//上传前先得到当前table有多少行
+                        var fup = document.getElementById("pic");
+                        var fileSize = fup.files[0].size;//得到图片大小
+                        var fileName = fup.files[0].name;//得到图片名称
+                        var formData = new FormData($("#workOrderAddForm")[0]);
+                        var ticketNo = $("#e_ticketNo").val();
+                        formData.append("fileSize", fileSize);
+                        formData.append("fileName", fileName);
+                        formData.append("ticketNo", ticketNo);
+                        formData.append("type", "3");
+                        var html = "";
+                        var info = "";
+                        $.ajax({
+                            url: '${ctx}' + '/job/fileAdd',
+                            type: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            error: function () {
+                            },
+                            success: function (jsonObj) {
+                                if (jsonObj != null) {
+                                    if (jsonObj.message == "SUCCESS") {
+                                        html += "<tr id='" + jsonObj.unqiueId + "'><td>" + (++index) + "</td><td>"//序号增加1
+                                            + jsonObj.fileName + "</td>"
+                                            + "<td align='center'>"
+                                            + " <a onclick=preview('" + jsonObj.img + "')"
+                                            + " href='javascript:void(0)' style='margin-right: 10px;font-size: 14px;'><span class='icon-lock'></span>预览</a>"
+                                            + "<a onclick=fileDelete('" + jsonObj.unqiueId + "')"
+                                            + " href='javascript:void(0)' style='font-size: 14px;'><span><i  class='icon-del'></i></span>删除</a>"
+                                            + "</td></tr>";
+                                        $("#showFileList").append(html);
+                                        $("#fileList").append(info);
+                                        if ($("#showFileList tr").size() > 1) {
+                                            $("#fileListSpan").css({"display": "block"});
+                                            $("#fileListTr").css({"display": "contents"});
+                                        }
+                                    } else if (jsonObj.message == "fileTooMax") {
+                                        $.messager.alert('提示', '附件太大，请上传10M以内的附件!', 'info');
+                                    }
+                                }
+
+                            }
+                        });
+                    };
+                }
+            }, false);
+        }
+    }, 2000)
+
+
+    //这个是删除附件列表中的图片的
+
+    function fileDelete(unqiueId) {
+        var path = '${ctx}' + '/workorderInput/fileDelete';
+        var jsonParam = jQuery.param({"unqiueId": unqiueId});
+        $.ajax({
+            url: path,
+            type: "POST",
+            async: false,
+            data: jsonParam,
+            dataType: "json",
+            cache: false,
+            success: function (result) {
+
+                result = $.parseJSON(result);
+                if (result.result == "SUCCESS") {
+                    parent.$.messager.alert('提示', "附件删除成功", 'info');
+                    var trNode = $("#" + unqiueId);
+
+//删除时先把当前行下面行的序号遍历，减1
+
+                    $("#" + unqiueId).nextAll("tr").each(function (index, element) {
+                        var a = $("#" + unqiueId).find("td").eq(0).text();
+                        $(this).find("td").eq(0).text(parseInt(a) + index);
+
+                    });
+                    trNode.remove();
+                } else {
+                    parent.$.messager.alert('提示', "附件删除失败", 'info');
+                }
+                //$("#"+unqiueId).remove();
+                //$("#preview").get(0).innerHTML = "";
+            }
+        });
+    }
+</script>
+</body>
+</html>

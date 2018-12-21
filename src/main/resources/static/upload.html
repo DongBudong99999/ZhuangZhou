@@ -15,6 +15,8 @@
     <link href="css/retina.css" rel="stylesheet"/>
     <!-- end: CSS -->
 
+    <!--<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+    <script type="text/javascript" src="js/xlsx.core.min.js"></script>
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -45,9 +47,42 @@
 
     <!--<%&#45;&#45;上传组建美化css代码&#45;&#45;%>-->
     <style type="text/css">
+        .a-upload {
+            padding: 4px 10px;
+            height: 20px;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+            color: #888;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            *display: inline;
+            *zoom: 1
+        }
+
+        .a-upload input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            cursor: pointer
+        }
+
+        .a-upload:hover {
+            color: #444;
+            background: #eee;
+            border-color: #ccc;
+            text-decoration: none
+        }
+
         .file {
-            position: relative; /*绝对定位!*/
-            display: inline-block; /*设置为行内元素*/
+            position: relative;
+            display: inline-block;
             background: #D0EEFF;
             border: 1px solid #99D3F5;
             border-radius: 4px;
@@ -60,15 +95,15 @@
         }
 
         .file input {
-            position: absolute; /*相对定位*/
+            position: absolute;
+            font-size: 100px;
             right: 0;
             top: 0;
-            opacity: 0; /*将上传组件设置为透明的*/
-            font-size: 100px;
+            opacity: 0;
         }
 
         .file:hover {
-            background: #AADDFF;
+            background: #AADFFD;
             border-color: #78C3F3;
             color: #004974;
             text-decoration: none;
@@ -83,20 +118,69 @@
             top: 10%;
             left: 15%;
             position: absolute;
+            float: top;
+        }
+
+        .file_table {
+            width: 800%;
+            height: 20%;
+            /*margin-left: -150px;*/
+            /*margin-top: -100px;*/
+            top: 20%;
+            left: 25%;
+            position: absolute;
+            border: 0;
         }
     </style>
+
     <script type="text/javascript">
-        function upload() {
-            var file_path = '"' + document.getElementById("file_path").value + '"';
-            var file_name = '"' + document.getElementById("file_name").value + '"';
+        (function () {
+            if (!window.localStorage) {
+                console.log('浏览器不支持localStorage');
+            }
+            var size = 0;
+            for (item in window.localStorage) {
+                if (window.localStorage.hasOwnProperty(item)) {
+                    size += window.localStorage.getItem(item).length;
+                }
+            }
+            console.log('当前localStorage使用容量为' + (size / 1024).toFixed(2) + 'KB');
+        })()
 
-            // var formFile = new FormData();
-            // formFile.append("file", file);
-            // var data = formFile;
 
+        function getCookie(name) {
+            var strcookie = document.cookie;//获取cookie字符串
+            var arrcookie = strcookie.split("; ");//分割
+            //遍历匹配
+            for (var i = 0; i < arrcookie.length; i++) {
+                var arr = arrcookie[i].split("=");
+                if (arr[0] == name) {
+                    return arr[1];
+                }
+            }
+            return "";
+
+        }
+
+        function setCookie(c_name, value) {
+            document.cookie = c_name + "=" + value
+        }
+
+        //生成该excel文件对应的html文件 ，加载速度超级慢
+        function readExceltoHtml(f) {
+            alert(f)
+            var file_name = f;
+            var file_path = '"/Users/dongbudong/IdeaProjects/SpringBoot_demo1/src/main/resources/static/xlsx/' + file_name + '"';
+
+            //
+            // // var formFile = new FormData();
+            // // formFile.append("file", file);
+            // // var data = formFile;
+            //
             alert("进入方法！")
-            var data1 = '{"file_name":' + file_name + ',"file_path":' + file_path + '}';
-
+            // var data1 = {"file_path": "/Users/dongbudong/IdeaProjects/SpringBoot_demo1/src/main/resources/static/xlsx/T5.xlsx" };
+            var data1 = '{"file_path":' + file_path + '}';
+            console.log(data1);
             $.ajax({
                 url: "upload/getPath",
                 type: "POST",
@@ -109,17 +193,9 @@
                         alert("上传成功！");
 
                         var excel_html = res;
-                        //alert(excel_html);
-                        // window.onload = function () {
-                        //
-                        //     $("#new_excel").innerHTML = "<iframe  src=\"excel.html\" style=\"width:500px;height:565px;overflow:auto\"></iframe>";
-                        // }
-                        //
-                        <!--<iframe  src="excel.html" style="width:500px;height:565px;overflow:auto">-->
-                        //
-                        // // <!--</iframe>-->
                     }
                     console.log(res);
+                    show_excel();
 
                 },
                 error: function (err) {
@@ -131,15 +207,12 @@
     </script>
     <script>
         function show_excel() {
-            document.getElementById("show").innerHTML = '<object type="text/html" data="excel.html" width="120%" height="800px"></object>';
+            window.location.href = "excel.html";
+            // document.getElementById("show").innerHTML = '<object type="text/html" data="excel.html" width="120%" height="800px"></object>';
             alert("文件读取&绘制页面中······  大约30s完成");
         }
     </script>
-    <!--<script type="text/javascript">-->
-    <!--function upload1(){-->
-    <!--alert("!!!")-->
-    <!--}-->
-    <!--</script>-->
+
     <script>
         var btn1 = document.getElementById("btn1");
         /*实名函数*/
@@ -156,6 +229,7 @@
 </head>
 
 <body>
+
 <!--<h> 以下是顶端导航栏</h>-->
 <iframe src="header.html" width="100%" height="41px" frameborder=0></iframe>
 <!--<h> 以上是顶端导航栏</h>-->
@@ -178,7 +252,7 @@
                     <li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 看板</span></a>
                     </li>
                     <li><a href="upload.html"><i class="icon-eye-open"></i><span
-                            class="hidden-tablet"> 文件上传</span></a></li>
+                            class="hidden-tablet"> 文件管理</span></a></li>
                     <li><a href="widgets.html"><i class="icon-dashboard"></i><span
                             class="hidden-tablet"> 窗口小部件</span></a>
                     </li>
@@ -227,47 +301,195 @@
 </div>
 <!--<h>一上是侧面导航栏</h>-->
 
-    <form class="upload_form" method="post" enctype="multipart/form-data">
-        <a href="javascript:;" class="file">请输入文件路径
-            <!--<input type="file" name="file" style="size: 50px"/>-->
 
-        </a>
-        &nbsp;&nbsp;&nbsp;
-        <input type="text" name="file1" id="file_path" style="size: 50px"/>
-
-
-        &nbsp;&nbsp;
-        <a href="javascript:;" class="file">请输入文件名
-            <!--<input type="file" name="file" style="size: 50px"/>-->
-
-        </a>
-        &nbsp;&nbsp;
-
-        <input type="text" name="file1" id="file_name" style="size: 50px"/>
-
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" id="upload_file" onclick="upload()"> 点我提交</button>
+<form class="upload_form" enctype="multipart/form-data">
+    <a href="javascript:;" class="file">
+        选择文件
+        <input type="file" id="fileUp" name="">
+    </a>
 
 
-        <!--<span style="color:red;font-size:16px">[不能超过4M]</span>-->
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" onclick="show_excel()"> 点我展示</button>
+    <!--<button  onclick="upload123()">点我上传</button>-->
+    <a href="javascript:;" class="a-upload">点我上传
+        <input type="button" name="" id="" onclick="upload123()"></a>
 
-        <div id="show">
+</form>
+<script type="text/javascript">
+    var files;
+    $('#fileUp').change(function (e) {
+        alert("!!!!!!!!!")
+        files = e.target.files;
 
-        </div>
+        var fileReader = new FileReader();
+        fileReader.onload = function (ev) {
+            // console.log("~~~~~" + ev)
+            try {
+                var data = ev.target.result
+                console.log(data)
+                workbook = XLSX.read(data, {
+                    type: 'binary'
+                }), // 以二进制流方式读取得到整份excel表格对象
+                    persons = []; // 存储获取到的数据
+            } catch (e) {
+                console.log('文件类型不正确');
+                return;
+            }
 
-        <!--<input type="button" value="使用ajax上传文件" onclick="post_file()"/>-->
+            // 表格的表格范围，可用于判断表头是否数量是否正确
+            var fromTo = '';
+            // 遍历每张表读取
+            for (var sheet in workbook.Sheets) {
+                if (workbook.Sheets.hasOwnProperty(sheet)) {
+                    fromTo = workbook.Sheets[sheet]['!ref'];
+                    console.log(fromTo);
+                    persons = persons.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
+                    // break; // 如果只取第一张表，就取消注释这行
+                }
+            }
+            console.log("========" + JSON.stringify(persons))
+            localStorage.setItem(files[0].name, JSON.stringify(persons))
 
 
-        <!--<input type="button" value="显示该数据表" id="show">-->
+        };
+        // 以二进制方式打开文件
+        fileReader.readAsBinaryString(files[0]);
+    });
+
+</script>
+<script type="text/javascript">
+    var fileM = document.querySelector("#fileUp");//
+    function upload123() {
+
+//获取文件对象，files是文件选取控件的属性，存储的是文件选取控件选取的文件对象，类型是一个数组
+        var fileObj = fileM.files[0];
+        var fileReader = new FileReader();
+
+        // localStorage.setItem(fileObj.name, fileObj);
+        // alert(fileObj.name)
+//创建formdata对象，formData用来存储表单的数据，表单数据时以键值对形式存储的。
+        var formData = new FormData();
+        formData.append('file', fileObj);
+        $.ajax({
+            url: "/testUploadFiles",
+            type: "post",
+            dataType: "json",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                // fileArray.push(res.uploadFileName)
+                alert(res.uploadFileName + "  上传成功");
+            },
+        });
 
 
-        <!--<p>选择文件3: <input type="file" name="fileName"/></p>-->
-        <!---->
-        <!--<input type="button" value="提交" onclick="post_file()" />-->
-
-    </form>
+    }
+</script>
+<div >
+    <!--<div>以下是文件列表</div>-->
+    <a id="file_list"></a>
 </div>
+<script type="text/javascript">
+    var filename;
+    var htmlstr;
+    // alert("空餐传递")
+    $.ajax({
+        url: "/showFileList",
+        type: "POST",
+
+        // processData: false,//用于对data参数进行序列化处理 这里必须false
+        // contentType: false, //必须
+        headers: {'Content-Type': 'application/json;charset=utf-8'},
+        success: function (fileList) {
+            if (fileList) {
+                // alert("已接到返回，长度为" + fileList.length)
+                // // for(i=0;i<fileList.length;i++){
+                // //     console.log(fileList[i]);
+                // // }
+                //
+                var cols = 2; //2列
+                var rows = fileList.length; //4行
+                htmlstr = "<table class='file_table' style='height: 800px;' border='1px'>";
+                for (var m = 0; m < rows; m++) {
+                    filename = fileList[m].split('"');
+                    console.log(filename);
+                    htmlstr += "<tr>";
+                    for (var n = 0; n < cols; n++) {
+                        if (n == 0) {
+                            htmlstr += "<td  width='40%'>" + filename + "</td>";
+                        }
+                        if (n = 1) {
+                            htmlstr += "<td > <a href='http://localhost:8080/xlsx/" + filename + "'>下载</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                "<a onclick='showexcel(" + '"' + filename + '"' + ")'>预览</a> </td>";
+                        }
+                    }
+                    htmlstr += "</tr>";
+                }
+                htmlstr += "</table>";
+                console.log(htmlstr)
+                document.getElementById("file_list").innerHTML = htmlstr;
+                // document.write(htmlstr)
+            }
+            console.log(fileList);
+
+
+        },
+        error: function (err) {
+            alert("网络连接失败,稍后重试", err);
+        }
+
+    });
+</script>
+<script type="text/javascript">
+    function showexcel(excel) {
+        var persons = JSON.parse(localStorage.getItem(excel));
+
+        // console.log(persons.toString())
+        $(".tablehead").html("");
+        $(".tablebody").html("");
+        for (var j = 0; j < persons.length; j++) {
+            var arr = persons[j];
+            if (j == 0) {
+                $(".tablehead").append("<tr class='exceltitle'></tr>");
+            }
+            $(".tablebody").append("<tr class='excelcontent'></tr>");
+            for (var i in arr) {
+                //alert(i+"---"+arr[i]);
+                if (j == 0) {
+                    $(".exceltitle").append("<th>" + i + "</th>");
+                }
+                $(".excelcontent").eq(j).append("<td>" + arr[i] + "</td>");
+            }
+        }
+
+    }
+</script>
+<!--<span style="color:red;font-size:16px">[不能超过4M]</span>-->
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+<!--<table class="file_table">-->
+<!--<tr>-->
+<!--<td id="index1"></td>-->
+<!--<td>预览</td>-->
+<!--</tr>-->
+<!--</table>-->
+
+
+</div>
+<div id="show"></div>
+
+
+<script type="text/javascript">
+
+
+</script>
+<table class="exceltable">
+    <thead class="tablehead"></thead>
+    <tbody class="tablebody"></tbody>
+</table>
+
 </body>
 </html>

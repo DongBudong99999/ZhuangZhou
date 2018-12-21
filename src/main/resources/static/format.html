@@ -1,10 +1,458 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>计算公式</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="css/style.min.css" rel="stylesheet"/>
+    <link href="css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="css/retina.css" rel="stylesheet"/>
+    <!-- end: CSS -->
+
+    <!--<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+    <script type="text/javascript" src="js/xlsx.core.min.js"></script>
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if IE 9]>
+    <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
+    <link rel="shortcut icon" href="ico/favicon.png"/>
+    <!-- end: Favicon and Touch Icons -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
+    <link th:href="@{/webjars/bootstrap/3.3.6/dist/css/bootstrap.css}" rel="stylesheet"></link>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .format {
+            width: 1360px;
+            height: 100px;
+            /*margin-left: -150px;*/
+            /*margin-top: -100px;*/
+            top: 6%;
+            left: 15%;
+            position: absolute;
+            float: top;
+        }
+
+        #div1 {
+            width: 1500px;
+            height: 700px;
+            padding: 10px;
+            border: 2px solid #0B90C4;
+            scrollbar-3d-light-color: grey;
+            overflow: scroll;
+
+        }
+
+        #div1 p {
+            display: block;
+        }
+
+        #div2 p {
+            display: inline-block;
+        }
+
+        #div2 {
+            width: 1300px;
+            height: 120px;
+            padding: 10px;
+            border: 0px solid #aaaaaa;
+            display: inline;
+        }
+
+        .format button {
+            height: 40px;;
+            border-radius: 8px;
+            background: #7ab5d3;
+            border-color: #78C3F3;
+            color: #000000;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none; /* 不显示轮廓线 */
+            font-family: Microsoft YaHei; /* 设置字体 */
+            color: white; /* 字体颜色 */
+            font-size: 17px;
+            padding-left: 5px;
+            padding-right: 5px;
+            float: left;
+            margin-left: 15px;
+            display: inline-block;
+
+        }
+
+        .drag_params_style {
+            float: left;
+            display: inline;
+        }
+
+        .drag_params_style input {
+            border: 2px solid #9ecaed;
+            border-radius: 10px;
+            color: #80636c;
+            font-family: 'Opan Sans', sans-serif;
+            font-size: 1em;
+            height: 40px;
+            padding: 0 16px;
+            transition: background 0.3s ease-in-out;
+            width: 70px;
+            margin-left: 20px;
+
+        }
+
+        .drag_params_style input:focus {
+            outline: 2px;
+            border-color: #942a25;
+            box-shadow: 0 0 10px #9ecaed;
+        }
+    </style>
+    <script type="text/javascript">
+        values_name = new Map()
+        name_params = new Map()
+        values_name.set("调节水量", "U水量调节");
+        values_name.set("净化水质", "U净化水质");
+        values_name.set("防止土壤侵蚀", "U防止土壤侵蚀");
+        values_name.set("植被固碳", "U植被固碳");
+        values_name.set("释放氧气", "U释放氧气");
+        values_name.set("吸收SO2", "U二氧化硫");
+        values_name.set("吸收氟化物", "U氟化物");
+        values_name.set("吸收氮氧化物", "U氮氧化物");
+        values_name.set("吸收重金属", "U重金属");
+        values_name.set("滞尘", "U滞尘");
+        values_name.set("释放负离子", "U释放负离子");
+        values_name.set("牧场防护", "U牧场防护");
+        values_name.set("农田防护", "U农田防护");
+        values_name.set("物种保育价值", "U物种保育");
+        values_name.set("森林生态资产", "U生态");
+        values_name.set("储存碳价值", "U植被储碳");
+
+
+        name_params.set(values_name.get("调节水量"), ["K3", "K4", "J水", "K1", "K2", "G调"]);
+        name_params.set(values_name.get("净化水质"), ["K3", "K4", "J污水", "K1", "K2", "G调"]);
+        name_params.set(values_name.get("防止土壤侵蚀"), ["K3", "K4", "K1", "K2", "G固土", "ρ"]);
+
+        name_params.set(values_name.get("植被固碳"), ["K1", "K3", "G植被固碳", "J碳"]);
+
+        name_params.set(values_name.get("释放氧气"), ["K1", "K3", "G氧气", "J氧"]);
+
+        name_params.set(values_name.get("吸收SO2"), ["K1", "K3", "G二氧化硫", "J二氧化硫"]);
+
+        name_params.set(values_name.get("吸收氟化物"), ["K1", "K3", "G氟化物", "J氟化物"]);
+
+        name_params.set(values_name.get("吸收氮氧化物"), ["K1", "K3", "G氮氧化物", "J氮氧化物"]);
+
+        name_params.set(values_name.get("吸收重金属"), ["K1", "K3", "G重金属", "J重金属"]);
+
+        name_params.set(values_name.get("滞尘"), ["K1", "K3", "G滞尘", "J滞尘"]);
+
+        name_params.set(values_name.get("释放负离子"), ["K1", "K3", "G负离子", "J负离子"]);
+
+        name_params.set(values_name.get("牧场防护"), ["K3", "K4", "G牧草量", "J牧草"]);
+
+        name_params.set(values_name.get("农田防护"), ["K3", "K4", "G农作物量", "J农作物"]);
+
+        name_params.set(values_name.get("物种保育价值"), ["K2", "K3", "K4", "Em", "Bn", "Oi", "x", "y", "z", "S物种保育", "S", "t"]);
+        name_params.set(values_name.get("森林生态资产"), ["y", "n", "UIi", "p"]);
+        name_params.set(values_name.get("储存碳价值"), ["J碳", "z", "γ", "V", "WDm", "BEFm", "t", "E土壤储碳", "β", "H", "ρ", "R"]);
+        var params = new Array()
+        var flag
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+
+        function drag(ev) {
+            ev.dataTransfer.setData("Text", ev.target.id);
+
+
+            var index = ev.target.childNodes[1].value;
+            // alert(index)
+            flag = params.indexOf(index)
+            if (flag >= 0) {
+                console.log(index + "存在，去掉")
+                params.remove(index)
+
+            } else {
+                console.log(index + "不存在，添加")
+                params.push(index)
+            }
+            // console.log(params)
+        }
+
+        Array.prototype.remove = function (val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+        var data;
+
+        function drop(ev) {
+            ev.preventDefault();
+            var index;
+            if (flag < 0) {
+                data = ev.dataTransfer.getData("Text");//p标签的id，如drag1
+                ev.target.appendChild(document.getElementById(data));//将这个p标签放入父容器
+
+                //放入之后创建新容器 展开计算项
+                var frameDiv = document.createElement("div");
+                var div_id = data + "_params"
+                frameDiv.setAttribute("id", div_id)//id = drag_params
+                frameDiv.className = "drag_params_style";
+                var p = document.getElementById(data);
+                p.appendChild(frameDiv)
+                //--------------------------
+                //index =  调节水源
+                index = p.childNodes[1].value;
+
+                var paramArray = name_params.get(values_name.get(index));//获得计算该index指标的各计算项，返回因数列表
+                // document.getElementById(div_id).innerHTML = paramArray;
+                for (var i = 0; i < paramArray.length; i++) {
+                    var param = paramArray[i]
+                    // console.log(param);
+                    var newInput = document.createElement("input");
+
+                    newInput.nodeType = "text";
+                    newInput.setAttribute("id", "param_" + index + "_" + param)//输入框的id为--"param"+i
+                    frameDiv.appendChild(newInput);
+                    // document.getElementsByName()
+
+                    document.getElementById("param_" + index + "_" + param).value = param + ":";
+                    newInput.onfocus = function () {
+                        this.value = "";
+
+                    }
+                    newInput.onblur = function () {
+                        if (!this.value) {
+                            this.value = this.id.split("_")[2] + ":";
+                        }
+                    }
+                }
+                // 创建"生成结果按钮"
+                var newButton = document.createElement("button");
+                newButton.setAttribute("id", index + "_button")
+                newButton.innerHTML = "生成结果";
+                p.appendChild(newButton)
+                newButton.onclick = function () {
+
+                    var newResult = document.createElement("button")
+                    newResult.setAttribute("id", index + "_result")
+                    newResult.innerHTML = "123"
+                    p.appendChild(newResult)
+                }
+                // 创建删除按钮
+                var deleteButton = document.createElement("button");
+                deleteButton.setAttribute("id", index + "_delete");
+                deleteButton.innerHTML = "删除";
+                p.appendChild(deleteButton)
+                deleteButton.onclick = function (ev) {
+                    var p = ev.target.parentNode
+
+
+                    // console.log(p)
+                    div1 = document.getElementById("div1")//存放待计算的区域，准备将子节点p删除
+                    var div2 = document.getElementById("div2")//存放计算项列表的区域，准备恢复被删除的选项
+                    console.log(p.childNodes[3])
+                    var len = p.children.length + 1;//+1 ： 空格也算做子节点，但不算children
+                    // alert(len)
+                    for (var l = 3; l <= len; l++) {
+                        p.removeChild(p.childNodes[3])
+                    }
+
+
+                    div2.appendChild(p)
+                    console.log(params)
+
+                }
+            }
+            // console.log(params)
+            // } else {
+            //     data = ev.dataTransfer.getData("Text");//p标签的id，如drag1
+            //     var p = document.getElementById(data);//p标签，也就是父容器的对象
+            //     var div_id = data + "_params"
+            //     var frameDiv = document.getElementById(div_id)
+            //     p.removeChild(frameDiv)
+            //     index = p.childNodes[1].value;
+            //     p.removeChild(document.getElementById(index + "_button"));
+            //     p.removeChild(document.getElementById(index + "_result"))
+            //     ev.target.appendChild(document.getElementById(data));//将这个p标签放入父容器
+            //
+            // }
+            console.log(params)
+
+        }
+    </script>
 </head>
 <body>
+<iframe src="header.html" width="100%" height="41px" frameborder=0></iframe>
+<!--<h> 以上是顶端导航栏</h>-->
 
+<!--<h>以下是侧面导航栏</h>-->
+<div class="container-fluid-full">
+    <div class="row-fluid">
+
+        <!-- start: Main Menu -->
+        <div id="sidebar-left" class="span2">
+
+            <div class="row-fluid actions">
+
+                <input type="text" class="search span12" placeholder="..."/>
+
+            </div>
+
+            <div class="nav-collapse sidebar-nav">
+                <ul class="nav nav-tabs nav-stacked main-menu">
+                    <li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 看板</span></a>
+                    </li>
+                    <li><a href="upload.html"><i class="icon-eye-open"></i><span
+                            class="hidden-tablet"> 文件管理</span></a></li>
+                    <li><a href="widgets.html"><i class="icon-dashboard"></i><span
+                            class="hidden-tablet"> 窗口小部件</span></a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">样图</span>
+                            <span class="label">3</span></a>
+                        <ul>
+                            <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                    class="hidden-tablet"> 基础设置</span></a></li>
+                            <li><a class="submenu" href="messages.html"><i class="icon-envelope"></i><span
+                                    class="hidden-tablet"> 系统消息</span></a></li>
+                            <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                    class="hidden-tablet"> 任务</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> 表格</span></a></li>
+                    <li><a href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> 图表</span></a>
+                    </li>
+                    <li><a href="typography.html"><i class="icon-font"></i><span
+                            class="hidden-tablet"> 排版样式</span></a></li>
+                    <li><a href="gallery.html"><i class="icon-picture"></i><span
+                            class="hidden-tablet"> 图库</span></a></li>
+                    <li><a href="table.html"><i class="icon-align-justify"></i><span
+                            class="hidden-tablet"> 数据库</span></a></li>
+                    <li><a href="echarts.html"><i class="icon-calendar"></i><span
+                            class="hidden-tablet"> 数据可视化</span></a></li>
+                    <li><a href="file-manager.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 文件管理</span></a>
+                    </li>
+                    <li><a href="to_db.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 录入数据库</span></a>
+                    </li>
+                    <li><a href="selector.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 计算公式</span></a>
+                    </li>
+                    <li><a href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
+                    </li>
+                    <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="format">
+
+
+    <!--<img id="drag1" src="img/avatar.jpg/" draggable="true" ondragstart="drag(event)" />-->
+
+    <span>公式列表 -- 请选择计算项 ：</span></br></br></br>
+    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+
+        <!--<div weight="50px " height="30px" style="padding-right: 20px">-->
+        <p id="drag1" draggable="true" ondragstart="drag(event)"
+           style="height: 60px">
+            <button value="调节水量">调节水量</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+
+        <p id="drag2" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="净化水质">净化水质</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag3" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="防止土壤侵蚀">防止土壤侵蚀</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag4" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="植被固碳">植被固碳</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag5" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="释放氧气">释放氧气</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag6" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="吸收SO2">吸收SO2</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag7" draggable="true" ondragstart="drag(event)"
+           style="height: 60px">
+            <button value="吸收氟化物">吸收氟化物</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+
+        <p id="drag8" draggable="true" ondragstart="drag(event)"
+           style="height: 60px">
+            <button value="吸收氮氧化物">吸收氮氧化物</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag9" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="吸收重金属">吸收重金属</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag10" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="滞尘">滞尘</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag11" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="释放负离子">释放负离子</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag12" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="牧场防护">牧场防护</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag13" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="农田防护">农田防护</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag14" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="物种保育价值">物种保育价值</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag15" draggable="true" ondragstart="drag(event)"
+           style="height: 60px ">
+            <button value="森林生态资产">森林生态资产</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+        <p id="drag16" draggable="true" ondragstart="drag(event)"
+           style="height: 60px">
+            <button value="储存碳价值">储存碳价值</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+
+
+    </div>
+    <!--<br/>-->
+    <p>将需要计算的计算项拖到此处 ：</p>
+    <!--//-->
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+    </div>
+</div>
 </body>
 </html>

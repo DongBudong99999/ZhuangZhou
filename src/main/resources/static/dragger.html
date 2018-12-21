@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        #div1 {
+            width: 198px;
+            height: 66px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+
+        #div2 {
+            width: 500px;
+            height: 66px;
+            padding: 10px;
+            border: 0px solid #aaaaaa;
+        }
+    </style>
+    <script type="text/javascript">
+        var params = new Array()
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+
+        function drag(ev) {
+            ev.dataTransfer.setData("Text", ev.target.id);
+            console.log(params.toString())
+
+            var index = ev.target.value;
+            var flag = params.indexOf(index)
+            if (flag >= 0) {
+                console.log(index + "存在，去掉")
+                params.remove(index)
+
+            } else {
+                console.log(index + "不存在，添加")
+                params.push(index)
+            }
+            console.log(params)
+        }
+
+        Array.prototype.remove = function (val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("Text");
+            ev.target.appendChild(document.getElementById(data));
+
+
+        }
+    </script>
+</head>
+<body>
+
+<p>请选择计算项 ：</p>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<br/>
+<!--<img id="drag1" src="img/avatar.jpg/" draggable="true" ondragstart="drag(event)" />-->
+
+
+<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <button id="drag1" value="涵养水源" draggable="true" ondragstart="drag(event)">涵养水源</button>
+    <button id="drag2" value="净化大气" draggable="true" ondragstart="drag(event)">净化大气</button>
+    <button id="drag3" value="吸收有害气体" draggable="true" ondragstart="drag(event)">吸收有害气体</button>
+
+</div>
+</body>
+</html>

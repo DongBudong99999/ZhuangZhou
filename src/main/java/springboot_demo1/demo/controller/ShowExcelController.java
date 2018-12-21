@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-public class uploadController {
+public class ShowExcelController {
     //给方法获取
     @RequestMapping(value = "/upload/getPath", method = RequestMethod.POST)
     public String getPath(@RequestBody excel_data e) {
@@ -21,10 +21,8 @@ public class uploadController {
         String source_path = e.getFile_path();
 
         ExcelToHTML eth = new ExcelToHTML();
-
-        String html_path = eth.readExcelToHtml(source_path,
-                "/Users/dongbudong/IdeaProjects/SpringBoot_demo1/src/main/resources/static/excel.html",
-                false);
+        String htmlPosition = "/Users/dongbudong/IdeaProjects/SpringBoot_demo1/src/main/resources/static/excel.html";
+        String html_path = eth.readExcelToHtml(source_path, htmlPosition, false);
         System.out.println(html_path);
         File file = new File("/Users/dongbudong/IdeaProjects/SpringBoot_demo1/src/main/resources/static/excel.html");
 
@@ -36,10 +34,10 @@ public class uploadController {
     public String getParam(@RequestParam("list") List list) {
         if (list != null) {
             System.out.println("后端接收到的参数有：");
-            for(int i=0;i<list.size();i++){
-                System.out.print(list.get(i)+"  ");
+            for (int i = 0; i < list.size(); i++) {
+                System.out.print(list.get(i) + "  ");
             }
-        }else{
+        } else {
             System.out.println("啥也没接到");
         }
 

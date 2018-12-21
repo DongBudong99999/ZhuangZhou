@@ -105,7 +105,7 @@ public class ExcelToHTML {
 //            }
 //----------------
             if (row == null) {
-                sb.append("<tr><td ><nobr> </nobr></td></tr>");
+                sb.append("<tr><td ></td></tr>");//<nobr> </nobr>
                 continue;
             }
             sb.append("<tr>");
@@ -140,7 +140,7 @@ public class ExcelToHTML {
                     dealExcelStyle(wb, sheet, cell, sb);//处理单元格样式
                 }
                 if (rowNum != 2) {
-                    sb.append("><nobr>");
+                    sb.append(">");//<nobr>
                 } else {
 
                     sb.append(">\n" +
@@ -157,7 +157,7 @@ public class ExcelToHTML {
                 }
 //                sb.append("</nobr></td>");
                 if (rowNum != 2) {
-                    sb.append("</nobr></td>");
+                    sb.append("</td>");//</nobr>
                 } else {
                     sb.append("</label>\n" +
                             "                </div>\n" +
@@ -433,6 +433,13 @@ public class ExcelToHTML {
      */
     private static void writeFile(String content, String htmlPath) {
         File file2 = new File(htmlPath);
+//
+        if(file2.exists()){
+            file2.delete();
+        }
+//
+
+
         StringBuilder sb = new StringBuilder();
         try {
             file2.createNewFile();//创建文件
@@ -487,6 +494,7 @@ public class ExcelToHTML {
                     "        }\n" +
                     "    </style>\n" +" <script type=\"text/javascript\">\n" +
                     "\n" +
+                    "alert('表格读取中，请稍后...')"+
                     "        document.onreadystatechange = loadingChange;//当页面加载状态改变的时候执行这个方法.\n" +
                     "        function loadingChange()\n" +
                     "        {\n" +
@@ -499,7 +507,7 @@ public class ExcelToHTML {
                     "    </script>"+
                     "\n" +
                     "</head><body>");
-            sb.append("<div>");
+            sb.append("<button onclick=\"window.location.href('upload.html')\"> 返回首页</button><div>");
             sb.append(content);
             sb.append("</div>");
             sb.append("</body></html>");
