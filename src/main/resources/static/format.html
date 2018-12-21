@@ -170,7 +170,7 @@
         name_params.set(values_name.get("储存碳价值"), ["J碳", "z", "γ", "V", "WDm", "BEFm", "t", "E土壤储碳", "β", "H", "ρ", "R"]);
         var params = new Array()
         var flag
-
+        var paramsMap = {}//存放计算参数列表的map
         function allowDrop(ev) {
             ev.preventDefault();
         }
@@ -220,6 +220,7 @@
                 //index =  调节水源
                 index = p.childNodes[1].value;
 
+
                 var paramArray = name_params.get(values_name.get(index));//获得计算该index指标的各计算项，返回因数列表
                 // document.getElementById(div_id).innerHTML = paramArray;
                 for (var i = 0; i < paramArray.length; i++) {
@@ -231,15 +232,24 @@
                     newInput.setAttribute("id", "param_" + index + "_" + param)//输入框的id为--"param"+i
                     frameDiv.appendChild(newInput);
                     // document.getElementsByName()
-
-                    document.getElementById("param_" + index + "_" + param).value = param + ":";
+                    var temp;
+                    document.getElementById("param_" + index + "_" + param).value = param + "=";
                     newInput.onfocus = function () {
+                        temp = this.value.split("=")[0];
                         this.value = "";
+                        // console.log(temp)
+
 
                     }
                     newInput.onblur = function () {
                         if (!this.value) {
-                            this.value = this.id.split("_")[2] + ":";
+                            this.value = this.id.split("_")[2] + "=";
+                        } else {
+                            var v = this.value
+
+                            paramsMap[temp] = v;
+
+                            console.log(paramsMap)
                         }
                     }
                 }
@@ -249,11 +259,37 @@
                 newButton.innerHTML = "生成结果";
                 p.appendChild(newButton)
                 newButton.onclick = function () {
+                    var indexToCal = this.parentNode.childNodes[1].value;
+                    paramsMap["id"] = indexToCal;
+                    var data1 = JSON.stringify(paramsMap);
+                    console.log(data1)
 
-                    var newResult = document.createElement("button")
-                    newResult.setAttribute("id", index + "_result")
-                    newResult.innerHTML = "123"
-                    p.appendChild(newResult)
+                    $.ajax({
+                        url: "/format",
+                        type: "POST",
+                        data: data1,
+                        // dataType: "json",
+
+                        // contentType: "application/json",
+                        // processData: false,//用于对data参数进行序列化处理 这里必须false
+                        // contentType: false, //必须
+                        headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+                        success: function (res) {
+                            alert("有返回");
+
+                            var newResult = document.createElement("button")
+                            newResult.setAttribute("id", index + "_result")
+
+
+                            newResult.innerHTML = res;
+                            p.appendChild(newResult)
+                        },
+                        error: function (err) {
+                            alert("网络连接失败,稍后重试", err);
+                        }
+
+                    });
+
                 }
                 // 创建删除按钮
                 var deleteButton = document.createElement("button");
@@ -276,7 +312,7 @@
 
 
                     div2.appendChild(p)
-                    console.log(params)
+                    // console.log(params)
 
                 }
             }
