@@ -39,8 +39,12 @@
     <script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
 </head>
 <body>
+
+
+
 <!--<h>以下是侧面导航栏</h>-->
-<div class="container-fluid-full">
+
+<div class="container-fluid-full" style="z-index: 99999;position: relative">
     <div class="row-fluid">
 
         <!-- start: Main Menu -->
@@ -49,13 +53,17 @@
             <div class="row-fluid actions">
 
                 <input type="text" class="search span12" placeholder="..."/>
+                <a></a>
 
             </div>
 
             <div class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
-                    <li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> 看板</span></a>
+                    <li><a href="index.html"><i class="icon-bar-chart"></i><span
+                            class="hidden-tablet"> 首页</span></a>
                     </li>
+                    <li><a href="select_data.html"><i class="icon-eye-open"></i><span
+                            class="hidden-tablet"> 数据查询</span></a></li>
                     <li><a href="upload.html"><i class="icon-eye-open"></i><span
                             class="hidden-tablet"> 文件上传</span></a></li>
                     <li><a href="widgets.html"><i class="icon-dashboard"></i><span
@@ -88,13 +96,16 @@
                     <li><a href="file-manager.html"><i class="icon-folder-open"></i><span
                             class="hidden-tablet"> 文件管理</span></a>
                     </li>
+                    <li><a href="china_map.html"><i class="icon-folder-open"></i><span
+                            class="hidden-tablet"> 地图</span></a>
+                    </li>
                     <li><a href="to_db.html"><i class="icon-folder-open"></i><span
                             class="hidden-tablet"> 录入数据库</span></a>
                     </li>
                     <li><a href="selector.html"><i class="icon-folder-open"></i><span
                             class="hidden-tablet"> 计算公式</span></a>
                     </li>
-                    <li><a href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
+                    <li><a href="register.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
                     </li>
                     <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
                     </li>
@@ -102,9 +113,7 @@
             </div>
         </div>
     </div>
-
-</div>
-<!--<h>一上是侧面导航栏</h>-->
+    <h>一上是侧面导航栏</h>
 
 </body>
 </html>

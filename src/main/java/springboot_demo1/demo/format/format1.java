@@ -18,7 +18,7 @@ public class format1 {
     public static void main(String[] args) throws MWException {
         System.out.println("java.library.path    " + System.getProperty("java.library.path"));
         System.out.println("……………………");
-        System.out.println("环境变量" + System.getenv());
+//        System.out.println("环境变量" + System.getenv());
 
 
 
@@ -31,13 +31,13 @@ public class format1 {
 //        System.load("/Library/Java/Extensions/libmwmclmcrrt.9.3.dylib");//  /Applications/MATLAB_R2017b.app/bin/maci64/libmwmclmcrrt.9.3.dylib
 
 //
-//        try {
-//            System.out.println("***************");
-//            demo d = new demo();
-//        } catch (com.mathworks.toolbox.javabuilder.MWException e) {
-//            e.printStackTrace();
-//
-//        }
+        try {
+
+            demo d = new demo();
+        } catch (com.mathworks.toolbox.javabuilder.MWException e) {
+            e.printStackTrace();
+
+        }
 
     }
 

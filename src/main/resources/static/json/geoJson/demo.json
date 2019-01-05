@@ -1,0 +1,18 @@
+,
+{
+  "type": "Feature",
+  "properties": {
+    "name": "80市"
+  },
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+
+
+        ]
+      ]
+    ]
+  }
+}

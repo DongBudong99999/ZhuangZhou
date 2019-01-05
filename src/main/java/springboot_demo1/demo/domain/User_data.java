@@ -4,9 +4,11 @@ public class User_data {
     public int id;
     public String name;
     public String password;
-    public int age;
+    public String age;
     public String birth;
-    public String sex;
+    public String gender;
+    public String phone;
+    public String email;
 
     public int getId() {
         return id;
@@ -16,12 +18,12 @@ public class User_data {
         this.id = id;
     }
 
-    public String getUsername() {
+    public String getName() {
         return name;
     }
 
-    public void setUsername(String username) {
-        this.name = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -32,11 +34,11 @@ public class User_data {
         this.password = password;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -48,11 +50,29 @@ public class User_data {
         this.birth = birth;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
+
+

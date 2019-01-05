@@ -45,46 +45,98 @@
     -->
     <script type="text/javascript">
         var parameter;
-
+        var startYear;
+        var startMonth;
+        var startDay;
+        var endYear;
+        var endMonth;
+        var endDay;
+        var startDate_string;
+        var startDate;
+        var endDate_string;
+        var endDate;
+        var select_num;
 
         // var data1 = new Array();声明一个数组 - - 备用
         // data1.push(data)
         var selectData = {};
-        var info_list = new Array();
 
-        function getIndex1(id) {
-            var objS = document.getElementById(id);
+        function getIndex1() {
+            var objS = document.getElementById("index1");
             parameter = objS.options[objS.selectedIndex].value;
 
-            var info = id + '="' + parameter+'"';
-            info_list.push(info)
-
-            console.log(info_list)
 
         }
 
-        function getNum(id) {
-            var input = document.getElementById(id);
-            var  num = input.value
-            var numInfo = id+'="'+num+'"';
-            info_list.push(numInfo)
+        function getIndex2() {
+            var objS = document.getElementById("index2");
+            startYear = objS.options[objS.selectedIndex].value;
+            // data.startYear = startYear;
+        }
+
+        function getIndex3() {
+            var objS = document.getElementById("index3");
+            startMonth = objS.options[objS.selectedIndex].value;
+            // data.startMonth = startMonth;
+        }
+
+        function getIndex4() {
+            var objS = document.getElementById("index4");
+            startDay = objS.options[objS.selectedIndex].value;
+            // data.startDay = startDay;
+        }
+
+        function getIndex5() {
+            var objS = document.getElementById("index5");
+            endYear = objS.options[objS.selectedIndex].value;
+            // data.endyear = endYear;
+        }
+
+        function getIndex6() {
+            var objS = document.getElementById("index6");
+            endMonth = objS.options[objS.selectedIndex].value;
+            // data.endMonth = endMonth;
+        }
+
+        function getIndex7() {
+            var objS = document.getElementById("index7");
+            endDay = objS.options[objS.selectedIndex].value;
+            // data.endDay = endDay
 
         }
 
         function select() {
+            parameter = '"' + parameter + '"';
+            startDate = startYear + "-" + startMonth + "-" + startDay;
+            startDate = '"' + startDate + '"';
+            endDate = endYear + "-" + endMonth + "-" + endDay;
+            endDate = '"' + endDate + '"';
+            select_num = '"' + document.getElementById("select_num").value + '"';
+            alert(select_num)
+            selectData = '{"parameter":' + parameter + ',"startDate":' + startDate + ',"endDate":' + endDate + ',"select_num":' + select_num + '}';
+            // alert(selectData)
+            // '{"username":' + username + ',"password":' + password + '}';
+            // selectData = ' {"parameter": "树种", "startDate_string": "2018-6-7", "endDate_string": "2018-4-4"}';
 
             $.ajax({
 
-                url: 'select_info',
+                url: 'selectDataToChart',
                 type: 'POST',
-                data: info_list.toString(),
+                data: selectData,
                 //dataType: 'html',
                 // cache: false,
                 // async: false,
                 headers: {'Content-Type': 'application/json;charset=utf-8'},
 
                 success: function (result) {
-                    console.log(result)
+                    if (result) {
+                        document.cookie = "result=" + result;
+                        window.location.reload();
+
+
+                    } else {
+                        alert("查询失败！！");
+                    }
                 },
                 error: function (err) {
                     alert("网络连接失败,稍后重试", err);
@@ -170,14 +222,13 @@
                             </ul>
                         </a>
                     </li>
-                    <li>
+                     <li>
                         <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
                                 class="hidden-tablet">可视化系统</span>
                             <!--<span class="label">3</span></a>-->
                             <ul style="display: block;">
                                 <li><a class="submenu" href="select_data_tochart.html"><i class="icon-tasks"></i><span
-                                        class="hidden-tablet"><span
-                                        style="color: #9ecaed "> 数据可视化</span></span></a></li>
+                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据可视化</span></span></a></li>
                                 <li><a class="submenu" href="liangshui.html"><i class="icon-hdd"></i><span
                                         class="hidden-tablet"> <span style="color: #9ecaed ">生成地图</span></span></a></li>
                                 <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
@@ -211,143 +262,140 @@
     </div>
 </div>
 <h>一上是侧面导航栏</h>
-<script type="text/javascript">
-    function getParam(id) {
-
-        // alert(id);
-        $.ajax({
-            //传递字符串的情况
-            url: "/getParam",
-            type: "POST",
-            data: id,
-            headers: {'Content-Type': 'text/plain;charset=UTF-8'},
-            success: function (res) {
-                var param_list = document.getElementById(id)
-
-                // console.log(res)
-                if (param_list.options.length < 1) {
-                    for (var i = 0; i < res.length; i++) {
-
-                        param_list.options.add(new Option(res[i], res[i]));
-                    }
-                }
-
-            },
-            error: function (err) {
-                alert("网络连接失败,请检查网络配置", err);
-            }
-
-        });
-
-    }
-</script>
 
 
 <!-- start: Content -->
-<div id="content" class="span10"
-     style="  z-index: 1100;width: 1400px;  float: left; position: absolute; left: 13%; top: 8%;">
+<div id="content" class="span10" style="z-index: 1100;  float: left; position: absolute; left: 20%; top: 8%;">
 
     <div class="row-fluid">
+        <li class="dropdown hidden-phone open">
+            <span style="color:black;font-size:16px ;border:white">参数：</span>
+            <select id="index1" style="width: 80px" onchange="getIndex1()">
+                <option value="树高">树高</option>
+                <option value="密度">密度</option>
+                <option value="树种">树种</option>
+                <option value="每公顷株数">每公顷株数</option>
 
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">林分类型 : </span>
-            <select id="林分类型" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">林班号 : </span>
-            <select id="林班号" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">小班号 : </span>
-            <select id="小班号" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">坡向 : </span>
-            <select id="坡向" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">坡度 : </span>
-            <select id="坡度" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">平均树高 : </span>
-            <select id="平均树高" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">龄级 : </span>
-            <select id="龄级" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">胸径 : </span>
-            <select id="胸径" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
+            </select>
+            <span style="color:black;font-size:16px ;border:white;margin-left: 30px">起始时间:</span>
+            <span style="color:black;font-size:16px ;border:white">年</span>
+            <select id="index2" style="width: 80px" onchange="getIndex2()">
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+            </select>
+            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
+            <select id="index3" style="width: 40px" onchange="getIndex3()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
+            <select id="index4" style="width: 40px" onchange="getIndex4()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+            </select>
+            <span style="color:black;font-size:16px ;border:white;margin-left: 30px">至</span>
+            <span style="color:black;font-size:16px ;border:white;margin-left: 30px">结束时间:</span>
+            <span style="color:black;font-size:16px ;border:white">年</span>
+            <select id="index5" style="width: 80px" onchange="getIndex5()">
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+            </select>
+            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
+            <select id="index6" style="width: 40px" onchange="getIndex6()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
+            <select id="index7" style="width: 40px" onchange="getIndex7()">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+            </select>
 
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">立地类型 : </span>
-            <select id="立地类型" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">每公顷株数 : </span>
-            <select id="每公顷株数" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">小班蓄积 : </span>
-            <select id="小班蓄积" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">坡位 : </span>
-            <select id="坡位" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">郁闭度 : </span>
-            <select id="郁闭度" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">面积 : </span>
-            <select id="面积" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">地位级 : </span>
-            <select id="地位级" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">操作时间 : </span>
-            <select id="操作时间" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
-        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
-            <span style="color:black;font-size:16px ;border:white">龄组 : </span>
-            <select id="龄组" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </li>
+        输入查询条数：<input type="text" id="select_num">
+        <button onclick="select()">查询</button>
+        <p>&nbsp;</p>
 
 
-        <div style="display: inline">
-            <span style="color:black;font-size:16px ;border:white">查询条数：</span>
-            <input type="text" id="查询条数" onchange="getNum(this.id)">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button onclick="select()">查询</button>
-            <p>&nbsp;</p>
-        </div>
-
-
-        <!--<iframe src="line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+        <iframe src="line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>
         <br>
         <br>
     </div>

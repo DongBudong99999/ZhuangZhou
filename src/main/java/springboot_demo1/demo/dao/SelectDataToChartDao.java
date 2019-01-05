@@ -26,7 +26,7 @@ public class SelectDataToChartDao {
         System.out.println(
                 selectdata.select_num
         );
-        String sql = "select " + parameter + " from table1 limit 0," + selectdata.select_num + ";";
+        String sql = "select " + parameter + " from user_xb_data limit 0," + selectdata.select_num + ";";
         System.out.println(sql);
 
         linkMysql linkmysql = new linkMysql();

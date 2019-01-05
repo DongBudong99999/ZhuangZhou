@@ -25,16 +25,15 @@ public class loginDao {
             String password_fromdata = resultSet.getString("password");
             if (password_fromdata.equals(password)) {
                 System.out.println("验证成功");
-                user_data.setUsername(username);
+                user_data.setName(username);
                 user_data.setPassword(password_fromdata);
-                user_data.setAge(resultSet.getInt("age"));
+                user_data.setAge(resultSet.getString("age"));
                 user_data.setBirth(resultSet.getString("birth"));
-                user_data.setSex(resultSet.getString("sex"));
+                user_data.setGender(resultSet.getString("gender"));
                 userlist.add(user_data);
 
                 return userlist;
-            }
-            else{
+            } else {
                 System.out.println("验证失败");
             }
 
