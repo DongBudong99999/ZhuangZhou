@@ -43,108 +43,215 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
+
+    <style type="text/css">
+
+        .show_div{
+            position: absolute;
+            top: 10%;
+        }
+    </style>
+
     <script type="text/javascript">
+        <!--用于存放查询结果-->
+        var selectResult;
         var parameter;
-        var startYear;
-        var startMonth;
-        var startDay;
-        var endYear;
-        var endMonth;
-        var endDay;
-        var startDate_string;
-        var startDate;
-        var endDate_string;
-        var endDate;
-        var select_num;
+        //数据库表头，用于添加"显示指数"
+        // var titleList = new Array()
 
-        // var data1 = new Array();声明一个数组 - - 备用
-        // data1.push(data)
-        var selectData = {};
+        var showIndexList = ["平均树高", "坡度", "郁闭度", "胸径", "每公顷株数", "小班蓄积", "面积"]
+        var keyMap_str = "平均树高:pingjunshugao,坡度:podu,郁闭度:yubidu,胸径:xiongjing,每公顷株数:meigongqingzhushu,小班蓄积:xiaobanxuji,面积:mianji"
+        // var keyMap = eval('(' + keyMap_str + ')');
+        var keyMapList = new Array();
+        var keyMapList = keyMap_str.split(",");
 
-        function getIndex1() {
-            var objS = document.getElementById("index1");
+        var info_list = new Array();
+        var id_list = new Array();
+        var time = 0;
+
+
+        //获取选择的选项及相应值，传给后段拼接sql
+        function getIndex1(id) {
+            console.log(id_list)
+            for (var index = 0; index < id_list.length; index++) {
+                if (id_list[index].indexOf(id) >= 0) {
+                    // console.log(id+"重复项为："+index);
+                    console.log("已存在 " + id_list[index])
+                    //将参数列表中 已含有此id的字段都删除
+
+                    for (var p = 0; p < info_list.length; p++) {
+                        if (info_list[p].indexOf(id_list[index]) >= 0) {
+                            info_list.splice(p, 1)
+                        }
+                    }
+
+                }
+            }
+            var objS = document.getElementById(id);
+
             parameter = objS.options[objS.selectedIndex].value;
 
+            // info_list.remove(id + '="' + parameter + '"')
+            var info = id + '="' + parameter + '"';
+            info_list.push(info)
+            id_list.push(id)
+            console.log(info_list)
 
         }
 
-        function getIndex2() {
-            var objS = document.getElementById("index2");
-            startYear = objS.options[objS.selectedIndex].value;
-            // data.startYear = startYear;
-        }
+        // 获取用户输入的值传给后段
 
-        function getIndex3() {
-            var objS = document.getElementById("index3");
-            startMonth = objS.options[objS.selectedIndex].value;
-            // data.startMonth = startMonth;
-        }
+        function getNum(id) {
+            for (var i = 0; i < info_list.length; i++) {
 
-        function getIndex4() {
-            var objS = document.getElementById("index4");
-            startDay = objS.options[objS.selectedIndex].value;
-            // data.startDay = startDay;
-        }
+                if (info_list[i].split("=")[0].indexOf("查询条数") >= 0) {
+                    // info_list 中已经含有"查询条数"这项，将该项删除
+                    info_list.splice(i, 1)
 
-        function getIndex5() {
-            var objS = document.getElementById("index5");
-            endYear = objS.options[objS.selectedIndex].value;
-            // data.endyear = endYear;
-        }
 
-        function getIndex6() {
-            var objS = document.getElementById("index6");
-            endMonth = objS.options[objS.selectedIndex].value;
-            // data.endMonth = endMonth;
-        }
+                }
+            }
 
-        function getIndex7() {
-            var objS = document.getElementById("index7");
-            endDay = objS.options[objS.selectedIndex].value;
-            // data.endDay = endDay
+            var input = document.getElementById(id);
+            var num = input.value
+            var numInfo = id + '="' + num + '"';
+            info_list.push(numInfo)
+            // alert(info_list.length)
+            console.log(info_list)
 
         }
+
+        // 传递结果集给图表
+        var resultListToChart = new Array();
+
+        //获取可视化图表显示指数，传给后端拼接sql
+        function getShowIndex(id) {
+            //获取从查询结果中挑选用于展示的index，获取该项数据
+            var indexToShow;
+            // alert("显示指数");
+            console.log(document.getElementById(id).value)
+            var key = document.getElementById(id).value;
+            for (var a = 0; a < keyMapList.length; a++) {
+                if (keyMapList[a].split(":")[0] == key) {
+
+                    indexToShow = keyMapList[a].split(":")[1]
+                    console.log(indexToShow)
+
+
+                }
+            }
+
+            var temp;
+            for (var k = 0; k < selectResult.length; k++) {
+                // var l = selectResult[k].toString.split(",")
+                //  console.log(l)
+                //结果集中遍历 提取显示参数的值，存入列表传给列表
+                // console.log(selectResult[k][indexToShow.toString()])
+                temp = parseInt(selectResult[k][indexToShow.toString()])
+                // console.log(temp)
+                resultListToChart.push(temp)
+
+            }
+
+
+        }
+
+        function show() {
+            if (resultListToChart) {
+                document.cookie = "result=" + resultListToChart;
+                window.location.reload();
+            }
+        }
+
+        //获取可视化图表显示的·指数
+        function showIndex(id) {
+
+            var showIndex = document.getElementById(id)
+
+            // console.log(res)
+            if (showIndex.options.length < 1) {
+                showIndex.options.add(new Option("----请选择----", "请选择"));
+                for (var i = 0; i < showIndexList.length; i++) {
+
+                    showIndex.options.add(new Option(showIndexList[i], showIndexList[i]));
+                }
+            }
+
+
+        }
+
+        function getLength(json) {
+            var jsonLength = 0;
+            for (var i in json) {
+                jsonLength++;
+            }
+            return jsonLength;
+        }
+
+        var l = ["linfenleixing"];
 
         function select() {
-            parameter = '"' + parameter + '"';
-            startDate = startYear + "-" + startMonth + "-" + startDay;
-            startDate = '"' + startDate + '"';
-            endDate = endYear + "-" + endMonth + "-" + endDay;
-            endDate = '"' + endDate + '"';
-            select_num = '"' + document.getElementById("select_num").value + '"';
-            alert(select_num)
-            selectData = '{"parameter":' + parameter + ',"startDate":' + startDate + ',"endDate":' + endDate + ',"select_num":' + select_num + '}';
-            // alert(selectData)
-            // '{"username":' + username + ',"password":' + password + '}';
-            // selectData = ' {"parameter": "树种", "startDate_string": "2018-6-7", "endDate_string": "2018-4-4"}';
 
             $.ajax({
 
-                url: 'selectDataToChart',
+                url: 'select_info',
                 type: 'POST',
-                data: selectData,
+                data: info_list.toString(),
                 //dataType: 'html',
                 // cache: false,
                 // async: false,
                 headers: {'Content-Type': 'application/json;charset=utf-8'},
 
                 success: function (result) {
-                    if (result) {
-                        document.cookie = "result=" + result;
-                        window.location.reload();
-
-
+                    if (result.length < 1) {
+                        alert("无符合条件的记录");
                     } else {
-                        alert("查询失败！！");
+
+                        selectResult = result;
+
+
                     }
+
                 },
                 error: function (err) {
-                    alert("网络连接失败,稍后重试", err);
+                    alert("查询失败", err);
                 }
             });
+
         }
 
 
+    </script>
+    <script type="text/javascript">
+        function getParam(id) {
+
+            // alert(id);
+            $.ajax({
+                //传递字符串的情况
+                url: "/getParam",
+                type: "POST",
+                data: id,
+                headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+                success: function (res) {
+                    var param_list = document.getElementById(id)
+
+                    // console.log(res)
+                    if (param_list.options.length < 1) {
+                        param_list.options.add(new Option("----请选择----", "请选择"));
+                        for (var i = 0; i < res.length; i++) {
+
+                            param_list.options.add(new Option(res[i], res[i]));
+                        }
+                    }
+
+                },
+                error: function (err) {
+                    alert("网络连接失败,请检查网络配置", err);
+                }
+
+            });
+
+        }
     </script>
 </head>
 
@@ -228,7 +335,8 @@
                             <!--<span class="label">3</span></a>-->
                             <ul style="display: block;">
                                 <li><a class="submenu" href="select_data_tochart.html"><i class="icon-tasks"></i><span
-                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据可视化</span></span></a></li>
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 数据可视化</span></span></a></li>
                                 <li><a class="submenu" href="liangshui.html"><i class="icon-hdd"></i><span
                                         class="hidden-tablet"> <span style="color: #9ecaed ">生成地图</span></span></a></li>
                                 <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
@@ -265,140 +373,147 @@
 
 
 <!-- start: Content -->
-<div id="content" class="span10" style="z-index: 1100;  float: left; position: absolute; left: 20%; top: 8%;">
+<!--<div id="1" class="span10" style="z-index: 1100;  float: left; position: absolute; left: 20%; top: 8%;">-->
+
+<!--<div class="row-fluid">-->
+<!--<li class="dropdown hidden-phone open">-->
+<!--<span style="color:black;font-size:16px ;border:white">参数：</span>-->
+<!--<select id="index1" style="width: 80px" onchange="getIndex1()">-->
+<!--<option value="树高">树高</option>-->
+<!--<option value="密度">密度</option>-->
+<!--<option value="树种">树种</option>-->
+<!--<option value="每公顷株数">每公顷株数</option>-->
+
+<!--</select>-->
+
+
+<!--</li>-->
+<!--输入查询条数：<input type="text" id="select_num">-->
+<!--<button onclick="select()">查询</button>-->
+<!--<p>&nbsp;</p>-->
+
+
+<!--<iframe src="line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+<!--<br>-->
+<!--<br>-->
+<!--</div>-->
+<!--</div>-->
+<div id="content" class="span10"
+     style="  z-index: 1100;width: 1400px;  float: left; position: absolute; left: 13%; top: 8%;">
 
     <div class="row-fluid">
-        <li class="dropdown hidden-phone open">
-            <span style="color:black;font-size:16px ;border:white">参数：</span>
-            <select id="index1" style="width: 80px" onchange="getIndex1()">
-                <option value="树高">树高</option>
-                <option value="密度">密度</option>
-                <option value="树种">树种</option>
-                <option value="每公顷株数">每公顷株数</option>
 
-            </select>
-            <span style="color:black;font-size:16px ;border:white;margin-left: 30px">起始时间:</span>
-            <span style="color:black;font-size:16px ;border:white">年</span>
-            <select id="index2" style="width: 80px" onchange="getIndex2()">
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-            </select>
-            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
-            <select id="index3" style="width: 40px" onchange="getIndex3()">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>
-            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
-            <select id="index4" style="width: 40px" onchange="getIndex4()">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-                <option value="31">31</option>
-            </select>
-            <span style="color:black;font-size:16px ;border:white;margin-left: 30px">至</span>
-            <span style="color:black;font-size:16px ;border:white;margin-left: 30px">结束时间:</span>
-            <span style="color:black;font-size:16px ;border:white">年</span>
-            <select id="index5" style="width: 80px" onchange="getIndex5()">
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-            </select>
-            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">月</span>
-            <select id="index6" style="width: 40px" onchange="getIndex6()">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>
-            <span style="color:black;font-size:16px ;border:white;margin-left: 10px">日</span>
-            <select id="index7" style="width: 40px" onchange="getIndex7()">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="29">29</option>
-                <option value="30">30</option>
-                <option value="31">31</option>
-            </select>
-
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">林分类型 : </span>
+            <select id="林分类型" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </li>
-        输入查询条数：<input type="text" id="select_num">
-        <button onclick="select()">查询</button>
-        <p>&nbsp;</p>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">林班号 : </span>
+            <select id="林班号" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">小班号 : </span>
+            <select id="小班号" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">坡向 : </span>
+            <select id="坡向" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">坡度 : </span>
+            <select id="坡度" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">平均树高 : </span>
+            <select id="平均树高" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">龄级 : </span>
+            <select id="龄级" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">胸径 : </span>
+            <select id="胸径" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">立地类型 : </span>
+            <select id="立地类型" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">每公顷株数 : </span>
+            <select id="每公顷株数" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">小班蓄积 : </span>
+            <select id="小班蓄积" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">坡位 : </span>
+            <select id="坡位" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">郁闭度 : </span>
+            <select id="郁闭度" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">面积 : </span>
+            <select id="面积" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">地位级 : </span>
+            <select id="地位级" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">操作时间 : </span>
+            <select id="操作时间" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+        <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+            <span style="color:black;font-size:16px ;border:white">龄组 : </span>
+            <select id="龄组" style="width: 80px" onchange="getIndex1(this.id)" onclick="getParam(this.id)"></select>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </li>
+
+
+        <div  class="show_div" style="display: inline ;float: left">
+            <span style="color:black;font-size:16px ;border:white">查询条数：</span>
+            <input type="text" id="查询条数" onchange="getNum(this.id)">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button onclick="select()">查询</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+                <span style="color:black;font-size:16px ;border:white">显示指数 : </span>
+                <select id="显示指数" style="width: 80px" onchange="getShowIndex(this.id)"
+                        onclick="showIndex(this.id)"></select>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </li>
+            <button onclick="show()">生成图表</button>
+
+        </div>
 
 
         <iframe src="line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>
         <br>
         <br>
     </div>
+
 </div>
 
 

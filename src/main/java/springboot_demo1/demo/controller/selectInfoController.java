@@ -20,11 +20,26 @@ public class selectInfoController {
     public List getInfo(@RequestBody String s) throws Exception {
         selectInfoService si = new selectInfoService();
         List info_list = si.getInfo(s);
+
         for(int i=0;i<info_list.size();i++){
             System.out.println(info_list.get(i));
         }
-
         return info_list;
+
+
+    }
+    @RequestMapping(value = "/getTitle", method = RequestMethod.POST)
+
+    public List getTitle() throws Exception {
+        System.out.println("gettitle");
+        selectInfoService si = new selectInfoService();
+       List titleList =  si.getTitle();
+
+//
+//        for(int i=0;i<titleList.size();i++){
+//            System.out.println(titleList.get(i));
+//                  }
+        return titleList;
 
 
     }

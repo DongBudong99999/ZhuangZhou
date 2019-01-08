@@ -43,33 +43,102 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
+    <style type="text/css">
+        .div_table {
+            position: absolute;
+            top: 15%;
+
+        }
+    </style>
     <script type="text/javascript">
         var parameter;
+        var titleList = new Array()
+        //获取表头，查询的数据是数据表的列名
+        $.ajax({
+
+            url: 'getTitle',
+            type: 'POST',
+
+            //dataType: 'html',
+            // cache: false,
+            // async: false,
+            headers: {'Content-Type': 'application/json;charset=utf-8'},
+
+            success: function (title) {
+                console.log(title)
 
 
-        // var data1 = new Array();声明一个数组 - - 备用
-        // data1.push(data)
-        var selectData = {};
+            },
+            error: function (err) {
+                alert("表头获取失败", err);
+            }
+        });
+
         var info_list = new Array();
+        var id_list = new Array();
+        var time = 0;
 
         function getIndex1(id) {
+            console.log(id_list)
+            for (var index = 0; index < id_list.length; index++) {
+                if (id_list[index].indexOf(id) >= 0) {
+                    // console.log(id+"重复项为："+index);
+                    console.log("已存在 " + id_list[index])
+                    //将参数列表中 已含有此id的字段都删除
+
+                    for (var p = 0; p < info_list.length; p++) {
+                        if (info_list[p].indexOf(id_list[index]) >= 0) {
+                            info_list.splice(p, 1)
+                        }
+                    }
+
+                }
+            }
             var objS = document.getElementById(id);
+
             parameter = objS.options[objS.selectedIndex].value;
 
-            var info = id + '="' + parameter+'"';
+            // info_list.remove(id + '="' + parameter + '"')
+            var info = id + '="' + parameter + '"';
             info_list.push(info)
-
+            id_list.push(id)
             console.log(info_list)
 
         }
 
+        // 获取用户输入的值传给后段
+
         function getNum(id) {
+            for (var i = 0; i < info_list.length; i++) {
+
+                if (info_list[i].split("=")[0].indexOf("查询条数")>=0) {
+                 // info_list 中已经含有"查询条数"这项，将该项删除
+                    info_list.splice(i, 1)
+
+
+                }
+            }
+
             var input = document.getElementById(id);
-            var  num = input.value
-            var numInfo = id+'="'+num+'"';
+            var num = input.value
+            var numInfo = id + '="' + num + '"';
             info_list.push(numInfo)
+            // alert(info_list.length)
+            console.log(info_list)
 
         }
+
+        var demo;
+
+        function getLength(json) {
+            var jsonLength = 0;
+            for (var i in json) {
+                jsonLength++;
+            }
+            return jsonLength;
+        }
+
+        var l = ["linfenleixing"];
 
         function select() {
 
@@ -84,10 +153,67 @@
                 headers: {'Content-Type': 'application/json;charset=utf-8'},
 
                 success: function (result) {
-                    console.log(result)
+                    if (result.length < 1) {
+                        alert("无符合条件的记录");
+                    } else {
+                        // console.log(result);
+
+                        demo = result[1];
+                        var td_length = getLength(demo)
+                        var length = result.length + 1
+                        var div_table = document.getElementById("div_table");
+
+                        if (document.getElementById("table")) {
+                            var table = document.getElementById("table")
+                            table.parentNode.removeChild(table);
+                            // document.getElementById("table").remove(document.getElementById("table").childNodes[0])
+                        }
+
+
+                        var table = document.createElement("table");
+                        table.setAttribute("id", "table")
+
+                        var tr = document.createElement("tr")
+
+                        tr.setAttribute("id", "table_0")
+                        for (var j = 0; j < td_length; j++) {
+                            var td = document.createElement("td")
+                            td.style.width = "80px"
+                            td.innerHTML = titleList[j]
+
+                            tr.appendChild(td)
+                            table.appendChild(tr)
+                            div_table.appendChild(table)
+
+                        }
+                        //i表示行数
+                        for (var i = 1; i < length; i++) {
+                            // if (i = 0) {
+                            var tr = document.createElement("tr")
+
+                            tr.setAttribute("id", "table_" + i)
+                            var each_info_str = JSON.stringify(result[i - 1])
+                            // console.log((each_info_str))
+
+                            //j表示列数
+                            for (var j = 0; j < td_length; j++) {
+                                var td = document.createElement("td")
+
+                                td.innerHTML = each_info_str.split(",")[j].split(":")[1].replace("\"", "").replace("\"", "").replace("}", "");
+
+                                tr.appendChild(td)
+                            }
+                            table.appendChild(tr)
+
+
+
+                        }
+                        div_table.appendChild(table)
+                    }
+
                 },
                 error: function (err) {
-                    alert("网络连接失败,稍后重试", err);
+                    alert("查询失败", err);
                 }
             });
         }
@@ -226,6 +352,7 @@
 
                 // console.log(res)
                 if (param_list.options.length < 1) {
+                    param_list.options.add(new Option("----请选择----", "请选择"));
                     for (var i = 0; i < res.length; i++) {
 
                         param_list.options.add(new Option(res[i], res[i]));
@@ -351,6 +478,7 @@
         <br>
         <br>
     </div>
+    <div id="div_table" class="div_table" style=" height: 750px; overflow:auto"></div>
 </div>
 
 

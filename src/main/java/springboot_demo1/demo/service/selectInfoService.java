@@ -13,4 +13,10 @@ public class selectInfoService {
         List info_list = sid.getInfo(s);
         return info_list;
     }
+
+    public List getTitle() throws Exception {
+        selectInfoDao sid = new selectInfoDao();
+        List titleList = sid.getTitle();
+        return titleList;
+    }
 }

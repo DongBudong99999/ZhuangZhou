@@ -12,11 +12,29 @@ public class selectInfo {
 
     public String lidileixing;
     public String meigongqingzhushu;
+    public String xiaobanxuji;
     public String powei;
     public String yubidu;
     public String mianji;
     public String diweiji;
     public String caozuoshijian;
+    public String lingzu;
+
+    public String getXiaobanxuji() {
+        return xiaobanxuji;
+    }
+
+    public void setXiaobanxuji(String xiaobanxuji) {
+        this.xiaobanxuji = xiaobanxuji;
+    }
+
+    public String getLingzu() {
+        return lingzu;
+    }
+
+    public void setLingzu(String lingzu) {
+        this.lingzu = lingzu;
+    }
 
     public String getLinfenleixing() {
         return linfenleixing;
@@ -151,11 +169,13 @@ public class selectInfo {
                 ", xiongjing='" + xiongjing + '\'' +
                 ", lidileixing='" + lidileixing + '\'' +
                 ", meigongqingzhushu='" + meigongqingzhushu + '\'' +
+                ", xiaobanxuji='" + xiaobanxuji + '\'' +
                 ", powei='" + powei + '\'' +
                 ", yubidu='" + yubidu + '\'' +
                 ", mianji='" + mianji + '\'' +
                 ", diweiji='" + diweiji + '\'' +
                 ", caozuoshijian='" + caozuoshijian + '\'' +
+                ", lingzu='" + lingzu + '\'' +
                 '}';
     }
 }
