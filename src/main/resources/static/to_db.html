@@ -1,15 +1,10 @@
-<!--<!DOCTYPE html> 不知道为啥 有这个就显示不出来侧面工具栏-->
-<html>
-<html lang="en">
+﻿<html>
 <head>
     <meta charset="UTF-8">
-    <title>input—data part</title>
-    <!-- html 5 的编码设置方式 -->
-    <meta charset="UTF-8">
-    <!-- start: Mobile Specific -->
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- end: Mobile Specific -->
 
+    <!-- start: CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
     <link href="css/style.min.css" rel="stylesheet"/>
@@ -22,10 +17,12 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <link rel="stylesheet" href="js/jquery-ui-1.10.3.custom.min.js"
     <![endif]-->
 
     <!--[if IE 9]>
     <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <![endif]-->
 
     <!-- start: Favicon and Touch Icons -->
@@ -39,22 +36,204 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
-    <script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
-    <!--
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    -->
+    <!--https://malsup.github.io/jquery.form.js-->
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <!--<script src="echarts2.0.js"></script>-->
+    <script src="echarts.min3.js"></script>
+    <!--<script src="js/bmap.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>-->
+    <script type="text/javascript" src="js/china.js"></script>
+    <style type="text/css">
+
+        .params {
+            position: absolute;
+            top: 8%;
+            left: 80%;
+            width: 400px;
+            height: 900px;
+            scrollbar-3d-light-color: grey;
+            overflow: scroll;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $.get('json/geoJson/凉水2009.json', function (hkJson) {
+            echarts.registerMap('hk', hkJson);
+            var chart = echarts.init(document.getElementById('main'));
+            chart.setOption(option = {
+                title: {
+                    text: '凉水实验林场林分地区分布',
+                    // subtext: '林分区域分布图',
+                    // sublink: 'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'cilck',
+                    formatter: '{b}<br/>{c} (p / km2)'
+
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature: {
+                        dataView: {readOnly: false},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                visualMap: {
+                    type: 'piecewise',
+                    min: 800,
+                    max: 50000,
+                    text: ['High', 'Low'],
+                    realtime: false,
+                    calculable: true,
+                    inRange: {
+                        color: ['lightskyblue', 'yellow', 'orangered']
+                    }
+                }
+                ,
+                series: [
+                    {
+                        zoom: '1.2',
+                        map: 'hk',
+                        name: '香港18区人口密度',
+                        type: 'map',
+                        mapType: 'HK', // 自定义扩展图表类型
+                        itemStyle: {
+                            normal: {label: {show: true}},
+                            emphasis: {label: {show: true}}
+                        },
+                        data: [
+                            {name: '红松', value: 40500, value2: 1024},
+                            {name: '针阔混交林', value: 30000, value2: 1024},
+                            {name: '针叶混交林', value: 35000, value2: 1024},
+                            {name: '软阔叶混交林', value: 20000, value2: 1024},
+                            {name: '针叶混交林(红松)', value: 25000, value2: 1024},
+                            {name: '杨树林', value: 10000, value2: 1024},
+                            {name: '人工落叶松林', value: 2000, value2: 1024}
+                        ]
+                        //         // // 自定义名称映射
+                        // nameMap: {
+                        //     'Central and Western': '中西区',
+                        //     'Eastern': '东区',
+                        //     'Islands': '离岛',
+                        //     'Kowloon City': '九龙城',
+                        //     'Kwai Tsing': '葵青',
+                        //     'Kwun Tong': '观塘',
+                        //     'North': '北区',
+                        //     'Sai Kung': '西贡',
+                        //     'Sha Tin': '沙田',
+                        //     'Sham Shui Po': '深水埗',
+                        //     'Southern': '南区',
+                        //     'Tai Po': '大埔',
+                        //     'Tsuen Wan': '荃湾',
+                        //     'Tuen Mun': '屯门',
+                        //     'Wan Chai': '湾仔',
+                        //     'Wong Tai Sin': '黄大仙',
+                        //     'Yau Tsim Mong': '油尖旺',
+                        //     'Yuen Long': '元朗'
+                        // }
+                    }
+                ]
+
+
+            });
+            chart.on('click', function (params) {
+                var kind = (params.name);
+                document.getElementById("main").style.width = 1000 + "px";
+                res = {};
+                $.ajax({
+                    //传递字符串的情况
+                    url: "/input_data",
+                    type: "POST",
+                    data: kind,
+                    headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+                    success: function (res) {
+                        // alert(res[1]);
+
+                        var param_div = document.getElementById("params");
+                        var table = document.getElementById("table");
+                        var button = document.getElementById("button_div")
+                        if (table) {
+                            param_div.removeChild(table)
+                            param_div.removeChild(button)
+                        } else {
+
+                            var table = document.createElement('table');
+                            table.setAttribute("id", "table")
+                            for (var i = 0; i < res.length; i++) {
+
+
+                                var tr = document.createElement('tr');
+                                tr.style.height = "50px";
+                                tr.innerHTML = res[i] + " :      ";
+                                var input = document.createElement('input');
+                                input.setAttribute("id", res[i])
+                                tr.appendChild(input)
+                                table.appendChild(tr)
+                                param_div.appendChild(table);
+
+                            }
+
+                            var id_input = document.getElementById("林分类型");
+                            id_input.value = kind;
+                            var button = document.createElement("button")
+                            button.setAttribute("id", "button_div")
+                            button.innerHTML = "录入数据库";
+
+                            param_div.appendChild(button);
+                            button.onclick = function () {
+                                var tr = $("#table tr");
+                                // alert(tr.length)
+                                var result = new Array();
+                                for (var i = 0; i < tr.length; i++) {// 遍历表格中每一行的内容
+                                    var value = '"'+$(tr[i]).find("input").val()+'"';
+                                    if (value == '""') {
+                                        value = '"null"'
+                                    }
+                                    result[i] = value;
+                                }
+                                console.log(result)
+                                var jsonData = { // json数据
+                                    "data": result
+                                }
+                                $.ajax({
+                                    type: "post",
+                                    url: "dataToDb",
+                                    contentType: "application/json;charset=UTF-8",
+                                    // data: JSON.stringify(jsonData),// 将json数据转化为字符串
+                                    data:result.toString(),
+                                    success: function (data) {
+                                        alert("数据存入成功")
+                                        location.reload()
+                                    }
+                                })
+
+                            }
+                        }
+
+                    },
+                    error: function (err) {
+                        alert("网络连接失败,稍后重试", err);
+                    }
+
+                });
+
+
+            });
+
+        });
+
+    </script>
+
 
 </head>
-
-
 <body>
-<!--<h> 以下是顶端导航栏</h>-->
-<iframe src="header.html" width="100%"  height="41px" frameborder=0></iframe>
-<!--<h> 以上是顶端导航栏</h>-->
-
-
 <!--<h>以下是侧面导航栏</h>-->
-
+<iframe id="iframe1" src="header.html" width="100%" height="41px" frameborder=0 scrolling="yes"></iframe>
 <div class="container-fluid-full" style="z-index: 0;position: relative">
     <div class="row-fluid">
 
@@ -76,6 +255,7 @@
                     <li><a href="register.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
                     </li>
                     <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
+                    </li>  <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 官方文件下载</span></a>
                     </li>
                     <li>
                         <a class="dropmenu" href="#">
@@ -125,7 +305,7 @@
                                 class="hidden-tablet">数据可视化系统</span>
                             <!--<span class="label">3</span></a>-->
                             <ul style="display: block;">
-                                <li><a class="submenu" href="liangshui.html"><i class="icon-hdd"></i><span
+                                <li><a class="submenu" href="to_db.html"><i class="icon-hdd"></i><span
                                         class="hidden-tablet"> <span style="color: #9ecaed ">生成地图</span></span></a></li>
                                 <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
                                         class="hidden-tablet"> <span style="color: #9ecaed ">图标样式</span></span></a></li>
@@ -158,13 +338,13 @@
     </div>
 </div>
 <h>一上是侧面导航栏</h>
+<!--margin: 50px;padding-bottom: 50%;-->
+<div id="main" style="position: absolute ; top: 8%;left: 15%; width: 1200px;height: 900px  ;scrollbar-3d-light-color: grey;
+     overflow: scroll;"></div>
 
-
-
-
-
-<br>
-<br>
+<div id="params" class="params">
+    <span></span>
+</div>
 
 </body>
 </html>
