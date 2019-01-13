@@ -41,10 +41,11 @@
 <body>
 
 
-
 <!--<h>以下是侧面导航栏</h>-->
 
-<div class="container-fluid-full" style="z-index: 99999;position: relative">
+
+<div class="container-fluid-full" style=" height: 1500px; ;z-index: 0;position: relative; scrollbar-3d-light-color: grey;
+            overflow: scroll;">
     <div class="row-fluid">
 
         <!-- start: Main Menu -->
@@ -57,63 +58,107 @@
 
             </div>
 
-            <div class="nav-collapse sidebar-nav">
+            <span class="nav-collapse sidebar-nav">
                 <ul class="nav nav-tabs nav-stacked main-menu">
                     <li><a href="index.html"><i class="icon-bar-chart"></i><span
                             class="hidden-tablet"> 首页</span></a>
-                    </li>
-                    <li><a href="select_data.html"><i class="icon-eye-open"></i><span
-                            class="hidden-tablet"> 数据查询</span></a></li>
-                    <li><a href="upload.html"><i class="icon-eye-open"></i><span
-                            class="hidden-tablet"> 文件上传</span></a></li>
-                    <li><a href="widgets.html"><i class="icon-dashboard"></i><span
-                            class="hidden-tablet"> 窗口小部件</span></a>
-                    </li>
-                    <li>
-                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
-                                class="hidden-tablet">样图</span>
-                            <span class="label">3</span></a>
-                        <ul>
-                            <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
-                                    class="hidden-tablet"> 基础设置</span></a></li>
-                            <li><a class="submenu" href="messages.html"><i class="icon-envelope"></i><span
-                                    class="hidden-tablet"> 系统消息</span></a></li>
-                            <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
-                                    class="hidden-tablet"> 任务</span></a></li>
-                        </ul>
-                    </li>
-                    <li><a href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> 表格</span></a></li>
-                    <li><a href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> 图表</span></a>
-                    </li>
-                    <li><a href="typography.html"><i class="icon-font"></i><span
-                            class="hidden-tablet"> 排版样式</span></a></li>
-                    <li><a href="gallery.html"><i class="icon-picture"></i><span
-                            class="hidden-tablet"> 图库</span></a></li>
-                    <li><a href="table.html"><i class="icon-align-justify"></i><span
-                            class="hidden-tablet"> 数据库</span></a></li>
-                    <li><a href="echarts.html"><i class="icon-calendar"></i><span
-                            class="hidden-tablet"> 数据可视化</span></a></li>
-                    <li><a href="file-manager.html"><i class="icon-folder-open"></i><span
-                            class="hidden-tablet"> 文件管理</span></a>
-                    </li>
-                    <li><a href="china_map.html"><i class="icon-folder-open"></i><span
-                            class="hidden-tablet"> 地图</span></a>
-                    </li>
-                    <li><a href="to_db.html"><i class="icon-folder-open"></i><span
-                            class="hidden-tablet"> 录入数据库</span></a>
-                    </li>
-                    <li><a href="selector.html"><i class="icon-folder-open"></i><span
-                            class="hidden-tablet"> 计算公式</span></a>
                     </li>
                     <li><a href="register.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
                     </li>
                     <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
                     </li>
+                    <li>
+                        <a class="dropmenu" href="#">
+                            <i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">基础数据库系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                  <li><a class="submenu" href="upload.html"><i class="icon-tasks"></i><span
+                                          class="hidden-tablet"> <span
+                                          style="color: #9ecaed ">文件上传</span></span></a></li>
+
+                                <li><a class="submenu" href="select_data.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据查询</span></span></a></li>
+
+                                <li><a class="submenu" href="to_db.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据录入</span></span></a></li>
+
+                                <li><a class="submenu" href="file-manager.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">文件管理</span></span></a></li>
+
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">数据处理</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">计算记录</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">技术规范管理系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">计算公式介绍</span></span></a></li>
+                                <li><a class="submenu" href="format.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">资产价值计算</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">公式动态更新</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">可视化系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="select_data_tochart.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 数据可视化</span></span></a></li>
+                                <li><a class="submenu" href="to_db.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">生成地图</span></span></a></li>
+                                <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">图标样式</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据对比</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">资源评价系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">评价等级声明</span></span></a></li>
+                                <li><a class="submenu" href="format.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">资源评价</span></span></a></li>
+
+
+                                <li><a class="submenu" href="specialist.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 专家评分入口</span></span></a></li>
+                                <li><a class="submenu" href="ahp.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 层次分析入口</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 评价结果分析</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+
+
                 </ul>
-            </div>
+            </span>
         </div>
     </div>
-    <h>一上是侧面导航栏</h>
-
+</div>
+<h>一上是侧面导航栏</h>
+</div>
 </body>
 </html>

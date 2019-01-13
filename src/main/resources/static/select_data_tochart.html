@@ -46,26 +46,28 @@
 
     <style type="text/css">
 
-        .show_div{
+        .show_div {
             position: absolute;
             top: 10%;
         }
-        .show_div input{
+
+        .show_div input {
             border: 1px solid #ccc;
             padding: 7px 0px;
             border-radius: 3px;
-            padding-left:5px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+            padding-left: 5px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
         }
-        .show_div input:focus{
+
+        .show_div input:focus {
             border-color: #66afe9;
             outline: 0;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
         }
     </style>
 
@@ -172,11 +174,22 @@
 
 
         }
+        //存放图表样式对应的html文件名
+        var style;
 
+        function getChartStyle(id) {
+            console.log(document.getElementById(id).value)
+            style = document.getElementById(id).value
+        }
+        //显示图表
         function show() {
             if (resultListToChart) {
+                // console.log(resultListToChart)
                 document.cookie = "result=" + resultListToChart;
-                window.location.reload();
+
+                document.getElementById("chartHtml").innerHTML = "<iframe src=\""+style+"\" style=\"width: 1000px;height: 800px;border: 1px\"></iframe>";
+
+                // window.location.reload();
             }
         }
 
@@ -205,7 +218,8 @@
             return jsonLength;
         }
 
-        var l = ["linfenleixing"];
+
+
 
         function select() {
 
@@ -281,7 +295,9 @@
 
 <!--<h>以下是侧面导航栏</h>-->
 
-<div class="container-fluid-full" style="z-index:0;position: relative">
+
+<div class="container-fluid-full" style=" height: 1500px; ;z-index: 0;position: relative; scrollbar-3d-light-color: grey;
+            overflow: scroll;">
     <div class="row-fluid">
 
         <!-- start: Main Menu -->
@@ -346,7 +362,7 @@
                             </ul>
                         </a>
                     </li>
-                     <li>
+                    <li>
                         <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
                                 class="hidden-tablet">可视化系统</span>
                             <!--<span class="label">3</span></a>-->
@@ -373,6 +389,14 @@
                                         style="color: #9ecaed ">评价等级声明</span></span></a></li>
                                 <li><a class="submenu" href="format.html"><i class="icon-envelope"></i><span
                                         class="hidden-tablet"> <span style="color: #9ecaed ">资源评价</span></span></a></li>
+
+
+                                <li><a class="submenu" href="specialist.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 专家评分入口</span></span></a></li>
+                                <li><a class="submenu" href="ahp.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 层次分析入口</span></span></a></li>
                                 <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
                                         class="hidden-tablet"><span
                                         style="color: #9ecaed "> 评价结果分析</span></span></a></li>
@@ -410,7 +434,7 @@
 <!--<p>&nbsp;</p>-->
 
 
-<!--<iframe src="line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+<!--<iframe src="Basic_area_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
 <!--<br>-->
 <!--<br>-->
 <!--</div>-->
@@ -509,7 +533,7 @@
         </li>
 
 
-        <div  class="show_div" style="display: inline ;float: left">
+        <div class="show_div" style="display: inline ;float: left">
             <span style="color:black;font-size:16px ;border:white">查询条数：</span>
             <input type="text" id="查询条数" onchange="getNum(this.id)">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -521,13 +545,42 @@
                         onclick="showIndex(this.id)"></select>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </li>
+            <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
+                <span style="color:black;font-size:16px ;border:white">图表样式 : </span>
+                <select id="图表样式" style="width: 180px" onchange="getChartStyle(this.id)">
+                    <option value="Basic_line_chart.html">Basic_line_chart</option>
+                    <option value="Basic_area_chart.html">Basic_area_chart</option>
+                    <option value="Basic_scatter_chart.html">Basic_scatter_chart</option>
+                    <option value="Simple_bar_chart.html">Simple_bar_chart</option>
+                    <option value="Simple_bar_chart2.html">Simple_bar_chart2</option>
+                    <option value="Large_scale_area_chart.html">Large_scale_area_chart</option>
+                    <option value="Smoothed_line_chart.html">Smoothed_line_chart</option>
+                    <option value="exponential_regression_chart.html">exponential_regression_chart</option>
+
+
+
+
+                </select>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </li>
             <button onclick="show()">生成图表</button>
 
         </div>
+        r
+        <!--<iframe src="Basic_line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+        <!--<iframe src="Basic_area_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+        <!--<iframe src="Smoothed_line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+        <!--<iframe src="Large_scale_area_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+        <!--<iframe src="Simple_bar_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
+        <!--<iframe src="Simple_bar_chart2.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
 
+        <div id="chartHtml">
 
-        <iframe src="line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>
+        </div>
         <br>
+
+        <br>
+
         <br>
     </div>
 

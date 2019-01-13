@@ -1,0 +1,993 @@
+<!--<!DOCTYPE html> 不知道为啥 有这个就显示不出来侧面工具栏-->
+<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>input—data part</title>
+    <!-- html 5 的编码设置方式 -->
+    <meta charset="UTF-8">
+    <!-- start: Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- end: Mobile Specific -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="css/style.min.css" rel="stylesheet"/>
+    <link href="css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="css/retina.css" rel="stylesheet"/>
+    <!-- end: CSS -->
+
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if IE 9]>
+    <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
+    <link rel="shortcut icon" href="ico/favicon.png"/>
+    <!-- end: Favicon and Touch Icons -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <!--<script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>-->
+    <!--
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    -->
+
+</head>
+
+
+<body>
+<!--<h> 以下是顶端导航栏</h>-->
+<iframe src="header.html" width="100%" height="41px" frameborder=0></iframe>
+<!--<h> 以上是顶端导航栏</h>-->
+
+
+<!--<h>以下是侧面导航栏</h>-->
+
+
+<div class="container-fluid-full" style=" height: 1500px; ;z-index: 0;position: relative; scrollbar-3d-light-color: grey;
+            overflow: scroll;">
+    <div class="row-fluid">
+
+        <!-- start: Main Menu -->
+        <div id="sidebar-left" class="span2">
+
+            <div class="row-fluid actions">
+
+                <input type="text" class="search span12" placeholder="..."/>
+                <a></a>
+
+            </div>
+
+            <span class="nav-collapse sidebar-nav">
+                <ul class="nav nav-tabs nav-stacked main-menu">
+                    <li><a href="index.html"><i class="icon-bar-chart"></i><span
+                            class="hidden-tablet"> 首页</span></a>
+                    </li>
+                    <li><a href="register.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
+                    </li>
+                    <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#">
+                            <i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">基础数据库系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                  <li><a class="submenu" href="upload.html"><i class="icon-tasks"></i><span
+                                          class="hidden-tablet"> <span
+                                          style="color: #9ecaed ">文件上传</span></span></a></li>
+
+                                <li><a class="submenu" href="select_data.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据查询</span></span></a></li>
+
+                                <li><a class="submenu" href="to_db.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据录入</span></span></a></li>
+
+                                <li><a class="submenu" href="file-manager.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">文件管理</span></span></a></li>
+
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">数据处理</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">计算记录</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">技术规范管理系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">计算公式介绍</span></span></a></li>
+                                <li><a class="submenu" href="format.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">资产价值计算</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">公式动态更新</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">可视化系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="select_data_tochart.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 数据可视化</span></span></a></li>
+                                <li><a class="submenu" href="to_db.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">生成地图</span></span></a></li>
+                                <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">图标样式</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据对比</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">资源评价系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">评价等级声明</span></span></a></li>
+                                <li><a class="submenu" href="format.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">资源评价</span></span></a></li>
+
+
+                                <li><a class="submenu" href="specialist.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 专家评分入口</span></span></a></li>
+                                <li><a class="submenu" href="ahp.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 层次分析入口</span></span></a></li>
+                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 评价结果分析</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </span>
+        </div>
+    </div>
+</div>
+<h>一上是侧面导航栏</h>
+
+<style type="text/css">
+    /** {*/
+    /*box-sizing: border-box;*/
+    /*}*/
+    form button {
+        float: right;
+        margin-left: 40px;
+        background: #ebccd1;
+        border: 1px solid #942a25;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #002a80;
+        font-weight: bolder;
+        font-size: 16px;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 40px;
+    }
+
+    form input:hover {
+        background: #80636c;
+    }
+
+    form label {
+        display: block;
+        width: 200px;
+        height: 40px;
+        line-height: 40px;
+        cursor: pointer;
+        color: #942a25;
+        font-size: 16px;
+        font-weight: bolder;
+        font-size: 16px;
+        float: left
+    }
+
+    input {
+        padding: 0;
+        margin: 0;
+        border: 0;
+    }
+
+    .grade_class:before {
+        content: "";
+        display: table;
+    }
+
+    .grade_class:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .grade_class > div {
+        position: relative;
+        float: left;
+        margin-right: 50px;
+        width: 100px;
+        height: 45px;
+        line-height: 40px;
+    }
+
+    .grade_class > div:last-child {
+        margin-right: 0;
+    }
+
+    .grade_class label {
+        display: block;
+        width: 50px;
+        height: 40px;
+        line-height: 40px;
+        cursor: pointer;
+        color: #002a80;
+        font-size: 16px;
+        font-weight: bolder;
+    }
+
+    .grade_class input {
+        /*z-index: 3;*/
+        display: block;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50px;
+        margin: auto;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+    }
+
+    .grade_class .user-defined {
+        /*z-index: 2;*/
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50px;
+        margin: auto;
+        width: 30px;
+        height: 30px;
+        /*border: 5px solid #000;*/
+        border-radius: 43%;
+        cursor: pointer;
+    }
+
+    .grade_class .user-defined span.circle {
+        display: block;
+        width: 24px;
+        height: 24px;
+        /*margin-top: 2px;*/
+        /*margin-left: 2px;*/
+        background-color: transparent;
+        /*transparent*/
+        border-radius: 40%;
+    }
+
+    .grade_class .user-defined span.active {
+        background-color: #2d8037;
+    }
+
+</style>
+<!--<script type="text/javascript">-->
+<!--$("input").click(function () {-->
+<!--$(this).siblings("div").children("span").addClass("active");-->
+<!--$(this).parents("div").siblings("div").find("span").removeClass("active");-->
+<!--});-->
+<!--</script>-->
+
+
+<div style="position: absolute;top: 12%;left: 18%;">
+
+
+    <form style="weight:1200px;height: 1200px">
+        <span style="color:#7f838e;">友情提示：一般情况下，专家人数为少于30人时不建议采用此方法</span>
+        <div style="margin-top: 30px">
+            <label for="净化水质" style="">净化水质</label>
+            <div id="净化水质" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="净化水质_1">1分</label>
+                    <input type="radio" name="净化水质" id="净化水质_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="净化水质_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="净化水质_2">2分</label>
+                    <input type="radio" name="净化水质" id="净化水质_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="净化水质_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="净化水质_3">3分</label>
+                    <input type="radio" name="净化水质" id="净化水质_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="净化水质_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="净化水质_4">4分</label>
+                    <input type="radio" name="净化水质" id="净化水质_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="净化水质_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="净化水质_5">5分</label>
+                    <input type="radio" name="净化水质" id="净化水质_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="净化水质_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <label for="调节水量" style="">调节水量</label>
+            <div id="调节水量" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="调节水量_1">1分</label>
+                    <input type="radio" name="调节水量" id="调节水量_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="调节水量_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="调节水量_2">2分</label>
+                    <input type="radio" name="调节水量" id="调节水量_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="调节水量_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="调节水量_3">3分</label>
+                    <input type="radio" name="调节水量" id="调节水量_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="调节水量_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="调节水量_4">4分</label>
+                    <input type="radio" name="调节水量" id="调节水量_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="调节水量_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="调节水量_5">5分</label>
+                    <input type="radio" name="调节水量" id="调节水量_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="调节水量_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <label for="防止土壤侵蚀" style="">防止土壤侵蚀</label>
+            <div id="防止土壤侵蚀" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="防止土壤侵蚀_1">1分</label>
+                    <input type="radio" name="防止土壤侵蚀" id="防止土壤侵蚀_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="防止土壤侵蚀_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="防止土壤侵蚀_2">2分</label>
+                    <input type="radio" name="防止土壤侵蚀" id="防止土壤侵蚀_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="防止土壤侵蚀_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="防止土壤侵蚀_3">3分</label>
+                    <input type="radio" name="防止土壤侵蚀" id="防止土壤侵蚀_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="防止土壤侵蚀_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="防止土壤侵蚀_4">4分</label>
+                    <input type="radio" name="防止土壤侵蚀" id="防止土壤侵蚀_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="防止土壤侵蚀_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="防止土壤侵蚀_5">5分</label>
+                    <input type="radio" name="防止土壤侵蚀" id="防止土壤侵蚀_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="防止土壤侵蚀_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="固碳" style="">固碳</label>
+            <div id="固碳" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="固碳_1">1分</label>
+                    <input type="radio" name="固碳" id="固碳_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="固碳_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="固碳_2">2分</label>
+                    <input type="radio" name="固碳" id="固碳_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="固碳_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="固碳_3">3分</label>
+                    <input type="radio" name="固碳" id="固碳_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="固碳_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="固碳_4">4分</label>
+                    <input type="radio" name="固碳" id="固碳_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="固碳_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="固碳_5">5分</label>
+                    <input type="radio" name="固碳" id="固碳_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="固碳_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="释放氧气" style="">释放氧气</label>
+            <div id="释放氧气" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="释放氧气_1">1分</label>
+                    <input type="radio" name="释放氧气" id="释放氧气_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放氧气_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放氧气_2">2分</label>
+                    <input type="radio" name="释放氧气" id="释放氧气_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放氧气_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放氧气_3">3分</label>
+                    <input type="radio" name="释放氧气" id="释放氧气_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放氧气_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放氧气_4">4分</label>
+                    <input type="radio" name="释放氧气" id="释放氧气_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放氧气_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放氧气_5">5分</label>
+                    <input type="radio" name="释放氧气" id="释放氧气_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放氧气_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="吸收二氧化硫" style="">吸收二氧化硫</label>
+            <div id="吸收二氧化硫" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="吸收二氧化硫_1">1分</label>
+                    <input type="radio" name="吸收二氧化硫" id="吸收二氧化硫_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收二氧化硫_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收二氧化硫_2">2分</label>
+                    <input type="radio" name="吸收二氧化硫" id="吸收二氧化硫_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收二氧化硫_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收二氧化硫_3">3分</label>
+                    <input type="radio" name="吸收二氧化硫" id="吸收二氧化硫_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收二氧化硫_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收二氧化硫_4">4分</label>
+                    <input type="radio" name="吸收二氧化硫" id="吸收二氧化硫_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收二氧化硫_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收二氧化硫_5">5分</label>
+                    <input type="radio" name="吸收二氧化硫" id="吸收二氧化硫_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收二氧化硫_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="吸收氟化物" style="">固碳</label>
+            <div id="吸收氟化物" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="吸收氟化物_1">1分</label>
+                    <input type="radio" name="吸收氟化物" id="吸收氟化物_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氟化物_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氟化物_2">2分</label>
+                    <input type="radio" name="吸收氟化物" id="吸收氟化物_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氟化物_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氟化物_3">3分</label>
+                    <input type="radio" name="吸收氟化物" id="吸收氟化物_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氟化物_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氟化物_4">4分</label>
+                    <input type="radio" name="吸收氟化物" id="吸收氟化物_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氟化物_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氟化物_5">5分</label>
+                    <input type="radio" name="吸收氟化物" id="吸收氟化物_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氟化物_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div><!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="吸收氮氧化物" style="">吸收氮氧化物</label>
+            <div id="吸收氮氧化物" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="吸收氮氧化物_1">1分</label>
+                    <input type="radio" name="吸收氮氧化物" id="吸收氮氧化物_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氮氧化物_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氮氧化物_2">2分</label>
+                    <input type="radio" name="吸收氮氧化物" id="吸收氮氧化物_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氮氧化物_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氮氧化物_3">3分</label>
+                    <input type="radio" name="吸收氮氧化物" id="吸收氮氧化物_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氮氧化物_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氮氧化物_4">4分</label>
+                    <input type="radio" name="吸收氮氧化物" id="吸收氮氧化物_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氮氧化物_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收氮氧化物_5">5分</label>
+                    <input type="radio" name="吸收氮氧化物" id="吸收氮氧化物_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收氮氧化物_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="吸收重金属" style="">吸收重金属</label>
+            <div id="吸收重金属" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="吸收重金属_1">1分</label>
+                    <input type="radio" name="吸收重金属" id="吸收重金属_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收重金属_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收重金属_2">2分</label>
+                    <input type="radio" name="吸收重金属" id="吸收重金属_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收重金属_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收重金属_3">3分</label>
+                    <input type="radio" name="吸收重金属" id="吸收重金属_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收重金属_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收重金属_4">4分</label>
+                    <input type="radio" name="吸收重金属" id="吸收重金属_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收重金属_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="吸收重金属_5">5分</label>
+                    <input type="radio" name="吸收重金属" id="吸收重金属_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="吸收重金属_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="滞尘" style="">滞尘</label>
+            <div id="滞尘" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="滞尘_1">1分</label>
+                    <input type="radio" name="滞尘" id="滞尘_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="滞尘_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="滞尘_2">2分</label>
+                    <input type="radio" name="滞尘" id="滞尘_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="滞尘_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="滞尘_3">3分</label>
+                    <input type="radio" name="滞尘" id="滞尘_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="滞尘_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="滞尘_4">4分</label>
+                    <input type="radio" name="滞尘" id="滞尘_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="滞尘_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="滞尘_5">5分</label>
+                    <input type="radio" name="滞尘" id="滞尘_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="滞尘_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        <div>
+            <label for="释放负离子" style="">释放负离子</label>
+            <div id="释放负离子" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="释放负离子_1">1分</label>
+                    <input type="radio" name="释放负离子" id="释放负离子_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放负离子_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放负离子_2">2分</label>
+                    <input type="radio" name="释放负离子" id="释放负离子_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放负离子_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放负离子_3">3分</label>
+                    <input type="radio" name="释放负离子" id="释放负离子_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放负离子_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放负离子_4">4分</label>
+                    <input type="radio" name="释放负离子" id="释放负离子_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放负离子_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="释放负离子_5">5分</label>
+                    <input type="radio" name="释放负离子" id="释放负离子_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="释放负离子_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+            <label for="牧场防护" style="">牧场防护</label>
+            <div id="牧场防护" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="牧场防护_1">1分</label>
+                    <input type="radio" name="牧场防护" id="牧场防护_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="牧场防护_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="牧场防护_2">2分</label>
+                    <input type="radio" name="牧场防护" id="牧场防护_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="牧场防护_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="牧场防护_3">3分</label>
+                    <input type="radio" name="牧场防护" id="牧场防护_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="牧场防护_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="牧场防护_4">4分</label>
+                    <input type="radio" name="牧场防护" id="牧场防护_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="牧场防护_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="牧场防护_5">5分</label>
+                    <input type="radio" name="牧场防护" id="牧场防护_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="牧场防护_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div>
+            <label for="农田防护" style="">农田防护</label>
+            <div id="农田防护" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="农田防护_1">1分</label>
+                    <input type="radio" name="农田防护" id="农田防护_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="农田防护_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="农田防护_2">2分</label>
+                    <input type="radio" name="农田防护" id="农田防护_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="农田防护_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="农田防护_3">3分</label>
+                    <input type="radio" name="农田防护" id="农田防护_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="农田防护_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="农田防护_4">4分</label>
+                    <input type="radio" name="农田防护" id="农田防护_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="农田防护_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="农田防护_5">5分</label>
+                    <input type="radio" name="农田防护" id="农田防护_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="农田防护_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div>
+            <label for="物种保育" style="">物种保育</label>
+            <div id="物种保育" class="grade_class" style="display:block ; float:left">
+
+                <div style="display: inline-block;">
+                    <label for="物种保育_1">1分</label>
+                    <input type="radio" name="物种保育" id="物种保育_1" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="物种保育_1_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="物种保育_2">2分</label>
+                    <input type="radio" name="物种保育" id="物种保育_2" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="物种保育_2_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="物种保育_3">3分</label>
+                    <input type="radio" name="物种保育" id="物种保育_3" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="物种保育_3_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="物种保育_4">4分</label>
+                    <input type="radio" name="物种保育" id="物种保育_4" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="物种保育_4_circle" class="circle"></span>
+                    </div>
+                </div>
+                <div>
+                    <label for="物种保育_5">5分</label>
+                    <input type="radio" name="物种保育" id="物种保育_5" onclick="isCheck(this.id)">
+                    <div class="user-defined">
+                        <span id="物种保育_5_circle" class="circle"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <a> </a>
+        <a> </a>
+        <a> </a>
+        <button value="提交" type="button" onclick="support()">提交</button>
+        <button type="button" value="评分" id="register" style="">评分</button>
+        <div id="time" style="float: right;  margin-top: 30px;"></div>
+
+    </form>
+</div>
+
+
+<br>
+<br>
+<script type="text/javascript">
+    function getLength(json) {
+        var jsonLength = 0;
+        for (var i in json) {
+            jsonLength++;
+        }
+        return jsonLength;
+    }
+
+    var supportTime = 0;
+
+    function support() {
+        console.log(getLength(scoreList))
+        if (getLength(scoreList) < 14) {
+            alert("请将各选项填写完整")
+        } else {
+            console.log("已提交" + supportTime + "次")
+            supportTime++;
+            var time = document.getElementById("time")
+            time.style.fontSize = "16px"
+            time.style.color = "#002a80"
+
+            time.innerHTML = "已提交" + supportTime + "次"
+
+        }
+    }
+
+
+    var scoreList = {};
+
+    function isCheck(id) {
+
+        var score_obj
+        var index
+        var score
+
+        var temp = document.getElementById(id + "_circle")
+        var radio = document.getElementsByName(id.split("_")[0])
+        for (var i = 0; i < radio.length; i++) {
+            document.getElementById(radio[i].id + "_circle").style.backgroundColor = "transparent";
+            if (radio[i].checked) {
+                //选中状态，记录选项
+                document.getElementById(radio[i].id + "_circle").style.backgroundColor = "#942a25";
+                // console.log(radio[i].id)
+                score_obj = radio[i].id;
+                index = score_obj.split("_")[0];
+                score = score_obj.split("_")[1]
+
+
+                index.value = score;
+                // console.log("当前  " + index)
+                // for (var i = 0; i < scoreList.length; i++) {
+                if (index in scoreList) {
+                    // console.log(index + "已经存在  替换")
+
+                    $(scoreList).attr(index, score)
+
+                    // }
+                }
+                $(scoreList).attr(index, score)
+                console.log(scoreList)
+
+
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
