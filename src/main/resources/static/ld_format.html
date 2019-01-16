@@ -42,16 +42,16 @@
             width: 1360px;
             height: 100px;
             /*margin-left: -150px;*/
-            /*margin-top: -100px;*/
+            /*margin-top -100px;*/
             top: 6%;
-            left: 15%;
+            left: 14.6%;
             position: absolute;
             float: top;
         }
 
         #div1 {
-            width: 1500px;
-            height: 700px;
+            width: 1410px;
+            height: 850px;
             padding: 10px;
             border: 2px solid #0B90C4;
             scrollbar-3d-light-color: grey;
@@ -61,21 +61,24 @@
 
         #div1 p {
             display: block;
+            height: 40px;
         }
 
         #div2 p {
             display: inline-block;
+
         }
 
         #div2 {
-            width: 1300px;
-            height: 120px;
+            width: 600px;
+            height: 420px;
             padding: 10px;
             border: 0px solid #aaaaaa;
             display: inline;
         }
 
         .format button {
+
             height: 40px;;
             border-radius: 8px;
             background: #7ab5d3;
@@ -90,7 +93,7 @@
             padding-left: 5px;
             padding-right: 5px;
             float: left;
-            margin-left: 15px;
+            margin-left: 20px;
             display: inline-block;
 
         }
@@ -110,7 +113,7 @@
             padding: 0 16px;
             transition: background 0.3s ease-in-out;
             width: 70px;
-            margin-left: 20px;
+            margin-left: 10px;
 
         }
 
@@ -136,14 +139,14 @@
         values_name.set("释放负离子", "U释放负离子");
         values_name.set("牧场防护", "U牧场防护");
         values_name.set("农田防护", "U农田防护");
-        values_name.set("物种保育价值", "U物种保育");
+        values_name.set("物种保育", "U物种保育");
         values_name.set("森林生态资产", "U生态");
         values_name.set("储存碳价值", "U植被储碳");
 
 
         name_params.set(values_name.get("调节水量"), ["K3", "K4", "J水", "K1", "K2", "G调"]);
         name_params.set(values_name.get("净化水质"), ["K3", "K4", "J污水", "K1", "K2", "G调"]);
-        name_params.set(values_name.get("防止土壤侵蚀"), ["K3", "K4", "K1", "K2", "G固土", "ρ"]);
+        name_params.set(values_name.get("防止土壤侵蚀"), ["K3", "K4", "K1", "K2", "J土", "G固土", "ρ"]);
 
         name_params.set(values_name.get("植被固碳"), ["K1", "K3", "G植被固碳", "J碳"]);
 
@@ -201,6 +204,10 @@
             }
         };
         var data;
+
+
+        //用于将每一项指标和其对应的价值存入cookie
+        var indexValueList = {}
 
         function drop(ev) {
             ev.preventDefault();
@@ -290,6 +297,13 @@
 
                             newResult.innerHTML = res + "元";
                             p.appendChild(newResult)
+
+
+                            //该项指标的价值计算结果
+                            var indexValue = res;
+                            index.value = indexValue
+                            $(indexValueList).attr(index, indexValue)
+                            console.log(indexValueList)
                         },
                         error: function (err) {
                             alert("网络连接失败,稍后重试", err);
@@ -340,6 +354,33 @@
 
         }
     </script>
+    <style type="text/css">
+        .uploadResult {
+            width: 60px;
+            height: 120px;;
+            border-radius: 8px;
+            background: #942a25;
+            border-color: #78C3F3;
+            color: #000000;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none; /* 不显示轮廓线 */
+            font-family: Microsoft YaHei; /* 设置字体 */
+            color: white; /* 字体颜色 */
+            font-size: 17px;
+            padding-left: 5px;
+            padding-right: 5px;
+            float: left;
+            margin-left: 15px;
+            display: inline-block;
+            position: absolute;
+            top: 6%;
+            left: 95%;
+
+        }
+
+
+    </style>
 </head>
 <body>
 <iframe src="header.html" width="100%" height="41px" frameborder=0></iframe>
@@ -406,7 +447,7 @@
                                 <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
                                         class="hidden-tablet"> <span
                                         style="color: #9ecaed ">计算公式介绍</span></span></a></li>
-                                <li><a class="submenu" href="format.html"><i class="icon-envelope"></i><span
+                                <li><a class="submenu" href="st_format.html"><i class="icon-envelope"></i><span
                                         class="hidden-tablet"> <span
                                         style="color: #9ecaed ">资产价值计算</span></span></a></li>
                                 <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
@@ -440,7 +481,7 @@
                                 <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
                                         class="hidden-tablet"> <span
                                         style="color: #9ecaed ">评价等级声明</span></span></a></li>
-                                <li><a class="submenu" href="format.html"><i class="icon-envelope"></i><span
+                                <li><a class="submenu" href="st_format.html"><i class="icon-envelope"></i><span
                                         class="hidden-tablet"> <span style="color: #9ecaed ">资源评价</span></span></a></li>
 
 
@@ -470,75 +511,75 @@
 
     <!--<img id="drag1" src="img/avatar.jpg/" draggable="true" ondragstart="drag(event)" />-->
 
-    <span>公式列表 -- 请选择计算项 ：</span></br></br></br>
+    <!--<span>公式列表 &#45;&#45; 请选择计算项 ：</span>-->
     <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
 
 
         <!--<div weight="50px " height="30px" style="padding-right: 20px">-->
         <p id="drag1" draggable="true" ondragstart="drag(event)"
-           style="height: 60px">
+           style="height: 40px">
             <button value="调节水量">调节水量</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
 
         <p id="drag2" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="净化水质">净化水质</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag3" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="防止土壤侵蚀">防止土壤侵蚀</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag4" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="植被固碳">植被固碳</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag5" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="释放氧气">释放氧气</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag6" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="吸收SO2">吸收SO2</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag7" draggable="true" ondragstart="drag(event)"
-           style="height: 60px">
+           style="height: 40px">
             <button value="吸收氟化物">吸收氟化物</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
 
         <p id="drag8" draggable="true" ondragstart="drag(event)"
-           style="height: 60px">
+           style="height: 40px">
             <button value="吸收氮氧化物">吸收氮氧化物</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag9" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="吸收重金属">吸收重金属</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag10" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="滞尘">滞尘</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag11" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="释放负离子">释放负离子</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag12" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="牧场防护">牧场防护</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag13" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="农田防护">农田防护</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag14" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="物种保育价值">物种保育价值</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag15" draggable="true" ondragstart="drag(event)"
-           style="height: 60px ">
+           style="height: 40px ">
             <button value="森林生态资产">森林生态资产</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p id="drag16" draggable="true" ondragstart="drag(event)"
-           style="height: 60px">
+           style="height: 40px">
             <button value="储存碳价值">储存碳价值</button>&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
 
@@ -551,5 +592,19 @@
 
     </div>
 </div>
+<script type="text/javascript">
+
+    function uploadResult() {
+        console.log(indexValueList)
+
+        document.cookie = "生态资源评价结果=" + JSON.stringify(indexValueList);
+        window.location.href ="evaluate.html"
+    }
+</script>
+
+<button class="uploadResult" id="uploadResult" type="button" onclick="uploadResult()">确认并上传结果</button>
+
+
 </body>
+
 </html>
