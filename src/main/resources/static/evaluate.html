@@ -72,8 +72,9 @@
         }
 
 
-        var result_ini = getCookie("生态资源评价结果")
+        var st_result = getCookie("生态资源评价结果")
 
+        var lm_result = getCookie("林木价值")
     </script>
 </head>
 
@@ -210,9 +211,9 @@
 <h>一上是侧面导航栏</h>
 <div class="evaluateResult" id="evaluateResult"></div>
 <script type="text/javascript">
-    if (result_ini) {
+    if (st_result) {
 
-        var result = result_ini.replace(/\"/g, "").replace("}","").replace("{","");//去掉字符串中的双引号，有很多双引号的情况下 使用此方法
+        var result = st_result.replace(/\"/g, "").replace("}","").replace("{","")+"     "+lm_result.replace(/\"/g, "").replace("}","").replace("{","");//去掉字符串中的双引号，有很多双引号的情况下 使用此方法
 
         console.log(result)
         var evaluateResult = document.getElementById("evaluateResult")

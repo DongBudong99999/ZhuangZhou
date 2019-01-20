@@ -124,235 +124,8 @@
         }
     </style>
     <script type="text/javascript">
-        values_name = new Map()
-        name_params = new Map()
-        values_name.set("调节水量", "U水量调节");
-        values_name.set("净化水质", "U净化水质");
-        values_name.set("防止土壤侵蚀", "U防止土壤侵蚀");
-        values_name.set("植被固碳", "U植被固碳");
-        values_name.set("释放氧气", "U释放氧气");
-        values_name.set("吸收SO2", "U二氧化硫");
-        values_name.set("吸收氟化物", "U氟化物");
-        values_name.set("吸收氮氧化物", "U氮氧化物");
-        values_name.set("吸收重金属", "U重金属");
-        values_name.set("滞尘", "U滞尘");
-        values_name.set("释放负离子", "U释放负离子");
-        values_name.set("牧场防护", "U牧场防护");
-        values_name.set("农田防护", "U农田防护");
-        values_name.set("物种保育", "U物种保育");
-        values_name.set("森林生态资产", "U生态");
-        values_name.set("储存碳价值", "U植被储碳");
 
 
-        name_params.set(values_name.get("调节水量"), ["K3", "K4", "J水", "K1", "K2", "G调"]);
-        name_params.set(values_name.get("净化水质"), ["K3", "K4", "J污水", "K1", "K2", "G调"]);
-        name_params.set(values_name.get("防止土壤侵蚀"), ["K3", "K4", "K1", "K2", "J土", "G固土", "ρ"]);
-
-        name_params.set(values_name.get("植被固碳"), ["K1", "K3", "G植被固碳", "J碳"]);
-
-        name_params.set(values_name.get("释放氧气"), ["K1", "K3", "G氧气", "J氧"]);
-
-        name_params.set(values_name.get("吸收SO2"), ["K1", "K3", "G二氧化硫", "J二氧化硫"]);
-
-        name_params.set(values_name.get("吸收氟化物"), ["K1", "K3", "G氟化物", "J氟化物"]);
-
-        name_params.set(values_name.get("吸收氮氧化物"), ["K1", "K3", "G氮氧化物", "J氮氧化物"]);
-
-        name_params.set(values_name.get("吸收重金属"), ["K1", "K3", "G重金属", "J重金属"]);
-
-        name_params.set(values_name.get("滞尘"), ["K1", "K3", "G滞尘", "J滞尘"]);
-
-        name_params.set(values_name.get("释放负离子"), ["K1", "K3", "G负离子", "J负离子"]);
-
-        name_params.set(values_name.get("牧场防护"), ["K3", "K4", "G牧草量", "J牧草"]);
-
-        name_params.set(values_name.get("农田防护"), ["K3", "K4", "G农作物量", "J农作物"]);
-
-        name_params.set(values_name.get("物种保育价值"), ["K2", "K3", "K4", "Em", "Bn", "Oi", "x", "y", "z", "S物种保育", "S", "t"]);
-        name_params.set(values_name.get("森林生态资产"), ["y", "n", "UIi", "p"]);
-        name_params.set(values_name.get("储存碳价值"), ["J碳", "z", "γ", "V", "WDm", "BEFm", "t", "E土壤储碳", "β", "H", "ρ", "R"]);
-        var params = new Array()
-        var flag
-        var paramsMap = {}//存放计算参数列表的map
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-
-        function drag(ev) {
-            ev.dataTransfer.setData("Text", ev.target.id);
-
-
-            var index = ev.target.childNodes[1].value;
-            // alert(index)
-            flag = params.indexOf(index)
-            if (flag >= 0) {
-                console.log(index + "存在，去掉")
-                params.remove(index)
-
-            } else {
-                console.log(index + "不存在，添加")
-                params.push(index)
-            }
-            // console.log(params)
-        }
-
-        Array.prototype.remove = function (val) {
-            var index = this.indexOf(val);
-            if (index > -1) {
-                this.splice(index, 1);
-            }
-        };
-        var data;
-
-
-        //用于将每一项指标和其对应的价值存入cookie
-        var indexValueList = {}
-
-        function drop(ev) {
-            ev.preventDefault();
-            var index;
-            if (flag < 0) {
-                data = ev.dataTransfer.getData("Text");//p标签的id，如drag1
-                ev.target.appendChild(document.getElementById(data));//将这个p标签放入父容器
-
-                //放入之后创建新容器 展开计算项
-                var frameDiv = document.createElement("div");
-                var div_id = data + "_params"
-                frameDiv.setAttribute("id", div_id)//id = drag_params
-                frameDiv.className = "drag_params_style";
-                var p = document.getElementById(data);
-                p.appendChild(frameDiv)
-                //--------------------------
-                //index =  调节水源
-                index = p.childNodes[1].value;
-
-
-                var paramArray = name_params.get(values_name.get(index));//获得计算该index指标的各计算项，返回因数列表
-                // document.getElementById(div_id).innerHTML = paramArray;
-                for (var i = 0; i < paramArray.length; i++) {
-                    var param = paramArray[i]
-                    // console.log(param);
-                    var newInput = document.createElement("input");
-
-                    newInput.nodeType = "text";
-                    newInput.setAttribute("id", "param_" + index + "_" + param)//输入框的id为--"param"+i
-                    newInput.setAttribute("name", param);
-                    frameDiv.appendChild(newInput);
-                    // document.getElementsByName()
-                    var temp;
-                    document.getElementById("param_" + index + "_" + param).value = param + "=";
-
-                    newInput.onfocus = function () {
-                        console.log(this.value)
-
-                        // temp = this.value.split("=")[0];
-                        temp = this.name
-
-                        this.value = "";
-                        // console.log(temp)
-                        // console.log(time)
-
-
-                    }
-                    newInput.onblur = function () {
-                        if (!this.value) {
-                            this.value = this.id.split("_")[2] + "=";
-                        } else {
-                            var v = this.value
-
-                            paramsMap[temp] = v;
-
-                            console.log(paramsMap)
-                        }
-                    }
-                }
-                // 创建"生成结果按钮"
-                var newButton = document.createElement("button");
-                newButton.setAttribute("id", index + "_button")
-                newButton.innerHTML = "生成结果";
-                p.appendChild(newButton)
-                newButton.onclick = function () {
-                    var indexToCal = this.parentNode.childNodes[1].value;
-                    paramsMap["id"] = indexToCal;
-                    var data1 = JSON.stringify(paramsMap);
-                    console.log(data1)
-
-                    $.ajax({
-                        url: "/format",
-                        type: "POST",
-                        data: data1,
-                        // dataType: "json",
-
-                        // contentType: "application/json",
-                        // processData: false,//用于对data参数进行序列化处理 这里必须false
-                        // contentType: false, //必须
-                        headers: {'Content-Type': 'text/plain;charset=UTF-8'},
-                        success: function (res) {
-                            // alert("有返回");
-
-                            var newResult = document.createElement("button")
-                            newResult.setAttribute("id", index + "_result")
-
-
-                            newResult.innerHTML = res + "元";
-                            p.appendChild(newResult)
-
-
-                            //该项指标的价值计算结果
-                            var indexValue = res;
-                            index.value = indexValue
-                            $(indexValueList).attr(index, indexValue)
-                            console.log(indexValueList)
-                        },
-                        error: function (err) {
-                            alert("网络连接失败,稍后重试", err);
-                        }
-
-                    });
-
-                }
-                // 创建删除按钮
-                var deleteButton = document.createElement("button");
-                deleteButton.setAttribute("id", index + "_delete");
-                deleteButton.innerHTML = "删除";
-                p.appendChild(deleteButton)
-                deleteButton.onclick = function (ev) {
-                    var p = ev.target.parentNode
-
-
-                    // console.log(p)
-                    div1 = document.getElementById("div1")//存放待计算的区域，准备将子节点p删除
-                    var div2 = document.getElementById("div2")//存放计算项列表的区域，准备恢复被删除的选项
-                    console.log(p.childNodes[3])
-                    var len = p.children.length + 1;//+1 ： 空格也算做子节点，但不算children
-                    // alert(len)
-                    for (var l = 3; l <= len; l++) {
-                        p.removeChild(p.childNodes[3])
-                    }
-
-
-                    div2.appendChild(p)
-                    // console.log(params)
-
-                }
-            }
-            // console.log(params)
-            // } else {
-            //     data = ev.dataTransfer.getData("Text");//p标签的id，如drag1
-            //     var p = document.getElementById(data);//p标签，也就是父容器的对象
-            //     var div_id = data + "_params"
-            //     var frameDiv = document.getElementById(div_id)
-            //     p.removeChild(frameDiv)
-            //     index = p.childNodes[1].value;
-            //     p.removeChild(document.getElementById(index + "_button"));
-            //     p.removeChild(document.getElementById(index + "_result"))
-            //     ev.target.appendChild(document.getElementById(data));//将这个p标签放入父容器
-            //
-            // }
-            console.log(params)
-
-        }
     </script>
     <style type="text/css">
         .uploadResult {
@@ -379,6 +152,55 @@
 
         }
 
+        .index {
+            position: absolute;
+            top: 9%;
+            left: 20%;
+            cursor: pointer;
+
+        }
+
+        .二级菜单 {
+            color: #80636c;
+            font-size: 16px;
+            margin-top: 8px;
+            width: 280px;
+            height: 25px;
+        }
+
+        .二级菜单:hover {
+            background: #8cafed;
+        }
+
+        .三级菜单:hover {
+            background: #8cafed;
+        }
+
+        .二级菜单含子菜单 {
+            /*background: #942a25;*/
+            color: #80636c;
+            font-size: 16px;
+            margin-top: 6px;
+
+        }
+
+        .一级菜单 {
+            margin-bottom: 13px;
+            color: #606060;
+            font-size: 20px;
+            font-weight: bolder;
+
+        }
+
+        .一级菜单 span {
+            height: 50px;
+        }
+
+        .三级菜单 {
+            color: #7f838e;
+            margin-top: 5px;
+            font-size: 14px;
+        }
 
     </style>
 </head>
@@ -505,106 +327,348 @@
     </div>
 </div>
 <h>一上是侧面导航栏</h>
-
-<div class="format">
-
-
-    <!--<img id="drag1" src="img/avatar.jpg/" draggable="true" ondragstart="drag(event)" />-->
-
-    <!--<span>公式列表 &#45;&#45; 请选择计算项 ：</span>-->
-    <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
-
-
-        <!--<div weight="50px " height="30px" style="padding-right: 20px">-->
-        <p id="drag1" draggable="true" ondragstart="drag(event)"
-           style="height: 40px">
-            <button value="调节水量">调节水量</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-
-        <p id="drag2" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="净化水质">净化水质</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag3" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="防止土壤侵蚀">防止土壤侵蚀</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag4" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="植被固碳">植被固碳</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag5" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="释放氧气">释放氧气</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag6" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="吸收SO2">吸收SO2</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag7" draggable="true" ondragstart="drag(event)"
-           style="height: 40px">
-            <button value="吸收氟化物">吸收氟化物</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-
-        <p id="drag8" draggable="true" ondragstart="drag(event)"
-           style="height: 40px">
-            <button value="吸收氮氧化物">吸收氮氧化物</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag9" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="吸收重金属">吸收重金属</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag10" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="滞尘">滞尘</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag11" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="释放负离子">释放负离子</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag12" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="牧场防护">牧场防护</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag13" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="农田防护">农田防护</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag14" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="物种保育价值">物种保育价值</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag15" draggable="true" ondragstart="drag(event)"
-           style="height: 40px ">
-            <button value="森林生态资产">森林生态资产</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-        <p id="drag16" draggable="true" ondragstart="drag(event)"
-           style="height: 40px">
-            <button value="储存碳价值">储存碳价值</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
-
-
-    </div>
-    <!--<br/>-->
-    <p>将需要计算的计算项拖到此处 ：</p>
-    <!--//-->
-    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
-
-    </div>
-</div>
 <script type="text/javascript">
-
+    // 上传计算结果 并跳转到评价页面
     function uploadResult() {
         console.log(indexValueList)
 
         document.cookie = "生态资源评价结果=" + JSON.stringify(indexValueList);
-        window.location.href ="evaluate.html"
+        window.location.href = "evaluate.html"
     }
 </script>
 
+<script type="text/javascript">
+
+
+    name_params = new Map()
+
+
+    name_params.set("木材市场价倒算法", ["W-木材销售总收入", "C-木材生产经营成本", "F-木材生产经营利润"]);
+    name_params.set("市场成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+    name_params.set("市场法收益现值法", ["A-年净收益均值", "u-经营周期", "P-投资收益率", "n-林分年龄"]);
+    name_params.set("市场收获现值法", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "C-评估后至主伐期间的年营林生产成本", "P-投资收益率","a-第a年","b-第b年"]);
+    name_params.set("市场年金资本化法", ["A-年平均纯收益", "P-投资收益率"]);
+    name_params.set("刚择伐后的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期"]);
+    name_params.set("择伐m年后的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "m-距最近一次择伐的年限"]);
+    name_params.set("未成熟林的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "q-林分成熟年龄", "n-林分年龄"]);
+    name_params.set("基本重置成本法", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
+    name_params.set("择伐周期", ["s-择伐强度", "p-蓄积生长率"]);
+    name_params.set("刚择伐后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期","n-评估期限"]);
+    name_params.set("择伐m年后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期","n-评估期限","m-距最近一次择伐的年限"]);
+    name_params.set("未成熟林的异龄林", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "q-林分成熟年龄", "n-林分年龄"]);
+    name_params.set("成熟林/过熟林", ["W-木材销售总收入", "C-木材生产经营成本", "F-木材生产经营利润"]);
+    name_params.set("中龄林/近熟林", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "C-评估后至主伐期间的年营林生产成本", "P-投资收益率"]);
+    name_params.set("幼龄林", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
+    name_params.set("产前经济林评估", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
+    name_params.set("初产期经济林重置成本法", ["K-林分质量综合调整系数", "C-年投入均值", "A-年经营收入均值", "P-投资收益率", "n-林分年龄", "m-投入大于经营收入的年数"]);
+    name_params.set("初产期经济林收益现值法", ["AI-盛产期平均年净收益", "AJ-经济寿命期末木材净收益", "A-初产期年净收益均值", "u-经济寿命期", "n-林分年龄", "n1-盛产期开始年", "K-林分质量综合调整系数", "P-投资收益率"]);
+
+    name_params.set("初产期经济林成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+
+    name_params.set("盛产期收获现值法", ["AI-盛产期平均年净收益", "u-经济寿命期", "n-林分年龄", "K-林分质量综合调整系数", "P-投资收益率"]);
+    name_params.set("盛产期成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+
+
+    // 获取选择的公式名称，绘制该项的参数列表
+    function getIndexName(id) {
+        var paramsMap = {}
+        var inputContainer = document.getElementById(id + "_list");
+
+        var paramArray = name_params.get(id);
+
+        console.log(paramArray)
+
+        if (!inputContainer.hasChildNodes()) {
+            for (var i = 0; i < paramArray.length; i++) {
+                var param = paramArray[i]
+                // console.log(param);
+
+                var newInput = document.createElement("input");
+
+                newInput.nodeType = "text";
+                newInput.setAttribute("id", id + "_" + param)//输入框的id为--"param"+i
+                newInput.setAttribute("name", param.split("-")[0]);
+                inputContainer.appendChild(newInput);
+
+                var temp;
+                document.getElementById(id + "_" + param).value = param + "=";
+
+
+                newInput.onfocus = function () {
+                    console.log(this.value)
+
+                    // temp = this.value.split("=")[0];
+                    temp = this.name
+
+                    this.value = "";
+                    console.log(temp)
+                    // console.log(time)
+
+
+                }
+                newInput.onblur = function () {
+                    if (!this.value) {
+                        this.value = this.id.split("_")[1] + "=";
+                    } else {
+                        var v = this.value
+
+                        paramsMap[temp] = v;
+
+                        console.log(paramsMap)
+                    }
+
+
+                }
+            }
+            var newButton = document.createElement("button");
+            newButton.setAttribute("id", id + "_button")
+            newButton.innerHTML = "生成结果";
+            inputContainer.appendChild(newButton)
+
+            //生成结果按钮
+            newButton.onclick = function () {
+                var indexToVal = this.id.split("_")[0];
+                paramsMap["id"] = indexToVal;
+                var data1 = JSON.stringify(paramsMap);
+                console.log(data1)
+
+                $.ajax({
+                    url: "/lm_format",
+                    type: "POST",
+                    data: data1,
+                    // dataType: "json",
+
+                    // contentType: "application/json",
+                    // processData: false,//用于对data参数进行序列化处理 这里必须false
+                    // contentType: false, //必须
+                    headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+                    success: function (res) {
+                        // alert("有返回");
+
+                        var newResult = document.createElement("button")
+                        newResult.setAttribute("id", index + "_result")
+
+
+                        newResult.innerHTML = res + "万元";
+                        inputContainer.appendChild(newResult)
+
+
+                        //该项指标的价值计算结果
+                        // var indexValue = res;
+                        // index.value = indexValue
+                        // $(indexValueList).attr(index, indexValue)
+                        // console.log(indexValueList)
+                    },
+                    error: function (err) {
+                        alert("计算失败，请检查参数是否填写完整", err);
+                    }
+
+                });
+            }
+            // 创建删除按钮
+            var deleteButton = document.createElement("button");
+            deleteButton.setAttribute("id", index + "_delete");
+            deleteButton.innerHTML = "取消";
+            inputContainer.appendChild(deleteButton)
+            deleteButton.onclick = function (ev) {
+                inputContainer.innerHTML = "";
+                // console.log(p)
+            }
+        }
+    }
+
+</script>
+
 <button class="uploadResult" id="uploadResult" type="button" onclick="uploadResult()">确认并上传结果</button>
+<div id="index" class="index">
+    <ul>
+        <li class="一级菜单"><span onclick="f('sub_menu_1')">市场法资产评估</span>
+            <ul id="sub_menu_1">
+
+                <li class="二级菜单" id="木材市场价倒算法" onclick="getIndexName(this.id)"><span>木材市场价倒算法(剩余价值法)</span></li>
+                <div class="indexList" id="木材市场价倒算法_list"></div>
+
+
+                <li class="二级菜单" id="市场成交价比较法" onclick="getIndexName(this.id)"><span>市场成交价比较法</span></li>
+                <div class="indexList" id="市场成交价比较法_list"></div>
+
+
+                <li class="二级菜单" id="市场法收益现值法" onclick="getIndexName(this.id)"><span>收益现值法</span></li>
+                <div class="indexList" id="市场法收益现值法_list"></div>
+
+                <li class="二级菜单" id="市场收获现值法" onclick="getIndexName(this.id)">收获现值法</li>
+                <div class="indexList" id="市场收获现值法_list"></div>
+
+                <li class="二级菜单" id="市场年金资本化法" onclick="getIndexName(this.id)">年金资本化法</li>
+                <div class="indexList" id="市场年金资本化法_list"></div>
+
+
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_1_6')">周期收益资本化法</span>
+                    <ul id="sub_menu_1_6">
+                        <li class="三级菜单" id="刚择伐后的林木" onclick="getIndexName(this.id)">刚择伐后的林木</li>
+                        <div class="indexList" id="刚择伐后的林木_list"></div>
+
+                        <li class="三级菜单" id="择伐m年后的林木" onclick="getIndexName(this.id)">择伐m年后的林木</li>
+                        <div class="indexList" id="择伐m年后的林木_list"></div>
+
+                        <li class="三级菜单" id="未成熟林的林木" onclick="getIndexName(this.id)">未成熟林的林木</li>
+                        <div class="indexList" id="未成熟林的林木_list"></div>
+                    </ul>
+                </li>
+
+
+                <li class="二级菜单" id="基本重置成本法" onclick="getIndexName(this.id)">重置成本法</li>
+                <div class="indexList" id="基本重置成本法_list"></div>
+            </ul>
+        </li>
+
+
+        <li class="一级菜单"><span onclick="f('sub_menu_2')">用材林资产评估</span>
+            <ul id="sub_menu_2">
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_2_1')">异龄林</span>
+                    <ul id="sub_menu_2_1">
+                        <li class="三级菜单" id="择伐周期" onclick="getIndexName(this.id)">择伐周期</li>
+                        <div class="indexList" id="择伐周期_list"></div>
+
+
+                        <li class="三级菜单" id="刚择伐后的异龄林" onclick="getIndexName(this.id)">刚择伐后的异龄林</li>
+                        <div class="indexList" id="刚择伐后的异龄林_list"></div>
+
+
+                        <li class="三级菜单" id="择伐m年后的异龄林" onclick="getIndexName(this.id)">择伐m年后的异龄林</li>
+                        <div class="indexList" id="择伐m年后的异龄林_list"></div>
+
+                        <li class="三级菜单" id="未成熟林的异龄林" onclick="getIndexName(this.id)">未成熟林的异龄林</li>
+                        <div class="indexList" id="未成熟林的异龄林_list"></div>
+                    </ul>
+
+                </li>
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_2_2')">同龄林</span>
+                    <ul id="sub_menu_2_2">
+                        <li class="三级菜单" id="成熟林/过熟林" onclick="getIndexName(this.id)">成熟林/过熟林</li>
+                        <div class="indexList" id="成熟林/过熟林_list"></div>
+
+                        <li class="三级菜单" id="中龄林/近熟林" onclick="getIndexName(this.id)">中龄林/近熟林</li>
+                        <div class="indexList" id="中龄林/近熟林_list"></div>
+
+                        <li class="三级菜单" id="幼龄林" onclick="getIndexName(this.id)">幼龄林</li>
+                        <div class="indexList" id="幼龄林_list"></div>
+                    </ul>
+                </li>
+
+
+            </ul>
+
+        </li>
+
+        <li class="一级菜单"><span onclick="f('sub_menu_4')">经济林资产评估</span>
+            <ul id="sub_menu_4">
+                <li class="二级菜单" id="产前经济林评估" onclick="getIndexName(this.id)"> 产前经济林评估</li>
+                <div class="indexList" id="产前经济林评估_list"></div>
+
+
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_4_2')">初产期经济林评估 </span>
+                    <ul id="sub_menu_4_2">
+                        <li class="三级菜单" id="初产期经济林重置成本法" onclick="getIndexName(this.id)">重置成本法</li>
+                        <div class="indexList" id="初产期经济林重置成本法_list"></div>
+
+
+                        <li class="三级菜单" id="初产期经济林收益现值法" onclick="getIndexName(this.id)">收益现值法</li>
+                        <div class="indexList" id="初产期经济林收益现值法_list"></div>
+
+
+                        <li class="三级菜单" id="初产期经济林成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
+                        <div class="indexList" id="初产期经济林成交价比较法_list"></div>
+
+
+                    </ul>
+                </li>
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_4_3')">盛产期经济林评估 </span>
+                    <ul id="sub_menu_4_3">
+
+                        <li class="三级菜单" id="盛产期收获现值法" onclick="getIndexName(this.id)">收获现值法</li>
+                        <div class="indexList" id="盛产期收获现值法_list"></div>
+
+
+                        <li class="三级菜单" id="盛产期成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
+
+                        <div class="indexList" id="盛产期成交价比较法_list"></div>
+
+                    </ul>
+
+            </ul>
+
+        </li>
+    </ul>
+</div>
+<script type=" text/javascript">
+    function f(str) {
+        var sub_menu = document.getElementById(str);
+        // console.log(str)
+        // console.log(sub_menu)
+        var dis_v = sub_menu.style.display;
+
+        if (dis_v == "block")
+            sub_menu.style.display = "none";
+        else
+            sub_menu.style.display = "block";
+
+    }
+
+</script>
 
 
 </body>
 
 </html>
+<!--<li><span onclick="f('sub_menu_3')">竹林资产评估</span>-->
+<!--<ul id="sub_menu_3">-->
+<!--<li><span onclick="f('sub_menu_3_1')">新造未投产竹林</span>-->
+<!--<ul id="sub_menu_3_1">-->
+<!--<li>重置成本法</li>-->
+<!--<li>市场成交价法</li>-->
+<!--</ul>-->
+
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2')">已投产竹林</span>-->
+
+<!--<li><span onclick="f('sub_menu_3_2_1')">结构不合理竹林</span>-->
+
+
+<!--<ul id="sub_menu_3_2_1">-->
+<!--<li><span onclick="f('sub_menu_3_2_1_1')">收益现值法(永久经营)</span>-->
+
+<!--<ul id="sub_menu_3_2_1_1">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2_1_2')">收益现值法(有限期经营)</span>-->
+
+<!--<ul id="sub_menu_3_2_1_2">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li>市场成交价法</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2_2')">结构合理竹林</span>-->
+<!--<ul id="sub_menu_3_2_2">-->
+<!--<li><span onclick="f('sub_menu_3_2_2_1')">年金资本化法(永久经营)</span>-->
+<!--<ul id="sub_menu_3_2_2_1">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2_2_2')">年金资本化法(有限期经营)</span>-->
+<!--<ul id="sub_menu_3_2_2_2">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li>市场成交价法</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--&lt;!&ndash;</ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->

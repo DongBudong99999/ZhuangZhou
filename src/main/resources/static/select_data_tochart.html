@@ -184,7 +184,7 @@
         //显示图表
         function show() {
             if (resultListToChart) {
-                // console.log(resultListToChart)
+                console.log("@@@@@@@@"+resultListToChart)
                 document.cookie = "result=" + resultListToChart;
 
                 document.getElementById("chartHtml").innerHTML = "<iframe src=\""+style+"\" style=\"width: 1000px;height: 800px;border: 1px\"></iframe>";
@@ -548,6 +548,7 @@
             <li class="dropdown hidden-phone open" style="width: 600px;display:inline">
                 <span style="color:black;font-size:16px ;border:white">图表样式 : </span>
                 <select id="图表样式" style="width: 180px" onchange="getChartStyle(this.id)">
+                    <option value="">--请选择--</option>
                     <option value="Basic_line_chart.html">Basic_line_chart</option>
                     <option value="Basic_area_chart.html">Basic_area_chart</option>
                     <option value="Basic_scatter_chart.html">Basic_scatter_chart</option>
@@ -566,7 +567,7 @@
             <button onclick="show()">生成图表</button>
 
         </div>
-        r
+
         <!--<iframe src="Basic_line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
         <!--<iframe src="Basic_area_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->
         <!--<iframe src="Smoothed_line_chart.html" style="width: 1000px;height: 800px;border: 1px"></iframe>-->

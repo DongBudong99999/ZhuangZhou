@@ -38,6 +38,7 @@
     <!--https://malsup.github.io/jquery.form.js-->
     <script type="text/javascript" src="js/jquery.form.js"></script>
     <script src="echarts_old.js"></script>
+    <script src="getCookie.js"></script>
 </head>
 <body>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -46,7 +47,9 @@
 
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById("main"));
-    var result = document.cookie.split(";")[2].split("=")[1];
+
+
+    var result = getCookie("result")
     console.log(result)
 
 

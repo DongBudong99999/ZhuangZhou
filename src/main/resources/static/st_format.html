@@ -279,7 +279,7 @@
                     console.log(data1)
 
                     $.ajax({
-                        url: "/format",
+                        url: "/st_format",
                         type: "POST",
                         data: data1,
                         // dataType: "json",
@@ -301,6 +301,7 @@
 
                             //该项指标的价值计算结果
                             var indexValue = res;
+                            console.log(index)
                             index.value = indexValue
                             $(indexValueList).attr(index, indexValue)
                             console.log(indexValueList)

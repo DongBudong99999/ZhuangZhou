@@ -328,17 +328,21 @@
 </div>
 <h>一上是侧面导航栏</h>
 <script type="text/javascript">
+    // 该项指标的价值计算结果
+    var indexValue;
+
     // 上传计算结果 并跳转到评价页面
     function uploadResult() {
-        console.log(indexValueList)
 
-        document.cookie = "生态资源评价结果=" + JSON.stringify(indexValueList);
+        // console.log(indexValueList)
+
+        document.cookie = "林木价值=林木价值:" + JSON.stringify(indexValue);
         window.location.href = "evaluate.html"
     }
 </script>
 
 <script type="text/javascript">
-    var paramsMap = {}
+
 
     name_params = new Map()
 
@@ -346,33 +350,34 @@
     name_params.set("木材市场价倒算法", ["W-木材销售总收入", "C-木材生产经营成本", "F-木材生产经营利润"]);
     name_params.set("市场成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
     name_params.set("市场法收益现值法", ["A-年净收益均值", "u-经营周期", "P-投资收益率", "n-林分年龄"]);
-    name_params.set("市场收获现值法", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "评估后至主伐期间的年营林生产成本", "P-投资收益率"]);
-    name_params.set("市场年金资本化法", ["年平均纯收益", "投资收益率"]);
+    name_params.set("市场收获现值法", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "C-评估后至主伐期间的年营林生产成本", "P-投资收益率", "a-第a年", "b-第b年"]);
+    name_params.set("市场年金资本化法", ["A-年平均纯收益", "P-投资收益率"]);
     name_params.set("刚择伐后的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期"]);
     name_params.set("择伐m年后的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "m-距最近一次择伐的年限"]);
     name_params.set("未成熟林的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "q-林分成熟年龄", "n-林分年龄"]);
-    name_params.set("重置成本法", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
+    name_params.set("基本重置成本法", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
     name_params.set("择伐周期", ["s-择伐强度", "p-蓄积生长率"]);
-    name_params.set("刚择伐后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期"]);
-    name_params.set("择伐m年后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期"]);
+    name_params.set("刚择伐后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期", "n-评估期限"]);
+    name_params.set("择伐m年后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期", "n-评估期限", "m-距最近一次择伐的年限"]);
     name_params.set("未成熟林的异龄林", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "q-林分成熟年龄", "n-林分年龄"]);
     name_params.set("成熟林/过熟林", ["W-木材销售总收入", "C-木材生产经营成本", "F-木材生产经营利润"]);
-    name_params.set("中龄林/近熟林", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "评估后至主伐期间的年营林生产成本", "P-投资收益率"]);
+    name_params.set("中龄林/近熟林", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "C-评估后至主伐期间的年营林生产成本", "P-投资收益率"]);
     name_params.set("幼龄林", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
     name_params.set("产前经济林评估", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
     name_params.set("初产期经济林重置成本法", ["K-林分质量综合调整系数", "C-年投入均值", "A-年经营收入均值", "P-投资收益率", "n-林分年龄", "m-投入大于经营收入的年数"]);
     name_params.set("初产期经济林收益现值法", ["AI-盛产期平均年净收益", "AJ-经济寿命期末木材净收益", "A-初产期年净收益均值", "u-经济寿命期", "n-林分年龄", "n1-盛产期开始年", "K-林分质量综合调整系数", "P-投资收益率"]);
 
-    name_params.set("初产期经济林市场成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+    name_params.set("初产期经济林成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
 
     name_params.set("盛产期收获现值法", ["AI-盛产期平均年净收益", "u-经济寿命期", "n-林分年龄", "K-林分质量综合调整系数", "P-投资收益率"]);
-    name_params.set("盛产期市场成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+    name_params.set("盛产期成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
 
 
     // 获取选择的公式名称，绘制该项的参数列表
     function getIndexName(id) {
+        var paramsMap = {}
         var inputContainer = document.getElementById(id + "_list");
-
+        var index;
         var paramArray = name_params.get(id);
 
         console.log(paramArray)
@@ -432,7 +437,7 @@
                 console.log(data1)
 
                 $.ajax({
-                    url: "/format",
+                    url: "/lm_format",
                     type: "POST",
                     data: data1,
                     // dataType: "json",
@@ -448,18 +453,19 @@
                         newResult.setAttribute("id", index + "_result")
 
 
-                        newResult.innerHTML = res + "元";
+                        newResult.innerHTML = res + "万元";
                         inputContainer.appendChild(newResult)
 
 
-                        //该项指标的价值计算结果
-                        // var indexValue = res;
+                        // 该项指标的价值计算结果
+                        indexValue = res;
+
                         // index.value = indexValue
                         // $(indexValueList).attr(index, indexValue)
                         // console.log(indexValueList)
                     },
                     error: function (err) {
-                        alert("网络连接失败,稍后重试", err);
+                        alert("计算失败，请检查参数是否填写完整", err);
                     }
 
                 });
@@ -516,8 +522,8 @@
                 </li>
 
 
-                <li class="二级菜单" id="重置成本法" onclick="getIndexName(this.id)">重置成本法</li>
-                <div class="indexList" id="重置成本法_list"></div>
+                <li class="二级菜单" id="基本重置成本法" onclick="getIndexName(this.id)">重置成本法</li>
+                <div class="indexList" id="基本重置成本法_list"></div>
             </ul>
         </li>
 
@@ -576,8 +582,8 @@
                         <div class="indexList" id="初产期经济林收益现值法_list"></div>
 
 
-                        <li class="三级菜单" id="初产期经济林市场成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
-                        <div class="indexList" id="初产期经济林市场成交价比较法_list"></div>
+                        <li class="三级菜单" id="初产期经济林成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
+                        <div class="indexList" id="初产期经济林成交价比较法_list"></div>
 
 
                     </ul>
@@ -589,9 +595,9 @@
                         <div class="indexList" id="盛产期收获现值法_list"></div>
 
 
-                        <li class="三级菜单" id="盛产期市场成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
+                        <li class="三级菜单" id="盛产期成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
 
-                        <div class="indexList" id="盛产期市场成交价比较法_list"></div>
+                        <div class="indexList" id="盛产期成交价比较法_list"></div>
 
                     </ul>
 

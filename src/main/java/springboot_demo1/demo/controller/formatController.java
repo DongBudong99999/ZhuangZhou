@@ -17,9 +17,9 @@ import java.util.Map;
 public class formatController {
 
 
-    @RequestMapping(value = "/format", method = RequestMethod.POST)
+    @RequestMapping(value = "/st_format", method = RequestMethod.POST)
 
-    public String calcalute(@RequestBody String s) throws JSONException {
+    public String st_calcalute(@RequestBody String s) throws JSONException {
         String id = "";
         String result = "";
         String[] aa = s.replace("{", "").replace("}", "").split(",");
@@ -279,7 +279,7 @@ public class formatController {
 
             double t = Double.parseDouble(json.getString("t"));
             System.out.println(t);
-            DecimalFormat    df   = new DecimalFormat("######0.00");
+            DecimalFormat df = new DecimalFormat("######0.00");
 
             double result_double = K2 * K3 * K4 * (1 + 0.1 * Em + 0.1 * Bn + 0.1 * Oi) * S物种保育 * S * t;
             result = df.format(result_double);
@@ -294,4 +294,498 @@ public class formatController {
 
 
     }
+
+
+    @RequestMapping(value = "/lm_format", method = RequestMethod.POST)
+    public String lm_calcalute(@RequestBody String ss) throws JSONException {
+        String result = "";
+        String[] aa = ss.replace("{", "").replace("}", "").split(",");
+        JSONObject json = new JSONObject();
+
+        for (int i = 0; i < aa.length; i++) {
+            json.put(aa[i].split(":")[0].replaceAll("\"", ""), aa[i].split(":")[1].replaceAll("\"", ""));
+        }
+        System.out.println(json);
+        if (json.getString("id").contains("木材市场价倒算法")) {
+            double W = Double.parseDouble(json.getString("W"));
+            System.out.println(W);
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+            double F = Double.parseDouble(json.getString("F"));
+            System.out.println(F);
+            double result_double = W - C - F;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("市场成交价比较法")) {
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double N = Double.parseDouble(json.getString("N"));
+            System.out.println(N);
+            double Kb = Double.parseDouble(json.getString("Kb"));
+            System.out.println(Kb);
+            double G = Double.parseDouble(json.getString("G"));
+            System.out.println(G);
+            double X = Double.parseDouble(json.getString("X"));
+            System.out.println(X);
+            double result_double = X * K * Kb * G;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("市场法收益现值法")) {
+            double result_double = 0;
+            double A = Double.parseDouble(json.getString("A"));
+            System.out.println(A);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            for (double i = n; i <= u; i++) {
+                result_double += A / Math.pow((1 + P), (i - n + 1));
+                System.out.println(result_double);
+            }
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("市场收获现值法")) {
+            double result_double = 0;
+            double Aa = Double.parseDouble(json.getString("Aa"));
+            System.out.println(Aa);
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+            double Ab = Double.parseDouble(json.getString("Ab"));
+            System.out.println(Ab);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(Au);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double a = Double.parseDouble(json.getString("a"));
+            System.out.println(a);
+            double b = Double.parseDouble(json.getString("b"));
+            System.out.println(b);
+
+
+            double d1 = K * (Au + Aa * Math.pow((1 + P), u - a) + Ab * Math.pow((1 + P), u - b)) / Math.pow((1 + P), u - n + 1);
+            double d2 = 0;
+            for (double i = n; i <= n - 1; i++) {
+                d2 += C / Math.pow((1 + P), (i - n + 1));
+            }
+            result_double = d1 - d2;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("市场年金资本化法")) {
+            double result_double = 0;
+            double A = Double.parseDouble(json.getString("A"));
+            System.out.println(A);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            result_double += A / P;
+            System.out.println(result_double);
+
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("刚择伐后的林木")) {
+            double result_double = 0;
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+
+            double V = Double.parseDouble(json.getString("V"));
+            System.out.println(V);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+
+
+            result_double = K * Au / (Math.pow((1 + P), u) - 1) - V / P;
+            System.out.println(result_double);
+
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("择伐m年后的林木")) {
+            double result_double = 0;
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+
+            double V = Double.parseDouble(json.getString("V"));
+            System.out.println(V);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+            double m = Double.parseDouble(json.getString("m"));
+            System.out.println(m);
+
+
+            result_double = K * Au * Math.pow((1 + P), m) / (Math.pow((1 + P), u) - 1) - V / P;
+            System.out.println(result_double);
+
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+
+
+        if (json.getString("id").contains("未成熟林的林木")) {
+            double result_double = 0;
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+
+            double V = Double.parseDouble(json.getString("V"));
+            System.out.println(V);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+            double q = Double.parseDouble(json.getString("q"));
+            System.out.println(q);
+
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+
+            result_double = K * Au * Math.pow((1 + P), u) / (Math.pow((1 + P), u) - 1) * (Math.pow((1 + P), (q - n))) - V / P;
+            System.out.println(result_double);
+
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+
+        if (json.getString("id").contains("基本重置成本法")) {
+            System.out.println("########");
+            double result_double = 0;
+
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+
+            for (double i = 1; i <= n; i++) {
+
+                result_double += K * C * n * Math.pow((1 + P), (n - i + 1));
+            }
+            System.out.println(result_double);
+
+            result = String.valueOf(result_double);
+            System.out.println(result);
+
+        }
+
+
+        if (json.getString("id").contains("择伐周期")) {
+            double result_double = 0;
+
+            double s = Double.parseDouble(json.getString("s"));
+            System.out.println(s);
+
+
+            double p = Double.parseDouble(json.getString("p"));
+            System.out.println(p);
+
+
+            result_double = (0 - Math.log(1 - s) / Math.log(10)) / Math.log(1 + p) / Math.log(10);
+
+            System.out.println(result_double);
+
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+
+        if (json.getString("id").contains("刚择伐后的异龄林")) {
+            double result_double = 0;
+
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+
+
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+
+
+            double V = Double.parseDouble(json.getString("V"));
+            System.out.println(V);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+
+            result_double = (Au / (Math.pow((1 + P), u) - 1) - V / P) * (1 - 1 / Math.pow((1 + P), n));
+
+            System.out.println(result_double);
+
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+
+
+        if (json.getString("id").contains("刚择伐后的异龄林")) {
+            double result_double = 0;
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+            double V = Double.parseDouble(json.getString("V"));
+            System.out.println(V);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            result_double = (Au / (Math.pow((1 + P), u) - 1) - V / P) * (1 - 1 / Math.pow((1 + P), n));
+            System.out.println(result_double);
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("择伐m年后的异龄林")) {
+            double result_double = 0;
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+            double V = Double.parseDouble(json.getString("V"));
+            System.out.println(V);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double m = Double.parseDouble(json.getString("m"));
+            System.out.println(m);
+
+            result_double = (Au * Math.pow((1 + P), m) / (Math.pow((1 + P), u) - 1) - V / P) * (1 - 1 / Math.pow((1 + P), n));
+            System.out.println(result_double);
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+
+        if (json.getString("id").contains("未成熟林的异龄林")) {
+            double result_double = 0;
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double q = Double.parseDouble(json.getString("q"));
+            System.out.println(q);
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+            double V = Double.parseDouble(json.getString("V"));
+            System.out.println(V);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            result_double = (K * Au * Math.pow((1 + P), u) / (Math.pow((1 + P), u) - 1) * Math.pow((1 + P), (q - n)) - V / P) * (1 - 1 / Math.pow((1 + P), n));
+            System.out.println(result_double);
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("成熟林/过熟林")) {
+            double W = Double.parseDouble(json.getString("W"));
+            System.out.println(W);
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+            double F = Double.parseDouble(json.getString("F"));
+            System.out.println(F);
+            double result_double = W - C - F;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("中龄林/近熟林")) {
+            double result_double = 0;
+            double Aa = Double.parseDouble(json.getString("Aa"));
+            System.out.println(Aa);
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+            double Ab = Double.parseDouble(json.getString("Ab"));
+            System.out.println(Ab);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double Au = Double.parseDouble(json.getString("Au"));
+            System.out.println(Au);
+
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(Au);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double a = Double.parseDouble(json.getString("a"));
+            System.out.println(a);
+            double b = Double.parseDouble(json.getString("b"));
+            System.out.println(b);
+
+
+            double d1 = K * (Au + Aa * Math.pow((1 + P), u - a) + Ab * Math.pow((1 + P), u - b)) / Math.pow((1 + P), u - n + 1);
+            double d2 = 0;
+            for (double i = n; i <= n - 1; i++) {
+                d2 += C / Math.pow((1 + P), (i - n + 1));
+            }
+            result_double = d1 - d2;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("幼龄林")) {
+            double result_double = 0;
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            for (double i = 1; i <= n; i++) {
+                result_double += K * C * n * Math.pow((1 + P), (n - i + 1));
+            }
+            System.out.println(result_double);
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("产前经济林评估")) {
+            double result_double = 0;
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            for (double i = 1; i <= n; i++) {
+                result_double += K * C * n * Math.pow((1 + P), (n - i + 1));
+            }
+            System.out.println(result_double);
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("初产期经济林重置成本法")) {
+
+            double result_double = 0;
+            double A = Double.parseDouble(json.getString("A"));
+            System.out.println(A);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double C = Double.parseDouble(json.getString("C"));
+            System.out.println(C);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double m = Double.parseDouble(json.getString("m"));
+            System.out.println(m);
+            if (n > m) {
+                for (double i = 1; i <= m; i++) {
+                    result_double += K * (C - A) * Math.pow((1 + P), (m - i + 1));
+                }
+            } else {
+                for (double i = 1; i <= n; i++) {
+                    result_double += K * (C - A) * Math.pow((1 + P), (n - i + 1));
+                }
+            }
+            System.out.println(result_double);
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("初产期经济林收益现值法")) {
+
+            double result_double = 0;
+            double A = Double.parseDouble(json.getString("A"));
+            System.out.println(A);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double n1 = Double.parseDouble(json.getString("n1"));
+            System.out.println(n1);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+
+            double AI = Double.parseDouble(json.getString("AI"));
+            System.out.println(AI);
+            double AJ = Double.parseDouble(json.getString("AJ"));
+            System.out.println(AJ);
+
+            for (double i = n + 1; i < n1 - 1; i++) {
+                result_double += A / Math.pow((1 + P), (i - n + 1)) + (AI * Math.pow((1 + P), (u - n1 + 1)) - 1) / P * Math.pow((1 + P), (u - n + 1)) + AJ / Math.pow((1 + P), (u - n + 1));
+            }
+
+            System.out.println(result_double);
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("初产期经济林成交价比较法")) {
+
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double N = Double.parseDouble(json.getString("N"));
+            System.out.println(N);
+            double Kb = Double.parseDouble(json.getString("Kb"));
+            System.out.println(Kb);
+            double G = Double.parseDouble(json.getString("G"));
+            System.out.println(G);
+            double X = Double.parseDouble(json.getString("X"));
+            System.out.println(X);
+            double result_double = X * K * Kb * G;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("盛产期收获现值法")) {
+
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double n = Double.parseDouble(json.getString("n"));
+            System.out.println(n);
+            double P = Double.parseDouble(json.getString("P"));
+            System.out.println(P);
+            double u = Double.parseDouble(json.getString("u"));
+            System.out.println(u);
+            double AI = Double.parseDouble(json.getString("AI"));
+            System.out.println(AI);
+            double result_double = K * AI * (Math.pow((1 + P), (u - n + 1)) - 1) / P * Math.pow((1 + P), (u - n + 1)) - 1;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+        if (json.getString("id").contains("盛产期成交价比较法")) {
+
+            double K = Double.parseDouble(json.getString("K"));
+            System.out.println(K);
+            double N = Double.parseDouble(json.getString("N"));
+            System.out.println(N);
+            double Kb = Double.parseDouble(json.getString("Kb"));
+            System.out.println(Kb);
+            double G = Double.parseDouble(json.getString("G"));
+            System.out.println(G);
+            double X = Double.parseDouble(json.getString("X"));
+            System.out.println(X);
+            double result_double = X * K * Kb * G;
+            result = String.valueOf(result_double);
+            System.out.println(result);
+        }
+
+        return result;
+
+    }
+
 }
