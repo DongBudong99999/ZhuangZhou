@@ -1,0 +1,702 @@
+<html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>计算公式</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="css/style.min.css" rel="stylesheet"/>
+    <link href="css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="css/retina.css" rel="stylesheet"/>
+    <!-- end: CSS -->
+
+    <!--<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
+    <script type="text/javascript" src="js/xlsx.core.min.js"></script>
+
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link id="ie-style" href="css/ie.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if IE 9]>
+    <link id="ie9style" href="css/ie9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!-- start: Favicon and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png"/>
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png"/>
+    <link rel="shortcut icon" href="ico/favicon.png"/>
+    <!-- end: Favicon and Touch Icons -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="http://malsup.github.io/jquery.form.js"></script>
+    <link th:href="@{/webjars/bootstrap/3.3.6/dist/css/bootstrap.css}" rel="stylesheet"></link>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        .format {
+            width: 1360px;
+            height: 100px;
+            /*margin-left: -150px;*/
+            /*margin-top -100px;*/
+            top: 6%;
+            left: 14.6%;
+            position: absolute;
+            float: top;
+        }
+
+        #div1 {
+            width: 1410px;
+            height: 850px;
+            padding: 10px;
+            border: 2px solid #0B90C4;
+            scrollbar-3d-light-color: grey;
+            overflow: scroll;
+
+        }
+
+        #div1 p {
+            display: block;
+            height: 40px;
+        }
+
+        #div2 p {
+            display: inline-block;
+
+        }
+
+        #div2 {
+            width: 600px;
+            height: 420px;
+            padding: 10px;
+            border: 0px solid #aaaaaa;
+            display: inline;
+        }
+
+        .format button {
+
+            height: 40px;;
+            border-radius: 8px;
+            background: #7ab5d3;
+            border-color: #78C3F3;
+            color: #000000;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none; /* 不显示轮廓线 */
+            font-family: Microsoft YaHei; /* 设置字体 */
+            color: white; /* 字体颜色 */
+            font-size: 17px;
+            padding-left: 5px;
+            padding-right: 5px;
+            float: left;
+            margin-left: 20px;
+            display: inline-block;
+
+        }
+
+        .drag_params_style {
+            float: left;
+            display: inline;
+        }
+
+        .drag_params_style input {
+            border: 2px solid #9ecaed;
+            border-radius: 10px;
+            color: #80636c;
+            font-family: 'Opan Sans', sans-serif;
+            font-size: 1em;
+            height: 40px;
+            padding: 0 16px;
+            transition: background 0.3s ease-in-out;
+            width: 70px;
+            margin-left: 10px;
+
+        }
+
+        .drag_params_style input:focus {
+            outline: 2px;
+            border-color: #942a25;
+            box-shadow: 0 0 10px #9ecaed;
+        }
+    </style>
+    <script type="text/javascript">
+
+
+    </script>
+    <style type="text/css">
+        .uploadResult {
+            width: 60px;
+            height: 120px;;
+            border-radius: 8px;
+            background: #942a25;
+            border-color: #78C3F3;
+            color: #000000;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none; /* 不显示轮廓线 */
+            font-family: Microsoft YaHei; /* 设置字体 */
+            color: white; /* 字体颜色 */
+            font-size: 17px;
+            padding-left: 5px;
+            padding-right: 5px;
+            float: left;
+            margin-left: 15px;
+            display: inline-block;
+            position: absolute;
+            top: 6%;
+            left: 95%;
+
+        }
+
+        .index {
+            position: absolute;
+            top: 9%;
+            left: 20%;
+            cursor: pointer;
+
+        }
+
+        .二级菜单 {
+            color: #80636c;
+            font-size: 16px;
+            margin-top: 8px;
+            width: 280px;
+            height: 25px;
+        }
+
+        .二级菜单:hover {
+            background: #8cafed;
+        }
+
+        .三级菜单:hover {
+            background: #8cafed;
+        }
+
+        .二级菜单含子菜单 {
+            /*background: #942a25;*/
+            color: #80636c;
+            font-size: 16px;
+            margin-top: 6px;
+
+        }
+
+        .一级菜单 {
+            margin-bottom: 13px;
+            color: #606060;
+            font-size: 20px;
+            font-weight: bolder;
+
+        }
+
+        .一级菜单 span {
+            height: 50px;
+        }
+
+        .三级菜单 {
+            color: #7f838e;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+<iframe src="header.html" width="100%" height="41px" frameborder=0></iframe>
+<!--<h> 以上是顶端导航栏</h>-->
+
+
+<!--<h>以下是侧面导航栏</h>-->
+
+
+<div class="container-fluid-full" style=" height: 1500px; ;z-index: 0;position: relative; scrollbar-3d-light-color: grey;
+            overflow: scroll;">
+    <div class="row-fluid">
+
+        <!-- start: Main Menu -->
+        <div id="sidebar-left" class="span2">
+
+            <div class="row-fluid actions">
+
+                <input type="text" class="search span12" placeholder="..."/>
+                <a></a>
+
+            </div>
+            <span class="nav-collapse sidebar-nav">
+                <ul class="nav nav-tabs nav-stacked main-menu">
+                    <li><a href="index.html"><i class="icon-bar-chart"></i><span
+                            class="hidden-tablet"> 首页</span></a>
+                    </li>
+                    <li><a href="register.html"><i class="icon-star"></i><span class="hidden-tablet"> 用户注册</span></a>
+                    </li>
+                    <li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> 登录页面</span></a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#">
+                            <i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">基础数据库系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                  <li><a class="submenu" href="upload.html"><i class="icon-tasks"></i><span
+                                          class="hidden-tablet"> <span style="color: #9ecaed ">小班文件上传</span></span></a></li>
+
+                                <li><a class="submenu" href="select_data.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 小班数据查询</span></span></a></li>
+
+                                <li><a class="submenu" href="to_db.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed ">小班数据录入</span></span></a></li>
+
+                                <li><a class="submenu" href="file-manager.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">小班文件列表</span></span></a></li>
+
+                                <li><a class="submenu" href="tables.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">数据汇总表</span></span></a></li>
+
+                            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">技评估模型管理系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="instruction.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">计算公式介绍</span></span></a></li>
+
+                                 <li><a class="submenu" href="cs_format.html"><i class="icon-envelope"></i><span
+                                         class="hidden-tablet"> <span
+                                         style="color: #9ecaed ">调节参数计算</span></span></a></li>
+
+                                 <li><a class="submenu" href="lm_format.html"><i class="icon-envelope"></i><span
+                                         class="hidden-tablet"> <span
+                                         style="color: #9ecaed ">林木价值计算</span></span></a></li>
+
+                                <li><a class="submenu" href="ld_format.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">林地价值计算</span></span></a></li>
+
+                                <li><a class="submenu" href="st_format.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">生态服务价值计算</span></span></a></li>
+
+                                  <li><a class="submenu" href="jg_format.html"><i class="icon-envelope"></i><span
+                                          class="hidden-tablet"> <span
+                                          style="color: #9ecaed ">景观价值计算</span></span></a></li>
+                                <li><a class="submenu" href="formatEditor.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">模型动态更新</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">资源评价系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+
+                                <li><a class="submenu" href="evaluate.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">资源评估</span></span></a></li>
+                                <li><a class="submenu" href="specialist.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 专家评分入口</span></span></a></li>
+                                <li><a class="submenu" href="ahp.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 层次分析入口</span></span></a></li>
+                                <li><a class="submenu" href="result.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 评价结果</span></span></a></li>
+                                <li><a class="submenu" href="report.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 评估报告</span></span></a></li>
+                                <li><a class="submenu" href="evaluate_records.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 评估记录查询</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                       <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">可视化系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="dynamicMap.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed ">webGis可视化</span></span></a></li>
+                                <li><a class="submenu" href="to_db.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">专题图可视化</span></span></a></li>
+                                <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">图表样式</span></span></a></li>
+                                <li><a class="submenu" href="select_data_tochart.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed ">小班数据可视化</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </span>
+        </div>
+    </div>
+</div>
+<h>一上是侧面导航栏</h>
+<script type="text/javascript">
+    // 该项指标的价值计算结果
+    var indexValue;
+
+    // 上传计算结果 并跳转到评价页面
+    function uploadResult() {
+
+        // console.log(indexValueList)
+
+        document.cookie = "林木价值=林木价值:" + JSON.stringify(indexValue);
+        window.location.href = "evaluate.html"
+    }
+</script>
+
+<script type="text/javascript">
+
+
+    name_params = new Map()
+
+
+    name_params.set("木材市场价倒算法", ["W-木材销售总收入", "C-木材生产经营成本", "F-木材生产经营利润"]);
+    name_params.set("市场成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+    name_params.set("市场法收益现值法", ["A-年净收益均值", "u-经营周期", "P-投资收益率", "n-林分年龄"]);
+    name_params.set("市场收获现值法", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "C-评估后至主伐期间的年营林生产成本", "P-投资收益率", "a-第a年", "b-第b年"]);
+    name_params.set("市场年金资本化法", ["A-年平均纯收益", "P-投资收益率"]);
+    name_params.set("刚择伐后的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期"]);
+    name_params.set("择伐m年后的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "m-距最近一次择伐的年限"]);
+    name_params.set("未成熟林的林木", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "q-林分成熟年龄", "n-林分年龄"]);
+    name_params.set("基本重置成本法", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
+    name_params.set("择伐周期", ["s-择伐强度", "p-蓄积生长率"]);
+    name_params.set("刚择伐后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期", "n-评估期限"]);
+    name_params.set("择伐m年后的异龄林", ["Au-择伐的纯收益", "V-年森林管护成本", "P-投资收益率", "u-择伐周期", "n-评估期限", "m-距最近一次择伐的年限"]);
+    name_params.set("未成熟林的异龄林", ["K-林分质量综合调整系数", "Au-择伐的纯收益", "P-投资收益率", "V-年森林管护成本", "u-择伐周期", "q-林分成熟年龄", "n-林分年龄"]);
+    name_params.set("成熟林/过熟林", ["W-木材销售总收入", "C-木材生产经营成本", "F-木材生产经营利润"]);
+    name_params.set("中龄林/近熟林", ["K-林分质量综合调整系数", "Au-林分主伐净收益", "Aa-参照第a年间伐和其他纯收益", "Ab-参照第b年间伐和其他纯收益", "u-经营周期", "n-林分年龄", "C-评估后至主伐期间的年营林生产成本", "P-投资收益率"]);
+    name_params.set("幼龄林", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
+    name_params.set("产前经济林评估", ["K-林分质量综合调整系数", "C-生产成本均值", "n-林分年龄", "P-投资收益率"]);
+    name_params.set("初产期经济林重置成本法", ["K-林分质量综合调整系数", "C-年投入均值", "A-年经营收入均值", "P-投资收益率", "n-林分年龄", "m-投入大于经营收入的年数"]);
+    name_params.set("初产期经济林收益现值法", ["AI-盛产期平均年净收益", "AJ-经济寿命期末木材净收益", "A-初产期年净收益均值", "u-经济寿命期", "n-林分年龄", "n1-盛产期开始年", "K-林分质量综合调整系数", "P-投资收益率"]);
+
+    name_params.set("初产期经济林成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+
+    name_params.set("盛产期收获现值法", ["AI-盛产期平均年净收益", "u-经济寿命期", "n-林分年龄", "K-林分质量综合调整系数", "P-投资收益率"]);
+    name_params.set("盛产期成交价比较法", ["X-拟评估森林资产的实物量均值", "K-林分质量综合调整系数", "Kb-物价调整系数均值", "G-市场交易价格均值", "N-交易案例个数"]);
+
+
+    // 获取选择的公式名称，绘制该项的参数列表
+    function getIndexName(id) {
+        var paramsMap = {}
+        var inputContainer = document.getElementById(id + "_list");
+        var index;
+        var paramArray = name_params.get(id);
+
+        console.log(paramArray)
+
+        if (!inputContainer.hasChildNodes()) {
+            for (var i = 0; i < paramArray.length; i++) {
+                var param = paramArray[i]
+                // console.log(param);
+
+                var newInput = document.createElement("input");
+
+                newInput.nodeType = "text";
+                newInput.setAttribute("id", id + "_" + param)//输入框的id为--"param"+i
+                newInput.setAttribute("name", param.split("-")[0]);
+                inputContainer.appendChild(newInput);
+
+                var temp;
+                document.getElementById(id + "_" + param).value = param + "=";
+
+
+                newInput.onfocus = function () {
+                    console.log(this.value)
+
+                    // temp = this.value.split("=")[0];
+                    temp = this.name
+
+                    this.value = "";
+                    console.log(temp)
+                    // console.log(time)
+
+
+                }
+                newInput.onblur = function () {
+                    if (!this.value) {
+                        this.value = this.id.split("_")[1] + "=";
+                    } else {
+                        var v = this.value
+
+                        paramsMap[temp] = v;
+
+                        console.log(paramsMap)
+                    }
+
+
+                }
+            }
+            var newButton = document.createElement("button");
+            newButton.setAttribute("id", id + "_button")
+            newButton.innerHTML = "生成结果";
+            inputContainer.appendChild(newButton)
+
+            //生成结果按钮
+            newButton.onclick = function () {
+                var indexToVal = this.id.split("_")[0];
+                paramsMap["id"] = indexToVal;
+                var data1 = JSON.stringify(paramsMap);
+                console.log(data1)
+
+                $.ajax({
+                    url: "/lm_format",
+                    type: "POST",
+                    data: data1,
+                    // dataType: "json",
+
+                    // contentType: "application/json",
+                    // processData: false,//用于对data参数进行序列化处理 这里必须false
+                    // contentType: false, //必须
+                    headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+                    success: function (res) {
+                        // alert("有返回");
+
+                        var newResult = document.createElement("button")
+                        newResult.setAttribute("id", index + "_result")
+
+
+                        newResult.innerHTML = res + "万元";
+                        inputContainer.appendChild(newResult)
+
+
+                        // 该项指标的价值计算结果
+                        indexValue = res;
+
+                        // index.value = indexValue
+                        // $(indexValueList).attr(index, indexValue)
+                        // console.log(indexValueList)
+                    },
+                    error: function (err) {
+                        alert("计算失败，请检查参数是否填写完整", err);
+                    }
+
+                });
+            }
+            // 创建删除按钮
+            var deleteButton = document.createElement("button");
+            deleteButton.setAttribute("id", index + "_delete");
+            deleteButton.innerHTML = "取消";
+            inputContainer.appendChild(deleteButton)
+            deleteButton.onclick = function (ev) {
+                inputContainer.innerHTML = "";
+                // console.log(p)
+            }
+        }
+    }
+
+</script>
+
+<button class="uploadResult" id="uploadResult" type="button" onclick="uploadResult()">确认并上传结果</button>
+<div id="index" class="index">
+    <ul>
+        <li class="一级菜单"><span onclick="f('sub_menu_1')">市场法资产评估</span>
+            <ul id="sub_menu_1">
+
+                <li class="二级菜单" id="木材市场价倒算法" onclick="getIndexName(this.id)"><span>木材市场价倒算法(剩余价值法)</span></li>
+                <div class="indexList" id="木材市场价倒算法_list"></div>
+
+
+                <li class="二级菜单" id="市场成交价比较法" onclick="getIndexName(this.id)"><span>市场成交价比较法</span></li>
+                <div class="indexList" id="市场成交价比较法_list"></div>
+
+
+                <li class="二级菜单" id="市场法收益现值法" onclick="getIndexName(this.id)"><span>收益现值法</span></li>
+                <div class="indexList" id="市场法收益现值法_list"></div>
+
+                <li class="二级菜单" id="市场收获现值法" onclick="getIndexName(this.id)">收获现值法</li>
+                <div class="indexList" id="市场收获现值法_list"></div>
+
+                <li class="二级菜单" id="市场年金资本化法" onclick="getIndexName(this.id)">年金资本化法</li>
+                <div class="indexList" id="市场年金资本化法_list"></div>
+
+
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_1_6')">周期收益资本化法</span>
+                    <ul id="sub_menu_1_6">
+                        <li class="三级菜单" id="刚择伐后的林木" onclick="getIndexName(this.id)">刚择伐后的林木</li>
+                        <div class="indexList" id="刚择伐后的林木_list"></div>
+
+                        <li class="三级菜单" id="择伐m年后的林木" onclick="getIndexName(this.id)">择伐m年后的林木</li>
+                        <div class="indexList" id="择伐m年后的林木_list"></div>
+
+                        <li class="三级菜单" id="未成熟林的林木" onclick="getIndexName(this.id)">未成熟林的林木</li>
+                        <div class="indexList" id="未成熟林的林木_list"></div>
+                    </ul>
+                </li>
+
+
+                <li class="二级菜单" id="基本重置成本法" onclick="getIndexName(this.id)">重置成本法</li>
+                <div class="indexList" id="基本重置成本法_list"></div>
+            </ul>
+        </li>
+
+
+        <li class="一级菜单"><span onclick="f('sub_menu_2')">用材林资产评估</span>
+            <ul id="sub_menu_2">
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_2_1')">异龄林</span>
+                    <ul id="sub_menu_2_1">
+                        <li class="三级菜单" id="择伐周期" onclick="getIndexName(this.id)">择伐周期</li>
+                        <div class="indexList" id="择伐周期_list"></div>
+
+
+                        <li class="三级菜单" id="刚择伐后的异龄林" onclick="getIndexName(this.id)">刚择伐后的异龄林</li>
+                        <div class="indexList" id="刚择伐后的异龄林_list"></div>
+
+
+                        <li class="三级菜单" id="择伐m年后的异龄林" onclick="getIndexName(this.id)">择伐m年后的异龄林</li>
+                        <div class="indexList" id="择伐m年后的异龄林_list"></div>
+
+                        <li class="三级菜单" id="未成熟林的异龄林" onclick="getIndexName(this.id)">未成熟林的异龄林</li>
+                        <div class="indexList" id="未成熟林的异龄林_list"></div>
+                    </ul>
+
+                </li>
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_2_2')">同龄林</span>
+                    <ul id="sub_menu_2_2">
+                        <li class="三级菜单" id="成熟林/过熟林" onclick="getIndexName(this.id)">成熟林/过熟林</li>
+                        <div class="indexList" id="成熟林/过熟林_list"></div>
+
+                        <li class="三级菜单" id="中龄林/近熟林" onclick="getIndexName(this.id)">中龄林/近熟林</li>
+                        <div class="indexList" id="中龄林/近熟林_list"></div>
+
+                        <li class="三级菜单" id="幼龄林" onclick="getIndexName(this.id)">幼龄林</li>
+                        <div class="indexList" id="幼龄林_list"></div>
+                    </ul>
+                </li>
+
+
+            </ul>
+
+        </li>
+
+        <li class="一级菜单"><span onclick="f('sub_menu_4')">经济林资产评估</span>
+            <ul id="sub_menu_4">
+                <li class="二级菜单" id="产前经济林评估" onclick="getIndexName(this.id)"> 产前经济林评估</li>
+                <div class="indexList" id="产前经济林评估_list"></div>
+
+
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_4_2')">初产期经济林评估 </span>
+                    <ul id="sub_menu_4_2">
+                        <li class="三级菜单" id="初产期经济林重置成本法" onclick="getIndexName(this.id)">重置成本法</li>
+                        <div class="indexList" id="初产期经济林重置成本法_list"></div>
+
+
+                        <li class="三级菜单" id="初产期经济林收益现值法" onclick="getIndexName(this.id)">收益现值法</li>
+                        <div class="indexList" id="初产期经济林收益现值法_list"></div>
+
+
+                        <li class="三级菜单" id="初产期经济林成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
+                        <div class="indexList" id="初产期经济林成交价比较法_list"></div>
+
+
+                    </ul>
+                </li>
+                <li class="二级菜单含子菜单"><span onclick="f('sub_menu_4_3')">盛产期经济林评估 </span>
+                    <ul id="sub_menu_4_3">
+
+                        <li class="三级菜单" id="盛产期收获现值法" onclick="getIndexName(this.id)">收获现值法</li>
+                        <div class="indexList" id="盛产期收获现值法_list"></div>
+
+
+                        <li class="三级菜单" id="盛产期成交价比较法" onclick="getIndexName(this.id)">市场成交价比较法</li>
+
+                        <div class="indexList" id="盛产期成交价比较法_list"></div>
+
+                    </ul>
+
+            </ul>
+
+        </li>
+    </ul>
+</div>
+<script type=" text/javascript">
+    function f(str) {
+        var sub_menu = document.getElementById(str);
+        // console.log(str)
+        // console.log(sub_menu)
+        var dis_v = sub_menu.style.display;
+
+        if (dis_v == "block")
+            sub_menu.style.display = "none";
+        else
+            sub_menu.style.display = "block";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
+<!--<li><span onclick="f('sub_menu_3')">竹林资产评估</span>-->
+<!--<ul id="sub_menu_3">-->
+<!--<li><span onclick="f('sub_menu_3_1')">新造未投产竹林</span>-->
+<!--<ul id="sub_menu_3_1">-->
+<!--<li>重置成本法</li>-->
+<!--<li>市场成交价法</li>-->
+<!--</ul>-->
+
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2')">已投产竹林</span>-->
+
+<!--<li><span onclick="f('sub_menu_3_2_1')">结构不合理竹林</span>-->
+
+
+<!--<ul id="sub_menu_3_2_1">-->
+<!--<li><span onclick="f('sub_menu_3_2_1_1')">收益现值法(永久经营)</span>-->
+
+<!--<ul id="sub_menu_3_2_1_1">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2_1_2')">收益现值法(有限期经营)</span>-->
+
+<!--<ul id="sub_menu_3_2_1_2">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li>市场成交价法</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2_2')">结构合理竹林</span>-->
+<!--<ul id="sub_menu_3_2_2">-->
+<!--<li><span onclick="f('sub_menu_3_2_2_1')">年金资本化法(永久经营)</span>-->
+<!--<ul id="sub_menu_3_2_2_1">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li><span onclick="f('sub_menu_3_2_2_2')">年金资本化法(有限期经营)</span>-->
+<!--<ul id="sub_menu_3_2_2_2">-->
+<!--<li>花年竹林</li>-->
+<!--<li>大小年竹林</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--<li>市场成交价法</li>-->
+<!--</ul>-->
+<!--</li>-->
+<!--&lt;!&ndash;</ul>&ndash;&gt;-->
+<!--&lt;!&ndash;</li>&ndash;&gt;-->

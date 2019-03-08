@@ -43,7 +43,19 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
+    <style type="text/css">
 
+        .file_table {
+            width: 800%;
+            height: 20%;
+            /*margin-left: -150px;*/
+            /*margin-top: -100px;*/
+            top: 10%;
+            left: 25%;
+            position: absolute;
+            border: 0;
+        }
+    </style>
 </head>
 
 
@@ -51,7 +63,57 @@
 <!--<h> 以下是顶端导航栏</h>-->
 <iframe src="header.html" width="100%" height="41px" frameborder=0></iframe>
 <!--<h> 以上是顶端导航栏</h>-->
+<script type="text/javascript">
+    var filename;
+    var htmlstr;
+    // alert("空餐传递")
+    $.ajax({
+        url: "/showFileList",
+        type: "POST",
 
+        // processData: false,//用于对data参数进行序列化处理 这里必须false
+        // contentType: false, //必须
+        headers: {'Content-Type': 'application/json;charset=utf-8'},
+        success: function (fileList) {
+            if (fileList) {
+                // alert("已接到返回，长度为" + fileList.length)
+                // // for(i=0;i<fileList.length;i++){
+                // //     console.log(fileList[i]);
+                // // }
+                //
+                var cols = 2; //2列
+                var rows = fileList.length; //4行
+                htmlstr = "<table class='file_table' style='height: 800px;' border='1px'>";
+                for (var m = 0; m < rows; m++) {
+                    filename = fileList[m].split('"');
+                    console.log(filename);
+                    htmlstr += "<tr>";
+                    for (var n = 0; n < cols; n++) {
+                        if (n == 0) {
+                            htmlstr += "<td  width='40%'>" + filename + "</td>";
+                        }
+                        if (n = 1) {
+                            htmlstr += "<td > <a href='http://localhost:8080/xlsx/" + filename + "'>下载</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                "<a onclick='showexcel(" + '"' + filename + '"' + ")'>预览</a>&nbsp;&nbsp;&nbsp;&nbsp;"+"<a onclick='showexcel(" + '"' + filename + '"' + ")'>删除</a>";
+                        }
+                    }
+                    htmlstr += "</tr>";
+                }
+                htmlstr += "</table>";
+                console.log(htmlstr)
+                document.getElementById("file_list").innerHTML = htmlstr;
+                // document.write(htmlstr)
+            }
+            console.log(fileList);
+
+
+        },
+        error: function (err) {
+            alert("网络连接失败,稍后重试", err);
+        }
+
+    });
+</script>
 
 <!--<h>以下是侧面导航栏</h>-->
 
@@ -86,80 +148,104 @@
                             <!--<span class="label">3</span></a>-->
                             <ul style="display: block;">
                                   <li><a class="submenu" href="upload.html"><i class="icon-tasks"></i><span
-                                          class="hidden-tablet"> <span
-                                          style="color: #9ecaed ">文件上传</span></span></a></li>
+                                          class="hidden-tablet"> <span style="color: #9ecaed ">小班文件上传</span></span></a></li>
 
                                 <li><a class="submenu" href="select_data.html"><i class="icon-hdd"></i><span
-                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据查询</span></span></a></li>
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 小班数据查询</span></span></a></li>
 
                                 <li><a class="submenu" href="to_db.html"><i class="icon-envelope"></i><span
-                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据录入</span></span></a></li>
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed ">小班数据录入</span></span></a></li>
 
                                 <li><a class="submenu" href="file-manager.html"><i class="icon-tasks"></i><span
-                                        class="hidden-tablet"> <span style="color: #9ecaed ">文件管理</span></span></a></li>
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">小班文件列表</span></span></a></li>
 
-                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
-                                        class="hidden-tablet"> <span style="color: #9ecaed ">数据处理</span></span></a></li>
-                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
-                                        class="hidden-tablet"> <span style="color: #9ecaed ">计算记录</span></span></a></li>
+                                <li><a class="submenu" href="tables.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">数据汇总表</span></span></a></li>
+
                             </ul>
                         </a>
                     </li>
                     <li>
                         <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
-                                class="hidden-tablet">技术规范管理系统</span>
+                                class="hidden-tablet">技评估模型管理系统</span>
                             <!--<span class="label">3</span></a>-->
                             <ul style="display: block;">
-                                <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
+                                <li><a class="submenu" href="instruction.html"><i class="icon-hdd"></i><span
                                         class="hidden-tablet"> <span
                                         style="color: #9ecaed ">计算公式介绍</span></span></a></li>
+
+                                 <li><a class="submenu" href="cs_format.html"><i class="icon-envelope"></i><span
+                                         class="hidden-tablet"> <span
+                                         style="color: #9ecaed ">调节参数计算</span></span></a></li>
+
+                                 <li><a class="submenu" href="lm_format.html"><i class="icon-envelope"></i><span
+                                         class="hidden-tablet"> <span
+                                         style="color: #9ecaed ">林木价值计算</span></span></a></li>
+
+                                <li><a class="submenu" href="ld_format.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">林地价值计算</span></span></a></li>
+
                                 <li><a class="submenu" href="st_format.html"><i class="icon-envelope"></i><span
                                         class="hidden-tablet"> <span
-                                        style="color: #9ecaed ">资产价值计算</span></span></a></li>
-                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                        style="color: #9ecaed ">生态服务价值计算</span></span></a></li>
+
+                                  <li><a class="submenu" href="jg_format.html"><i class="icon-envelope"></i><span
+                                          class="hidden-tablet"> <span
+                                          style="color: #9ecaed ">景观价值计算</span></span></a></li>
+                                <li><a class="submenu" href="formatEditor.html"><i class="icon-tasks"></i><span
                                         class="hidden-tablet"> <span
-                                        style="color: #9ecaed ">公式动态更新</span></span></a></li>
+                                        style="color: #9ecaed ">模型动态更新</span></span></a></li>
                             </ul>
                         </a>
                     </li>
-                    <li>
-                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
-                                class="hidden-tablet">可视化系统</span>
-                            <!--<span class="label">3</span></a>-->
-                            <ul style="display: block;">
-                                <li><a class="submenu" href="select_data_tochart.html"><i class="icon-tasks"></i><span
-                                        class="hidden-tablet"><span
-                                        style="color: #9ecaed "> 数据可视化</span></span></a></li>
-                                <li><a class="submenu" href="to_db.html"><i class="icon-hdd"></i><span
-                                        class="hidden-tablet"> <span style="color: #9ecaed ">生成地图</span></span></a></li>
-                                <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
-                                        class="hidden-tablet"> <span style="color: #9ecaed ">图标样式</span></span></a></li>
-                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
-                                        class="hidden-tablet"><span style="color: #9ecaed "> 数据对比</span></span></a></li>
-                            </ul>
-                        </a>
-                    </li>
+
                     <li>
                         <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
                                 class="hidden-tablet">资源评价系统</span>
                             <!--<span class="label">3</span></a>-->
                             <ul style="display: block;">
-                                <li><a class="submenu" href="infrastructure.html"><i class="icon-hdd"></i><span
-                                        class="hidden-tablet"> <span
-                                        style="color: #9ecaed ">评价等级声明</span></span></a></li>
-                                <li><a class="submenu" href="st_format.html"><i class="icon-envelope"></i><span
-                                        class="hidden-tablet"> <span style="color: #9ecaed ">资源评价</span></span></a></li>
 
-
+                                <li><a class="submenu" href="evaluate.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">资源评估</span></span></a></li>
                                 <li><a class="submenu" href="specialist.html"><i class="icon-tasks"></i><span
                                         class="hidden-tablet"><span
                                         style="color: #9ecaed "> 专家评分入口</span></span></a></li>
                                 <li><a class="submenu" href="ahp.html"><i class="icon-tasks"></i><span
                                         class="hidden-tablet"><span
                                         style="color: #9ecaed "> 层次分析入口</span></span></a></li>
-                                <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span
+                                <li><a class="submenu" href="result.html"><i class="icon-tasks"></i><span
                                         class="hidden-tablet"><span
-                                        style="color: #9ecaed "> 评价结果分析</span></span></a></li>
+                                        style="color: #9ecaed "> 评价结果</span></span></a></li>
+                                <li><a class="submenu" href="report.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 评估报告</span></span></a></li>
+                                <li><a class="submenu" href="evaluate_records.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed "> 评估记录查询</span></span></a></li>
+                            </ul>
+                        </a>
+                    </li>
+                       <li>
+                        <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span
+                                class="hidden-tablet">可视化系统</span>
+                            <!--<span class="label">3</span></a>-->
+                            <ul style="display: block;">
+                                <li><a class="submenu" href="dynamicMap.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed ">webGis可视化</span></span></a></li>
+                                <li><a class="submenu" href="to_db.html"><i class="icon-hdd"></i><span
+                                        class="hidden-tablet"> <span
+                                        style="color: #9ecaed ">专题图可视化</span></span></a></li>
+                                <li><a class="submenu" href="chart.html"><i class="icon-envelope"></i><span
+                                        class="hidden-tablet"> <span style="color: #9ecaed ">图表样式</span></span></a></li>
+                                <li><a class="submenu" href="select_data_tochart.html"><i class="icon-tasks"></i><span
+                                        class="hidden-tablet"><span
+                                        style="color: #9ecaed ">小班数据可视化</span></span></a></li>
                             </ul>
                         </a>
                     </li>
@@ -171,9 +257,12 @@
     </div>
 </div>
 <h>一上是侧面导航栏</h>
-
-    <br>
-    <br>
+<div>
+    <!--<div>以下是文件列表</div>-->
+    <a id="file_list"></a>
+</div>
+<br>
+<br>
 
 </body>
 </html>

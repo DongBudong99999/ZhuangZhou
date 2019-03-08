@@ -5,7 +5,7 @@
       "type": "Feature",
       "properties": {
         "name": "新造林地111",
-        "value":"111"
+        "value": "111"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -31294,7 +31294,6 @@
                 22488184.586027317,
                 5231113.400356699
               ]
-
             ]
           ]
         ]

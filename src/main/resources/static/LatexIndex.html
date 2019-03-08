@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>在线公式编辑器</title>
+    <link rel="stylesheet" type="text/css" href="./css/LaTexCSS/equation-embed.css"/>
+    <script src="./js/eq_config.js"></script>
+    <script src="./js/eq_editor-lite-19.js"></script>
+    <style>
+        .box {
+            width: 800px;
+            margin: 40px auto;
+
+        }
+
+        #latex_formula {
+            width: 800px;
+            height: 200px;
+            margin-left: 140px;
+
+        }
+        #equation{
+            position: absolute;
+            top: 65%;
+            right: 50%;
+        }
+    </style>
+    <style type="text/css">
+        .code {
+            position: absolute;
+            /*left: 30%;*/
+            /*display: inline-block;*/
+            background: #f6f4ff;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #91c2c7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+            width: 600px;
+            right: 60%;
+        }
+
+        .button {
+            margin-left: 40px;
+            width: 120px;
+            position: absolute;
+            right: 40%;
+            color: rgba(10, 11, 38, 0.85);
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            background: #b5cfed;
+            height: 30px;
+
+
+
+        }
+        .see {
+
+            position: absolute;
+            left: 30%;
+
+
+
+        }
+
+        /*.file input {*/
+        /*position: absolute;*/
+        /*font-size: 100px;*/
+        /*right: 0;*/
+        /*top: 0;*/
+        /*opacity: 0;*/
+        /*filter: alpha(opacity=0);*/
+        /*cursor: pointer;*/
+        /*width:600px;*/
+        /*}*/
+    </style>
+
+</head>
+
+<body>
+
+<!-- 公式 -->
+<div class="latexbox">
+    <div class="latex_mathjax">
+        <div id="editor"></div>
+        <div class="box">
+            <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MathJax代码区,确认更改后请提交代码</p>
+            <textarea id="latex_formula" rows="4" cols="40"></textarea>
+            <p class="link_src"></p>
+            <p class="outlook"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公式预览：</p>
+            <div class="see" ><img id="equation"/></div>
+        </div>
+    </div>
+</div>
+<form style="position: absolute; top: 80%;left: 45%; width: 800px;">
+    <a href="javascript:;">
+
+        <input type="text" id="fileUp" class="code" name="">
+
+    </a>
+    <a href="javascript:;">
+
+        <input type="button" name="点我上传" value="提交公式代码" class="button" id="" onclick="upload123()"></a>
+</form>
+</body>
+<script type="text/javascript">
+    var a = new EqTextArea('equation', 'latex_formula');
+    EqEditor.embed('editor', '', '', 'zh-cn');
+    EqEditor.add(a, false);
+</script>
+
+
+</html>

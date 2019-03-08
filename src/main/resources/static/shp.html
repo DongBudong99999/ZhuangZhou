@@ -1,0 +1,324 @@
+<html>
+<!--这个html是根据新的shp文件 生成geoJson保存，用来给to_db读取-->
+<head>
+    <meta charset="UTF-8">
+    <title>Javascript Shapefile Loader</title>
+    <script type="text/javascript" src="lib/binaryajax.js"></script>
+    <script type="text/javascript" src="src/binarywrapper.js"></script>
+    <script type="text/javascript" src="src/shapefile.js"></script>
+    <!--[if IE]>
+    <script src="lib/excanvas.js"></script><![endif]-->
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <script type="text/javascript" src="static/js/jquery-3.2.1.js"></script>
+    <!--https://malsup.github.io/jquery.form.js-->
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/SaveFile.js"></script>
+    <!--<script src="echarts2.0.js"></script>-->
+    <script src="echarts.min3.js"></script>
+
+
+    <script type="text/javascript">
+
+
+        function createBigJson(prop, val) {
+            // 如果 val 被忽略
+            if (typeof val === "undefined") {
+                // 删除属性
+                delete BigJson[prop];
+            }
+            else {
+                // 添加 或 修改
+                BigJson.features[0][prop] = val;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        var BigJson = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+
+        // var file = "thematicmapping/TM_WORLD_BORDERS_SIMPL-0.3.mjg15lb-1";
+
+        var file = "/mjg15lb-1/liangshui1999.shp";
+
+
+        window.onload = function () {
+            var b = new BinaryAjax(file, onBinaryAjaxComplete, onBinaryAjaxFail);
+        }
+
+        function onBinaryAjaxFail() {
+            alert('failed to load ' + file);
+        }
+
+        function onBinaryAjaxComplete(oHTTP) {
+            var binFile = oHTTP.binaryResponse;
+
+            if (window.console && window.console.log) console.log('got data, parsing shapefile');
+
+            var shpFile = new ShpFile(binFile);
+
+            if (shpFile.header.shapeType != ShpType.SHAPE_POLYGON && shpFile.header.shapeType != ShpType.SHAPE_POLYLINE) {
+                alert("Shapefile does not contain Polygon records (found type: " + shp.shapeType + ")");
+            }
+
+            //if (window.console && window.console.log) console.log(records);
+            //   console.log(shpFile.records)
+            render(shpFile.records);
+        }
+
+        function render(records) {
+            // console.log(records)
+            // console.log("----------")
+
+
+            if (window.console && window.console.log) console.log('creating canvas and rendering');
+
+            var canvas = document.getElementById('map');
+
+            if (window.G_vmlCanvasManager) {
+                G_vmlCanvasManager.initElement(canvas);
+            }
+
+            var t1 = new Date().getTime();
+            if (window.console && window.console.log) console.log('calculating bbox...');
+
+            var box;
+            for (var i = 0; i < records.length; i++) {
+                var record = records[i];
+                if (record.shapeType == ShpType.SHAPE_POLYGON || record.shapeType == ShpType.SHAPE_POLYLINE) {
+                    var shp = record.shape
+
+                    for (var j = 0; j < shp.rings.length; j++) {
+                        var ring = shp.rings[j];
+                        // console.log(ring)
+                        for (var k = 0; k < ring.length; k++) {
+                            if (!box) {
+                                box = {x: ring[k].x, y: ring[k].y, width: 0, height: 0};
+                            }
+                            else {
+                                var l = Math.min(box.x, ring[k].x);
+                                var t = Math.min(box.y, ring[k].y);
+                                var r = Math.max(box.x + box.width, ring[k].x);
+                                var b = Math.max(box.y + box.height, ring[k].y);
+                                box.x = l;
+                                box.y = t;
+                                box.width = r - l;
+                                box.height = b - t;
+                            }
+                        }
+                    }
+                }
+            }
+            // console.log(box)
+
+            var t2 = new Date().getTime();
+            if (window.console && window.console.log) console.log('found bbox in ' + (t2 - t1) + ' ms');
+
+            t1 = new Date().getTime();
+            if (window.console && window.console.log) console.log('starting rendering...');
+
+            var ctx = canvas.getContext('2d');
+
+            var sc = Math.min(1200 / box.width, 600 / box.height);
+
+            ctx.fillStyle = '#FFFAF0';
+            ctx.fillRect(0, 0, 1800, 900);
+
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = '#000';
+            ctx.fillStyle = '#74905d';
+            ctx.beginPath();
+            console.log(records)
+            console.log(records.length)
+
+
+            for (var i = 0; i <records.length ; i++) {
+            // for (var i = 0; i < 2; i++) {
+                var list = [];
+
+                var record = records[i];
+                if (record.shapeType == ShpType.SHAPE_POLYGON || record.shapeType == ShpType.SHAPE_POLYLINE) {
+                    var shp = record.shape;
+                    // for (var j = 0; j < shp.rings.length; j++) {
+                    for (var j = 0; j < 1; j++) {
+                        var ring = shp.rings[j];//现在的理解是 上面的box求出最小点当作起点，然后每个点用moveto画到指定位置
+                        if (ring.length < 1) continue;
+
+
+                        ctx.moveTo((ring[0].x - box.x) * sc + 400, 700 - (ring[0].y - box.y) * sc);
+                        list.push((ring[0].x - box.x) * sc + 400, 700 - (ring[0].y - box.y) * sc)
+
+
+                        for (var k = 1; k < ring.length; k++) {
+                            ctx.lineTo((ring[k].x - box.x) * sc + 400, 700 - (ring[k].y - box.y) * sc);
+                            list.push((ring[k].x - box.x) * sc + 400, 700 - (ring[k].y - box.y) * sc);
+                            // console.log((ring[k].x - box.x) * sc+400, 700 - (ring[k].y - box.y) * sc)
+                        }
+
+
+                    }
+                }
+                // console.log("----------")
+                // console.log(list.length)
+                var Group = []
+                for (var z = 0; z < list.length; z += 2) {
+
+                    var each = [];
+                    each.push(list[z]);
+                    each.push(list[z + 1] );
+                    Group.push(each)
+
+                }
+                // console.log(Group)
+                // createBigJson()
+                // console.log(Group)
+
+                var SmallJson = {
+                    "type": "Feature",
+                    "properties": {
+                        "name": ""
+
+                    },
+                    "geometry": {
+                        "type": "MultiPolygon",
+                        "coordinates": [
+                            []]
+                    }
+                }
+                SmallJson.geometry.coordinates[0].push(Group)
+
+
+                SmallJson.properties.name=i.toString()
+                SmallJson.properties.value=Math.random()*1000+50000;
+
+                console.log(SmallJson.properties.name)
+                BigJson.features.push(SmallJson)
+                // BigJson.features[i].properties.name=i
+                // console.log(SmallJson.properties.name)
+                // console.log( BigJson.features[i].properties.name)
+
+            }
+            console.log(BigJson)
+            $.ajax({
+                type: "post",
+                url: "geoJson",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(BigJson),// 将json数据转化为字符串
+                // data:BigJson.toString(),
+                success: function (data) {
+                    alert("成功")
+
+                }
+            });
+
+
+            ctx.fill();
+            ctx.stroke();
+            t2 = new Date().getTime();
+            if (window.console && window.console.log) console.log('done rendering in ' + (t2 - t1) + ' ms');
+        }
+
+    </script>
+    <script type="text/javascript">
+
+
+    </script>
+
+
+    <style type="text/css">
+        body {
+            background-color: #eee;
+            color: #000;
+            font: 12px sans-serif;
+            margin: 20px;
+        }
+
+        canvas {
+            background-color: #fff;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Javascript Shapefile Loader</h1>
+<p>Loading shapefile... uninformative errors may appear in the dark crevices of your browser.</p>
+<canvas id="map" width="1600" height="1200"></canvas>
+<div id="main" width="1600" height="1200"></div>
+
+
+<!--<script type="text/javascript">-->
+<!--alert("")-->
+<!--// $.get('json/geoJson/凉水2009.json', function (hkJson) {-->
+<!--$.get('json/geoJson/1.json', function (hkJson) {-->
+
+<!--console.log(hkJson)-->
+<!--console.log(BigJson)-->
+<!--echarts.registerMap('hk', BigJson);-->
+<!--var chart = echarts.init(document.getElementById('main'));-->
+
+<!--chart.setOption(option = {-->
+<!--title: {-->
+<!--text: '凉水实验林场林分地区分布',-->
+<!--// subtext: '林分区域分布图',-->
+<!--// sublink: 'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'-->
+<!--},-->
+<!--tooltip: {-->
+<!--trigger: 'item',-->
+<!--triggerOn: 'cilck',-->
+<!--formatter: '{b}<br/>{c} (p / km2)'-->
+
+<!--},-->
+<!--toolbox: {-->
+<!--show: true,-->
+<!--orient: 'vertical',-->
+<!--left: 'right',-->
+<!--top: 'center',-->
+<!--feature: {-->
+<!--dataView: {readOnly: false},-->
+<!--restore: {},-->
+<!--saveAsImage: {}-->
+<!--}-->
+<!--},-->
+<!--visualMap: {-->
+<!--type: 'piecewise',-->
+<!--min: 800,-->
+<!--max: 50000,-->
+<!--text: ['High', 'Low'],-->
+<!--realtime: false,-->
+<!--calculable: true,-->
+<!--inRange: {-->
+<!--color: ['lightskyblue', 'yellow', 'orangered']-->
+<!--}-->
+<!--}-->
+<!--,-->
+<!--series: [-->
+<!--{-->
+<!--zoom: '1.2',-->
+<!--map: 'hk',-->
+<!--name: '香港18区人口密度',-->
+<!--type: 'map',-->
+<!--mapType: 'HK', // 自定义扩展图表类型-->
+<!--itemStyle: {-->
+<!--normal: {label: {show: true}},-->
+<!--emphasis: {label: {show: true}}-->
+<!--}-->
+
+<!--}-->
+<!--]-->
+
+
+<!--//-->
+<!--//-->
+<!--// &lt;!&ndash;});&ndash;&gt;-->
+<!--})-->
+<!--})-->
+
+<!--</script>-->
+
+
+</body>
+</html>

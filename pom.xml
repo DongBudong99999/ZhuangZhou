@@ -9,6 +9,7 @@
     <packaging>war</packaging>
 
     <name>demo</name>
+    <url>http://maven.apache.org</url>
     <description>Demo project for Spring Boot</description>
 
     <parent>
@@ -22,7 +23,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <!--geogools-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <geotools.version>22-SNAPSHOT</geotools.version>
     </properties>
+
+
+
+
 
     <dependencies>
         <dependency>
@@ -69,7 +77,7 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
-<!--我加的-->
+        <!--我加的-->
         <dependency>
             <groupId>net.sourceforge.jexcelapi</groupId>
             <artifactId>jxl</artifactId>
@@ -99,23 +107,51 @@
             <version>1.0.21</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.sun.jna/jna -->
+        <dependency>
+            <groupId>com.sun.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>3.0.9</version>
+        </dependency>
+
 
         <!--<dependency>-->
-            <!--<groupId>org.apache.struts</groupId>-->
-            <!--<artifactId>struts2-core</artifactId>-->
-            <!--<version>2.3.28</version>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<version>4.11</version>-->
+            <!--<scope>test</scope>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.struts</groupId>-->
-            <!--<artifactId>struts2-spring-plugin</artifactId>-->
-            <!--<version>2.3.28</version>-->
+            <!--<groupId>org.geotools</groupId>-->
+            <!--<artifactId>gt-shapefile</artifactId>-->
+            <!--<version>${geotools.version}</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.struts</groupId>-->
-            <!--<artifactId>struts2-convention-plugin</artifactId>-->
-            <!--<version>2.3.28</version>-->
+            <!--<groupId>org.geotools</groupId>-->
+            <!--<artifactId>gt-swing</artifactId>-->
+            <!--<version>${geotools.version}</version>-->
         <!--</dependency>-->
 
+        <!--<dependency>-->
+            <!--<groupId>org.geotools</groupId>-->
+            <!--<artifactId>gt-shapefile</artifactId>-->
+            <!--<version>${geotools.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.apache.struts</groupId>-->
+        <!--<artifactId>struts2-core</artifactId>-->
+        <!--<version>2.3.28</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.apache.struts</groupId>-->
+        <!--<artifactId>struts2-spring-plugin</artifactId>-->
+        <!--<version>2.3.28</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.apache.struts</groupId>-->
+        <!--<artifactId>struts2-convention-plugin</artifactId>-->
+        <!--<version>2.3.28</version>-->
+        <!--</dependency>-->
 
 
     </dependencies>
@@ -138,8 +174,6 @@
             </plugin>
         </plugins>
     </build>
-
-
 
 
 </project>

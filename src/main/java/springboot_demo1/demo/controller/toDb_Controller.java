@@ -20,12 +20,14 @@ public class toDb_Controller {
     @RequestMapping(value = "/input_data", method = RequestMethod.POST)
 
     public List to_db(@RequestBody String s) throws Exception {
-//        System.out.println(s);
+        System.out.println("!!!");
+//        String s = ss+"";
+        System.out.println(s);
         toDb_Service ts = new toDb_Service();
         List list = ts.to_db(s);
 
         return list;
-
+//        return null;
 
     }
 
